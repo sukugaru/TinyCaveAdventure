@@ -1,0 +1,13 @@
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\bin\Release\WindowsFormsApplication2.exe.config
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\bin\Release\WindowsFormsApplication2.exe
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\bin\Release\WindowsFormsApplication2.pdb
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\bin\Release\Engine.dll
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\bin\Release\ClassLibrary1.dll
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\bin\Release\Engine.pdb
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\bin\Release\ClassLibrary1.pdb
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\obj\Release\UI.csprojResolveAssemblyReference.cache
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\obj\Release\WindowsFormsApplication2.UI.resources
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\obj\Release\WindowsFormsApplication2.Properties.Resources.resources
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\obj\Release\UI.csproj.GenerateResource.Cache
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\obj\Release\WindowsFormsApplication2.exe
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\UI\obj\Release\WindowsFormsApplication2.pdb
