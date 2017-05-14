@@ -1,0 +1,5 @@
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\ClassLibrary1\bin\Release\ClassLibrary1.dll
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\ClassLibrary1\bin\Release\ClassLibrary1.pdb
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\ClassLibrary1\obj\Release\ClassLibrary1.dll
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\ClassLibrary1\obj\Release\ClassLibrary1.pdb
+C:\Users\Steven\Documents\Visual Studio 2013\Projects\Tiny Cave Adventure\ClassLibrary1\obj\Release\CustomExtensions.csprojResolveAssemblyReference.cache
