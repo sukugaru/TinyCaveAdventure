@@ -1,0 +1,24 @@
+I had a go at setting things up so that I could use a DataContractSerializer to serialize and deserialize all the game world's data.  Seeing as everything I wanted to serialize inherits from HasInventory, I tried setting things up so I could write things like:
+
+foreach (Location l in AllLocations)
+{
+    // serialize location
+    serializer.WriteObject(writer, l);
+}
+
+Locations reference each other and so in testing, this resulted in enormous and unreadable XML files.  I decided this is not the best way.  Remnants of this setup are still throughout the code as the serializing is still a work in progress.
+
+My past work experience with transmitting data between systems has been with text files.  Things like this are fine for personal debugging:
+
+   output to filename.
+
+   for each location:
+       /* Just do straight output of all fields */
+       export delimiter "," location.
+   end.
+
+   output close.
+
+But when data was being transmitted between applications, directly building the text file was best, as that way you could control exactly how the data was being output.  This was important, especially if the format has been changed on you and you need to add or move fields, or change the width of a number field, etc.
+
+In terms of save game files this could still be useful - what if you change the way the game organises its data?  You now have data version 2 savegame files, and old version 1 savegame files.  If you have close control of deserializing, you can say, "if the file is version 1, use old deserializing code, if the file is version 2, use current deserializing code."

@@ -1,0 +1,7 @@
+Pathways are supposed to be a better way of linking locations to each other.
+
+The old way is to simply link locations to others using the compass directions.  E.g. WestOfHouse.SouthEast = FrontOfHouse.  This is still used in the majority of the map.
+
+The problem with this old system is if a direction is locked or blocked in some other way, and a puzzle requires making that direction unblocked.  This requires very close management and can get annoying if a location has more than one blocked direction.
+
+A Pathway object links two locations together, also contains the state of the pathway (e.g. locked, blockedByLaundry) and also indicates if it needs some special movement type (e.g. climbing, parkouring, etc.)  It's not fully complete, and so has been written so that it can coexist with the old location.direction = location system.
