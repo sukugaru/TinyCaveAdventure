@@ -1,0 +1,18 @@
+Issue:
+Once in the Central Cavern, you couldn't move anywhere.  You just got this message: "There is absolutely no way you're jumping over that gap.  It's much too long."
+
+Investigation:
+In PreMove() for CentralCavern_Location, there's some code at the top of the procedure that checks if the player can parkour, and if the player can't, then it gives the error message.  This code was triggering all the time, and should only have been triggering if the destination location is the treasure cave.
+   I am not sure why the "if (ToLocation == World._treasureCave)" was not there.  I'm sure I fixed this at some point.  Perhaps the version of the code I put to gitHub is a slightly older version of the code?
+
+Fix:
+I put "if (ToLocation == World._treasureCave)" around the first if statement.
+
+Testing:
+1) Go to Central Cavern.
+2) Attempt all available directions, and make sure you're being allowed to move.
+
+
+Code changes:
+Location.cs - changes to CentralCavern_Location's PreMove()
+

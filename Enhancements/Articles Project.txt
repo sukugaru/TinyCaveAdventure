@@ -1,0 +1,19 @@
+Description:
+Code had been put in for objects to have a DefiniteName and an IndefiniteName, to allow for more natural sounding language.
+   However this had not been completed fully.  All objects had a DefiniteName and IndefiniteName populated, and the UI was using them, but the Actions were not.
+   This Project is to complete the implementation of the DefiniteName and IndefiniteName properties and make sure all the Actions are using these properly, and to look through all other code to make sure these properties are getting used where needed.
+
+Code changes:
+Action_Wear.cs: Changes in DoAction
+Action_Take.cs: Changes in DoAction.
+Action_Drop.cs: Changes in DoAction.  A bit more extensive, also needing to account for container objects.
+Action_DropThroughHole.cs: Changes in DoAction.
+Action_GetOut.cs: Changes in DoAction.  A bit more extensive, also needing to account for container objects.
+Action_Jump.cs : A couple of minor changes, but might need looking at later
+Action_LookAtItem.cs : Only show "it contains" contents if actually contains something.  Articles changes.
+Action_PutInto.cs : Changes in DoAction.  Also need to account for container objects.  New sanity check: Is i already in iTo?
+Action_Remove.cs : Changes in DoAction.  Removing commented out code.
+Action_UseWith.cs : Changes in GetToUse.
+
+That's all the actions and their standard messages done.  Where else?
+...that seems to be it.  Previous work on articles has made sure all objects have a definite and indefinite name, and that they're used in the UI.

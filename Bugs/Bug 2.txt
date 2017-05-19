@@ -1,0 +1,23 @@
+Issue:
+Action_Take.cs, DoAction:  There's code for taking the lost necklace, that always gives a paragraph about Dotty, even if she's not present.  That needs fixing.
+
+Investigation:
+Simple enough!  Action_Take.cs, DoAction, if the object being taken is the lost necklace, assumes that the player is taking it from Dotty's body and that the player is in the ruins of the house.  Put a location check around the Dotty paragraph.
+
+Fix:
+In DoAction, the "if (i == World._lostGemNecklace)" check has been extended to:
+if ((i == World._lostGemNecklace) && (World._player.CurrentLocation == World._BackDoor))
+
+
+Testing:
+Set up a test scenario where MakeRuins() has been partially done, so that _BackDoor is now in ruins and the questGiver has been changed into Dotty.
+Go to Back Door.
+Pick up the necklace and confirm that you get the "taking care to disturb Dotty as least as possible."
+Move to another location, drop the necklace, and pick it up, and confirm there's no mention of Dotty.
+
+PASS
+
+
+
+Code changes:
+Action_Take.cs: change to DoAction
