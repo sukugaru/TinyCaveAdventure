@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             Making changes in DoAction so that sDefiniteName gets used.
+
 namespace Engine
 {
 
@@ -65,7 +68,7 @@ namespace Engine
 
             if (CurrentlyWearing != null)
             {
-                OutMessage += "You can't put " + i.sName + " on over the top of " + CurrentlyWearing.sName + ".\n";
+                OutMessage += "You can't put " + i.sDefiniteName + " on over the top of " + CurrentlyWearing.sDefiniteName + ".\n";
                 return;
             }
 
@@ -103,7 +106,7 @@ namespace Engine
             }
             if (i.bWorn)
             {
-                OutMessage += "You are already wearing " + i.sName + ".\n";
+                OutMessage += "You are already wearing " + i.sDefiniteName + ".\n";
                 return;
             }
             else
@@ -117,7 +120,7 @@ namespace Engine
                     }
                     else
                     {
-                        OutMessage += "You put " + i.sName + " on.\n";
+                        OutMessage += "You put " + i.sDefiniteName + " on.\n";
                     }
                 }
                 bSuccess = true;
