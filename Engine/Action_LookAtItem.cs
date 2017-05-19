@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CustomExtensions;
+
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             Needed for looking at items in a container.  Also, putting out the "it contains..." bit
+//             only if the container has anything in it.
 
 namespace Engine
 {
@@ -63,14 +68,17 @@ namespace Engine
                 if (i.bLocked == false)
                 {
                     i.bDiscoveredContents = true;
-                    OutMessage += "It contains:\n";
-                    foreach (var item in i.Inventory)
+                    if (i.Inventory.Exists(x => true))
                     {
-                        OutMessage += "   " + item.sName + "\n";
-                    }
-                    if (i.Inventory.Count == 0)
-                    {
-                        OutMessage += "   Nothing.\n";
+                        OutMessage += "It contains:\n";
+                        foreach (var item in i.Inventory)
+                        {
+                            OutMessage += "   " + item.sIndefiniteName.CapitaliseBeginning() + "\n";
+                        }
+                        if (i.Inventory.Count == 0)
+                        {
+                            OutMessage += "   Nothing.\n";
+                        }
                     }
                 }
                 else

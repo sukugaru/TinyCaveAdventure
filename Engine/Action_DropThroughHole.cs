@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             Making changes in DoAction so that sDefiniteName gets used.
 
 namespace Engine
 {
@@ -33,13 +35,13 @@ namespace Engine
             {
                     World._tribalCavern.Remove(i);
                     World._stalagmiteCave.Add(i);
-                    OutMessage += "You drop " + i.sName + " through the hole, and it falls " +
+                    OutMessage += "You drop " + i.sDefiniteName + " through the hole, and it falls " +
                         "into the gloom below.\n";
                     bSuccess = true;
             }
             else
             {
-                OutMessage += "You could not drop " + i.sName + " through the hole.\n";
+                OutMessage += "You could not drop " + i.sDefiniteName + " through the hole.\n";
                 return;
             }
         }

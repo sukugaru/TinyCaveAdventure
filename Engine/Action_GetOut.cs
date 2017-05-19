@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
+using CustomExtensions;
+
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             Making changes in DoAction so that sDefiniteName gets used.
+
 
 namespace Engine
 {
@@ -31,7 +36,7 @@ namespace Engine
 
             if (iFrom.bContainer == false)
             {
-                OutMessage += iFrom.sName + " is not something you can put things into or get things out of.\n";
+                OutMessage += iFrom.sDefiniteName.CapitaliseBeginning() + " is not something you can put things into or get things out of.\n";
                 return;
             }
 
@@ -47,13 +52,13 @@ namespace Engine
 
             if (iFrom.bLocked)
             {
-                OutMessage += iFrom.sName + " is locked.";
+                OutMessage += iFrom.sDefiniteName.CapitaliseBeginning() + " is locked.";
                 return;
             }
 
             if (i.hiOwner != iFrom)
             {
-                OutMessage += "That's not in " + iFrom.sName + ".\n";
+                OutMessage += "That's not in " + iFrom.sDefiniteName + ".\n";
                 return;
             }
 
@@ -85,7 +90,7 @@ namespace Engine
             bSuccess = true;
             if (Suppress == false)
             {
-                OutMessage += "You get " + i.sName + " out of " + iFrom.sName + ".\n";
+                OutMessage += "You get " + i.sDefiniteName + " out of " + iFrom.sDefiniteName + ".\n";
             }
         }
 

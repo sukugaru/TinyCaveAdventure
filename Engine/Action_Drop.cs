@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             Making changes in DoAction so that sDefiniteName gets used, for both dropped object
+//             and the containing object (if applicable).
 
 namespace Engine
 {
@@ -42,7 +45,7 @@ namespace Engine
             bool _proceed = true;           // If sanity checks were successful
 
             string _DropMessage = "";       // "Drop the item" message
-
+            Engine.Object ContainerObject;
 
             bSuccess = false;
 
@@ -116,12 +119,18 @@ namespace Engine
             // Take it out of what it's in if it's in a container you have
             if (i.hiOwner.GetType() == typeof(Engine.Object))
             {
-                OutMessage += "(Getting it out from " + i.hiOwner.sName + " first...)\n";
-                World._GetOutOf.DoAction(i, (Engine.Object)i.hiOwner, false, ref OutMessage, ref bSuccess);
+                // Need to cast the container to Engine.Object so we can use sDefiniteName
+                ContainerObject = (Engine.Object)i.hiOwner;
+
+                // OutMessage += "(Getting it out from " + i.hiOwner.sName + " first...)\n";
+                // World._GetOutOf.DoAction(i, (Engine.Object)i.hiOwner, false, ref OutMessage, ref bSuccess);
+                OutMessage += "(Getting it out from " + ContainerObject.sDefiniteName + " first...)\n";
+                World._GetOutOf.DoAction(i, ContainerObject, false, ref OutMessage, ref bSuccess);
 
                 if (bSuccess == false)
                 {
-                    OutMessage += "Because you couldn't get " + i.sName + " out of " + i.hiOwner.sName + " you can't drop it.\n";
+                    // OutMessage += "Because you couldn't get " + i.sName + " out of " + i.hiOwner.sName + " you can't drop it.\n";
+                    OutMessage += "Because you couldn't get " + ContainerObject.sDefiniteName + " out of " + i.hiOwner.sName + " you can't drop it.\n";
                     return;
                 }
             }
@@ -129,7 +138,7 @@ namespace Engine
             // Generic drop message
             if (_DropMessage == "")
             {
-                _DropMessage = "You drop " + i.sName + "\n";
+                _DropMessage = "You drop " + i.sDefiniteName + ".\n";
             }
 
             // Item specific drop messages (and overwriting generic drop message)

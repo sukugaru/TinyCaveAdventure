@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+
 namespace Engine
 {
 
@@ -36,13 +38,6 @@ namespace Engine
                 return;
             }
 
-            /* Superceded by restrictions system 
-            if (World._player.bTiedUp)
-            {
-                OutMessage += "You can't put anything on, or take anything off, with your " +
-                    "arms tied up.\n";
-                return;
-            } */
 
             if (i.bWearable == false)
             {
@@ -52,7 +47,7 @@ namespace Engine
 
             if (i.bWorn == false)
             {
-                OutMessage += "You are not wearing " + i.sName + "\n";
+                OutMessage += "You are not wearing " + i.sDefiniteName + ".\n";
                 return;
             }
 
@@ -75,7 +70,7 @@ namespace Engine
             // Default behaviour
             i.bWorn = false;
             if (Suppress == false)
-                OutMessage += "You remove " + i.sName + "\n";
+                OutMessage += "You remove " + i.sDefiniteName + ".\n";
             bSuccess = true;
         }
     }

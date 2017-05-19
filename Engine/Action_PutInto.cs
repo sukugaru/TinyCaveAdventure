@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CustomExtensions;
+
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             Making changes in DoAction so that sDefiniteName gets used.
 
 namespace Engine
 {
@@ -35,14 +39,14 @@ namespace Engine
                 }
                 else
                 {
-                    OutMessage += "Please select something to put into " + iTo.sName + ".\n";
+                    OutMessage += "Please select something to put into " + iTo.sDefiniteName + ".\n";
                 }
                 return;
             }
 
             if ((i != null) && (iTo == null))
             {
-                OutMessage += "Please select something to put " + i.sName + " into.\n";
+                OutMessage += "Please select something to put " + i.sDefiniteName + " into.\n";
                 return;
             }
 
@@ -60,7 +64,13 @@ namespace Engine
 
             if (iTo.bContainer == false)
             {
-                OutMessage += iTo.sName + " is not something you can put things into.\n";
+                OutMessage += iTo.sDefiniteName.CapitaliseBeginning() + " is not something you can put things into.\n";
+                return;
+            }
+
+            if (i.hiOwner == iTo)
+            {
+                OutMessage += i.sDefiniteName.CapitaliseBeginning() + " is already in " + iTo.sDefiniteName + ".\n";
                 return;
             }
 
@@ -76,7 +86,7 @@ namespace Engine
 
             if (iTo.bLocked)
             {
-                OutMessage += iTo.sName + " is locked.\n";
+                OutMessage += iTo.sDefiniteName.CapitaliseBeginning() + " is locked.\n";
                 return;
             }
 
@@ -112,7 +122,7 @@ namespace Engine
 
                 if (bSuccess == false)
                 {
-                    OutMessage += "You couldn't get it to put it into " + iTo.sName + ".\n";
+                    OutMessage += "You couldn't get it to put it into " + iTo.sDefiniteName + ".\n";
                     return;
                 }
 
@@ -126,7 +136,7 @@ namespace Engine
 
                 if (bSuccess == false)
                 {
-                    OutMessage += "You couldn't take it off first to put it into " + iTo.sName + ".\n";
+                    OutMessage += "You couldn't take it off first to put it into " + iTo.sDefiniteName + ".\n";
                     return;
                 }
             }
@@ -143,7 +153,7 @@ namespace Engine
             {
                 if (PutMessage == "")
                 {
-                    OutMessage += "You put " + i.sName + " into " + iTo.sName + ".\n";
+                    OutMessage += "You put " + i.sDefiniteName + " into " + iTo.sDefiniteName + ".\n";
                 }
                 else
                 {

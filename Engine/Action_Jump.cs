@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 
 namespace Engine
 {
@@ -52,13 +53,13 @@ namespace Engine
                 }
 
 
-                OutMessage += "You jump to the " + oTarget.sName;
+                OutMessage += "You jump to " + oTarget.sDefiniteName;
 
                 if ((oFrom != null) && 
                     (World._player.CurrentLocation == World._stalagmiteCave)
                     )
                 {
-                    OutMessage += " from the " + oFrom.sName;
+                    OutMessage += " from " + oFrom.sDefiniteName;
                 }
 
                 // Jumping from High Ledge to the precarious platform

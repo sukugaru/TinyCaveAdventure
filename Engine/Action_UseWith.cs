@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             A few minor changes in GetToUse().
+
 namespace Engine
 {
 
@@ -60,21 +63,21 @@ namespace Engine
         {
             if ((i.hiOwner != World._player) && (i.bTakeable == true))
             {
-                OutMessage += "(Taking " + i.sName + " first...)\n";
+                OutMessage += "(Taking " + i.sDefiniteName + " first...)\n";
                 World._Take.DoAction(i, null, false, ref OutMessage, ref bSuccess);
                 if (bSuccess == false)
                 {
-                    OutMessage += "You could not get the item to use it.\n";
+                    OutMessage += "You could not get " + i.sDefiniteName + " to use it.\n";
                     return;
                 }
             }
             if ((i.bWorn) && (i.bTakeable = true))
             {
-                OutMessage += "(Removing " + i.sName + " first...)\n";
+                OutMessage += "(Removing " + i.sDefiniteName + " first...)\n";
                 World._Remove.DoAction(i, null, false, ref OutMessage, ref bSuccess);
                 if (bSuccess == false)
                 {
-                    OutMessage += "You could not get the item to use it.\n";
+                    OutMessage += "You could not get " + i.sDefiniteName +  " to use it.\n";
                     return;
                 }
             }
