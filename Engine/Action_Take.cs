@@ -4,6 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 19/5/2017 - Bug 2 - Fixing the take code for the lost necklace so that it only refers to Dotty
+//             when in the _BackDoor location.
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+//             Making changes in DoAction so that sDefiniteName gets used.
+
 namespace Engine
 {
 
@@ -123,7 +128,7 @@ namespace Engine
             }
 
             // Taking the lost gem
-            if (i == World._lostGemNecklace)
+            if ((i == World._lostGemNecklace) && (World._player.CurrentLocation == World._BackDoor) )
             {
                 OutMessage += "You take the necklace, being careful to disturb Dotty as " +
                     "little as possible.\n";
@@ -142,7 +147,7 @@ namespace Engine
             // (Remove from owner's inventory and put into player's inventory)
             if (Suppress == false)
             {
-                OutMessage += "You take " + i.sName + "\n";
+                OutMessage += "You take " + i.sDefiniteName + ".\n";
             }
             i.hiOwner.Remove(i);
             World._player.Add(i);
