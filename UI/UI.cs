@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Engine;
 
+
+// 20/5/2017 - SS - Bug 4 - In button1_click, during the conversation handling code.  After
+// HandleResponse(), make sure to clear OutMessage before calling GetDialogue, to avoid the
+// result of HandleResponse being output twice.
+
 namespace WindowsFormsApplication2
 {
     public partial class UI : Form
@@ -371,6 +376,10 @@ namespace WindowsFormsApplication2
                 // kick a conversation off immediately.
                 if (_player.CurrentConversation != null)
                 {
+                    // 20/5/2017 - SS - Bug 4 - Make sure to clear OutMessage before calling
+                    // GetDialogue, to avoid the result of HandleResponse being output twice.
+                    OutMessage = "";
+
                     _player.CurrentConversation.GetDialogue(ref OutMessage);
                     if (OutMessage != "")
                     {
