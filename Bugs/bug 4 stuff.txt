@@ -1,0 +1,76 @@
+For this to work the crazy guy conversation needs editing.  HandleResponse() needs "Hi there test line!" put to OutMessage, as follows:
+
+   if (Response == "Hi.")
+   {
+      // Adding this next line
+      OutMessage += "Hi there test line!\n";
+      iNode = 2;
+   }
+
+
+
+
+
+=========================================================
+
+Without fix (and the testing code)
+
+> Talk to Crazy Guy
+
+"Hi!" he says, his eyes only slightly vibrating.
+
+> Hi.
+
+Hi there test line!
+1
+Hi there test line!
+"Hi!"
+
+> 
+
+
+=====
+
+HandleResponse is only called once.
+
+> Talk to Crazy Guy
+
+"Hi!" he says, his eyes only slightly vibrating.
+
+> Hi.
+
+Hi there test line!
+1 // - right after HandleResponse
+Hi there test line!
+"Hi!"
+2/n // - right after GetDialogue
+> 
+
+=========================================================
+
+With fix (and without testing lines)
+
+> Talk to Crazy Guy
+
+"Hi!" he says, his eyes only slightly vibrating.
+
+> Hi.
+
+Hi there test line!
+"Hi!"
+
+> Hi.
+
+Hi there test line!
+"Hi!"
+
+> Hi.
+
+Hi there test line!
+"Hi!"
+
+> 
+
+As you can see "Hi there test line!" is only appearing once instead of twice.
+
+=========================================================

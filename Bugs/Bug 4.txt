@@ -1,0 +1,48 @@
+Issue:
+
+In a Conversation, HandleResponse seems to be getting called twice.  To see this, set a conversation's HandleResponse to add to OutMessage, but not end the conversation.
+
+You can see this by putting the following into the crazy guy's conversation's HandleResponse:
+   if (Response == "Hi.")
+   {
+      // Adding this next line
+      OutMessage += "Hi there test line!\n";
+      iNode = 2;
+   }
+When running through the conversation, "Hi there test line!" appears twice.
+
+-
+
+Workaround:
+
+In a conversation, if HandleResponse() is not ending the conversation, then don't add to OutMessage, and merely set internal variables to ensure that when GetDialogue() is called, it adds to OutMessage.
+
+-
+
+Investigation:
+
+In UI.cs, after HandleResponse, OutMessage might be populated.  If the conversation is still going, then GetDialogue gets called, and this also adds to OutMessage.
+
+OutMessage isn't cleared before calling GetDialogue!  This is why the OutMessage of HandleResponse appears twice.
+
+-
+
+Testing:
+
+See bug 4 stuff.txt
+
+-
+
+Code changes
+
+UI.cs 
+// 20/5/2017 - SS - Bug 4 - In button1_click, during the conversation handling code.  After
+// HandleResponse(), make sure to clear OutMessage before calling GetDialogue, to avoid the
+// result of HandleResponse being output twice.
+
+
+
+
+
+
+
