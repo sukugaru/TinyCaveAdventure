@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 19/5/2017 - Bug 1 - Bugfix.  Adding (if ToLocation == World._treasureCave) around the 
+// parkour check for central cavern's premove.
+
 namespace Engine
 {
     [DataContractAttribute(IsReference=true)]
@@ -1535,24 +1538,29 @@ namespace Engine
             return "";
         }
 
+        // 19/5/2017 - Bug 1 - Bugfix.  Adding (if ToLocation == World._treasureCave) around the 
+        // parkour check.
         public override void PreMove(Location ToLocation, ref string OutMessage, ref bool bSuccess)
         {
             bSuccess = true;
 
-            if (World._player.sMoveTypes.IndexOf("parkour") == -1)
+            if (ToLocation == World._treasureCave)
             {
-                OutMessage += "There is absolutely no way you're jumping over that gap.  It's " +
-                    "much too long.\n";
-                bSuccess = false;
-                return;
-            }
-            else
-            {
-                World._treasureCave.bSuppressGoMsg = true;
-                OutMessage += "You Le Parkour over the gap and continue down the south " +
-                    "passageway.\n";
-                bSuccess = true;
-                return;
+                if (World._player.sMoveTypes.IndexOf("parkour") == -1)
+                {
+                    OutMessage += "There is absolutely no way you're jumping over that gap.  It's " +
+                        "much too long.\n";
+                    bSuccess = false;
+                    return;
+                }
+                else
+                {
+                    World._treasureCave.bSuppressGoMsg = true;
+                    OutMessage += "You Le Parkour over the gap and continue down the south " +
+                        "passageway.\n";
+                    bSuccess = true;
+                    return;
+                }
             }
 
             if (ToLocation == World._blocked)
