@@ -7,6 +7,8 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.IO;
 
+// 22/5/2017 - Bug 3 - Changes to MoveTo() to improve the messaging to the player if the
+// player does not have the required movement types.
 
 namespace Engine
 {
@@ -104,6 +106,8 @@ namespace Engine
         [DataMember()] public static BedsObject _beds = new BedsObject();
         [DataMember()] public static FirePitsObject _firePits = new FirePitsObject();
         [DataMember()] public static FoodStoresObject _foodStores = new FoodStoresObject();
+
+        public static Engine.Object _infiniteCarryBag;
 
 
         // We'll just call NPCs Objects for now
@@ -577,6 +581,16 @@ namespace Engine
             _lostGemNecklace.sDefiniteName = "the Lost Necklace";
             _lostGemNecklace.sIndefiniteName = "the Lost Necklace";
 
+            _infiniteCarryBag = new Engine.Object();
+            _infiniteCarryBag.sName = "Infinite Carrybag";
+            _infiniteCarryBag.sDefiniteName = "the Infinite Carrybag";
+            _infiniteCarryBag.sIndefiniteName = "an Infinite Carrybag";
+            _infiniteCarryBag.sDescription = "A bag with a long strap, easily carried over one shoulder, that has an infinite interior.  While useful, this is just a testing item.";
+            _infiniteCarryBag.bTakeable = true;
+            _infiniteCarryBag.bDroppable = true;
+            _infiniteCarryBag.bWearable = true;
+            _infiniteCarryBag.bContainer = true;
+
 
             // NPCs
             _crazyGuy = new CrazyOldGuy();
@@ -1010,6 +1024,30 @@ namespace Engine
 
             // debug code, to set up various testing states
 
+            //_BackDoor.sName = "North of ruins";
+            //_BackDoor.sDescription = "You are standing in an open field, to the north of the " +
+            //    "smoking ruins of a white house.  It is mostly charred wood and ash now.  " +
+            //    "There used to be a garden here - the flowers and plants are scattered all over.";
+            //_BackDoor.SouthLoc = _FrontDoor;
+
+            //_questGiver.sName = "Dotty";
+            //_questGiver.sIndefiniteName = "Dotty";
+            //_questGiver.sDefiniteName = "Dotty";
+            //_questGiver.sDescription = "The House Owner and Quest Giver is here, though she " +
+            //    "at this point it's obvious " +
+            //   "there's a lot more to her than a simple Quest Giver owning a white house.  " +
+            //    "Let's call her The Witch.  Or better yet, let's call her by her name, Dotty.\n\n" +
+            //    "Dotty is sprawled ungainly in the middle of the ruins of her house, very " +
+            //    "very still.  Around her neck is a gold necklace with a vivid green gemstone.";
+            //_questGiver.bCanTalkTo = false;
+            //_BackDoor.Add(_lostGemNecklace);
+
+            //_player.CurrentLocation = _centralCavern;
+            //_player.sMoveTypes += ",parkour, climb";
+            //_player.CurrentLocation = _abandonedShrineSite;
+            //_abandonedShrineSite.Add(_ReturnsBox);
+            //_abandonedShrineSite.Add(_infiniteCarryBag);
+
             // Figuring out new Pathways system
             // _player.CurrentLocation = _centralCavern;
             // _player.sMoveTypes = "standard";
@@ -1021,12 +1059,12 @@ namespace Engine
 
 
             // Past prologue
-            /*
-            _player.bTiedUp = true; // This is for when you first get to the cave
-            _player.iCarrySize = 1; // You can only carry one thing at a time
-                                    // set to 0 for infinite carry space
-            _player.CurrentLocation = _stalagmiteCave;
-            */
+            
+            //_player.bTiedUp = true; // This is for when you first get to the cave
+            //_player.iCarrySize = 1; // You can only carry one thing at a time
+            //                        // set to 0 for infinite carry space
+            //_player.CurrentLocation = _stalagmiteCave;
+            
 
             // Central Cavern
             /*
@@ -1053,7 +1091,7 @@ namespace Engine
             _player.bKnowAdditionalLocations = true;
             _player.Add(_map);
             _caveEntrance.bEnteredCave = true;
-
+            
             _questGiver.bCompletedFetchQuest = true;
             _questGiver.bGivenCakeQuest = true;
             _player.Add(_recipe);
@@ -1064,7 +1102,7 @@ namespace Engine
             _player.bCanParkour = true;
             _centralCavern.SouthLoc = _treasureCave;
             _treasureCave.NorthLoc = _centralCavern;
-             */
+            */
             /*
 
            _player.CurrentLocation = _sageGrotto;
@@ -1116,6 +1154,18 @@ namespace Engine
         // OutMessage = what message to display
         // bSuccess = was the move successful or not?
         {
+            Pathway pathToMove;
+            string s;
+            string HasTypes;
+            string[] FullNeededTypes; // includes locked and blocked
+
+            bool bProceed;
+            string sNope;
+
+            string sNope2;
+            int lastCommaIndex;
+            int commaCount;
+
 
             // =========================================================================
             // Pre-Move checks
@@ -1134,51 +1184,83 @@ namespace Engine
                 OutMessage += World._player.sCantMoveMsg + "\n";
                 return;
             }
-            
 
-            // Figuring out the new pathway system stuff...
-            // OK, below seems to work.  Mostly.
-
-            Pathway pathToMove;
-            string s;
-            string HasTypes;
-            string[] NeededTypes;
-            bool bProceed;
-            string sNope;
+            // 22/5/2017 - Bug 3 - Changes to MoveTo() to improve the messaging to the player if the
+            // player does not have the required movement types.
+            //
+            // The new Pathway stuff.
+            // The first if is a version switch - ie don't bother doing the pathway stuff if the
+            // current location's Pathways aren't implemented.
 
             if (World._player.CurrentLocation.Pathways.Count > 0)
             {
-                // Movement types you need
                 pathToMove = World._player.CurrentLocation.Pathways.Find(x => (x.dir == dir));
 
                 if (pathToMove != null)
                 {
+                    // Movement types you need
                     s = pathToMove.sMovementTypes.ToLower();
                     if (s == "")
                     {
                         s = "standard";
                     }
-                    NeededTypes = s.Split(',');
+                    s = s.Replace(" ", "");
+                    FullNeededTypes = s.Split(',');
 
                     // Movement types you have
                     HasTypes = World._player.sMoveTypes.ToLower();
+                    HasTypes = HasTypes.Replace(" ", "");
+
+                    // Because I'll probably forget and create lists of movement types both with spaces
+                    // after commas, and without spaces after commas, I strip spaces from s and hasTypes.
 
                     // For each required movement type, see if the player has that movement type
+                    // (Basically, is it in HasTypes?)
                     // If not, then disallow the movement
+                    // At the same time, sNope2 is being built up as a list of movement types that
+                    // the player needs, that will be displayed to the player later. 
                     bProceed = true;
                     sNope = "";
+                    sNope2 = "";
 
-                    foreach (string RequiredType in NeededTypes)
+                    foreach (string RequiredType in FullNeededTypes)
                     {
                         if ((HasTypes.IndexOf(RequiredType) == -1) &&
                              (RequiredType != "blocked") &&
                              (RequiredType != "locked")
                             )
                         {
-                            sNope += "\"" + RequiredType + "\" (" + HasTypes.IndexOf(RequiredType) + ") ";
+                            // sNope += "\"" + RequiredType + "\" (" + HasTypes.IndexOf(RequiredType) + ") ";
                             bProceed = false;
+                            sNope2 += ", " + RequiredType;
+                        }
+                    }
+
+                    // if sNope2 has stuff in it - that is, the player isn't allowed to go
+                    // that way - fix up the commas and "ands" in sNope2 to make it more
+                    // natural sounding.
+                    if (sNope2 != "")
+                    {
+                        sNope2 = sNope2.Substring(2);
+
+                        commaCount = 0;
+                        commaCount = sNope2.Count(c => c == ',');
+
+                        // if there is one comma, replace it with "and"
+                        if (commaCount == 1)
+                        {
+                            sNope2 = sNope2.Replace(", ", " and ");
                         }
 
+                        // if there's more than one comma, find the location of the last ", ",
+                        // and replace it with ", and ".
+
+                        if (commaCount > 1)
+                        {
+                            lastCommaIndex = sNope2.LastIndexOf(',');
+                            sNope2 = sNope2.Substring(0, (lastCommaIndex + 1)) + " and " +
+                                     sNope2.Substring((lastCommaIndex + 2));
+                        }
                     }
 
                     if (bProceed == false)
@@ -1194,8 +1276,9 @@ namespace Engine
                         }
                         else
                         {
-                            OutMessage += "You need the following movement modes for that movement:" +
-                                sNope + "\n";
+                            //OutMessage += "You need the following movement modes for that movement:" +
+                            //    sNope + "\n";
+                            OutMessage += "You need to be able to " + sNope2 + " to go that way.\n";
                             return;
                         }
                     }
