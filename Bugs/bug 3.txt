@@ -1,0 +1,66 @@
+Kind of a bug, kind of an enhancement, kind of something I always needed to do.
+
+Issue:
+When in Central Cavern, going south gives this very cryptic message: "You need the following movement modes for that movement:"parkour" (-1)".
+   Fixing this will need a thorough looking at the movement and Pathways systems.
+
+Investigation:
+This is just something that World.MoveTo did and I never made better because I was trying to figure out how to handle multiple move types.  So here's my thoughts on fixing it.  If I can change the message to something like, "You need to be able to parkour and climb to go that way," then it's a lot more natural sounding.
+
+Fix:
+In World.MoveTo, I've tidied things up a little.
+
+In the part of the code that compares the required movement types to what the player has, it builds up a "sNope2" string.  This string contains all the required movement types for that pathway, that the player still needs.
+
+sNope2 then gets niced up, putting spaces between each movement type, and with commas and "and" put in as required.
+
+Finally sNope2 is put into OutMessage, so that the player sees something like, "You need to be able to parkour and climb to go that way."
+
+Also have thrown in a few more comments.
+
+Testing:
+Start the player in central cavern.
+Change the required movement types for the south pathway to multiple things, e.g. "parkour, climb, fly".
+Modify the movement types the player has.
+
+Test case 1 - only one movement type is needed.
+Make sure that the message is "You need to be able to parkour to go that way."
+PASS
+
+Test case 2 - two movement types are needed.
+Make sure that the message is like, "You need to be able to parkour and climb to go that way."
+PASS
+
+Test case 3 - three movement types are needed.
+Make sure that the message is like, "You need to be able to parkour, climb, and fly to go that way."
+PASS
+
+Test case 4 - four movement types are needed.
+Make sure that the message is like, "You need to be able to parkour, climb, teleport, and fly to go that way."
+PASS
+
+-
+
+New issue:
+
+Everything was put back to normal and I tried going south from Front of House.  The game crashed.
+
+Investigation:
+
+If there are no restrictions on movement type, then after the code checks on those, sNope2 is still "".  There is code that then assumes sNope2 has stuff in it and does various string manipulations.  This of course causes things to blow up.
+
+Fix:
+
+Make sure the code that fixes up commas and "ands" in sNope2 is only executed if sNope2 has anything in it.
+
+Testing:
+
+Start a normal game with no special debug code.
+Try to go south.
+Make sure the game doesn't crash.
+
+PASS
+
+
+Code changes:
+World.cs:  22/5/2017 - Bug 3 - Changes to MoveTo() to improve the messaging to the player if the player does not have the required movement types.
