@@ -7,9 +7,17 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.Reflection;
 
+// 24/5/217 - Enhancements 1+5 : Adding Size.  Adding sizes to all objects.
 
 namespace Engine
 {
+    // Size enum
+    public enum Size { Tiny, Small, Medium, Large, NA };
+    // Tiny, Small, Medium - all carriable, and to do with containers having sizes
+    // Large - cannot be carried
+    // NA - Size is n/a as this is not a carriable item (e.g. scenery, NPCS, etc.)
+    // Might be some overlap with Large and NA!
+
     [DataContractAttribute(IsReference=true)]
     public class Object : HasInventory
     {
@@ -42,6 +50,12 @@ namespace Engine
         [DataMember()] public string sClothingType { get; set; }
         [DataMember()] public bool bStaysInMaze { get; set; }
 
+        public Size sSize { get; set; }                                // Size of object.
+        public Size sContainerSize { get; set; }                       // If object is a container, then this is the
+                                                                       // largest item size that can fit in container.
+        public int iContainerCapacity { get; set; }                    // if 0 then container has infinite space.
+
+
         public Object()
         // Default constructor sets everything to blank and to false
         {
@@ -67,6 +81,7 @@ namespace Engine
             sClothingType = "";
             bStaysInMaze = false;
             bUsableAnyway = false;
+            sSize = Size.NA;
         }
 
         public virtual void Use(ref string OutMessage, ref bool bSuccess)
@@ -131,6 +146,7 @@ namespace Engine
             sDefiniteName = "the recipe";
             bTakeable = true;
             bDroppable = true;
+            sSize = Size.Small;
         }
     }
 
@@ -150,6 +166,9 @@ namespace Engine
             bContainer = true;
             bDiscoveredContents = true;
             Add(World._recipe);
+            sSize = Size.NA;
+            iContainerCapacity = 1;
+            sContainerSize = Size.Medium;
         }
 
         public override void Use(ref string OutMessage, ref bool bSuccess)
@@ -173,6 +192,7 @@ namespace Engine
                 "old fur pelts, looking very worn, arrayed around the various firepits.";
             sDefiniteName = "the beds";
             sIndefiniteName = "beds";
+            sSize = Size.NA;
         }
 
         public override void Use(ref string OutMessage, ref bool bSuccess)
@@ -195,6 +215,7 @@ namespace Engine
                 "and hot.";
             sIndefiniteName = "fire pits";
             sDefiniteName = "the fire pits";
+            sSize = Size.NA;
         }
 
         public override void Use(ref string OutMessage, ref bool bSuccess)
@@ -218,6 +239,7 @@ namespace Engine
                 "tinned fish and bottled water.\n";
             sIndefiniteName = "food stores";
             sDefiniteName = "the food stores";
+            sSize = Size.NA;
         }
 
         public override void Use(ref string OutMessage, ref bool bSuccess)
