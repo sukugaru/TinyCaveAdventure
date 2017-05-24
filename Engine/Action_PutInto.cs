@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomExtensions;
 
+// 24/5/217 - Enhancements 1+5 : Adding Sizes, so adding a sanity check to make sure the container is
+//            large enough and doesn't have too many things in it.
+//
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 //             Making changes in DoAction so that sDefiniteName gets used.
 
@@ -111,6 +114,21 @@ namespace Engine
             if ((i.bTakeable == false) || (i.bDroppable == false))
             {
                 OutMessage += "That isn't something you can pick up and drop.\n";
+                return;
+            }
+
+            // Size restrictions - both number of things and physical size of things
+            if ((iTo.Inventory.Count == iTo.iContainerCapacity) &&
+                 (iTo.iContainerCapacity > 0)
+                )
+            {
+                OutMessage += "You can't put anything more into " + iTo.sDefiniteName + ".\n";
+                return;
+            }
+
+            if (i.sSize > iTo.sContainerSize)
+            {
+                OutMessage += "That's too big to fit into " + iTo.sDefiniteName + ".\n";
                 return;
             }
                         
