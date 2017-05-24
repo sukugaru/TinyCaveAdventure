@@ -7,6 +7,7 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.Reflection;
 
+// 24/5/2017 - Bug 9 - TieUp() didn't actually set bTiedUp!
 
 namespace Engine
 {
@@ -284,7 +285,10 @@ namespace Engine
 
         public void TieUp()
         // When tied up the player is somewhat restricted in what they can do
+        // 24/5/2017 - Bug 9 - Didn't actually set bTiedUp!
         {
+            bTiedUp = true;
+
             bCanMove = true;
             bCanTake = true;
             bCanDrop = true;
