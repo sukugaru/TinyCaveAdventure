@@ -1,0 +1,13 @@
+Issue:
+The language used by the Crockery Tribe is not consistent.
+1) The guards warn you to go away but you can't understand them.
+2) The Elder tries speaking to you when you're disgused and you can't understand him.
+3) When he realises you don't understand, he switches to 'modern English'.
+2 can make sense, if the Elder is speaking in an archaic language.  However 1 and 3 are not consistent with each other.
+
+Investigation:
+When the guards warn you to go away in (1), there's no actual mention of them talking to you in language you don't understand!  This is the idea I had in my head when I wrote the bit with them chasing you away, but the description doesn't explicitly say that it happens.
+   So there's no actual problem.
+
+Fix:
+None required.

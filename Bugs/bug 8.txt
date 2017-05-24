@@ -1,0 +1,43 @@
+Issue:
+HasInventory.Remove(i) only works if i is in the HI's inventory list.  If i is in an item in the HI's inventory list, then nothing happens.  However other parts of the engine, which called HasInventory.Remove(i), may have already changed i's hiOwner and added it to another HasInventory object.
+
+Investigation:
+HasInventory.Remove(object) is used to take the chunks away from the player.  That procedure is very simple though.  All it does is this:
+
+        public void Remove(Engine.Object i)
+        // Remove doesn't know where the object is going so can't assign its new hiOwner.
+        // Make sure to assign it afterwards, either manually or by adding the object to
+        // something else with HasInventory.Add().
+        {
+            Inventory.Remove(i);
+        }
+
+It's possible that the item is an item that the player has.  In which case, Inventory.Remove(i) won't remove i from the HasInventory object.
+
+Fix:
+I've changed the code to:
+
+        public void Remove(Engine.Object i)
+        // Remove doesn't know where the object is going so can't assign its new hiOwner.
+        // Make sure to assign it afterwards, either manually or by adding the object to
+        // something else with HasInventory.Add().
+        // 24/5/2017 - Bug 8 - Making sure that this works if object is in a container in Inventory.
+        {
+            if (i.hiOwner == this)
+            {
+                Inventory.Remove(i);
+            }
+            if (Inventory.Exists(x => x == i.hiOwner))
+            {
+                i.hiOwner.Remove(i);
+            }
+        }
+
+This makes sure to remove the object from its hiOwner, but only if it's this HasInventory object.
+
+Testing:
+See bug 8 directory.
+
+Code changes:
+HasInventory.cs - 
+// 24/5/2017 - Bug 8 - Making sure that this works if object is in a container in Inventory.

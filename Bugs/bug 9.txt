@@ -1,0 +1,19 @@
+Issue:
+player.TieUp() doesn't set player.bTiedUp!
+
+Fix:
+Make sure that it does.
+If it's not set in player.TieUp() then it must be set in location.cs somewhere, so comment that out.
+
+Testing:
+Run through prologue, and confirm that in the stalagmite cave the diagnosis says "you are tied up"
+PASS
+
+Code Changes:
+Player.cs
+// 24/5/2017 - Bug 9 - TieUp() didn't actually set bTiedUp!
+
+Location.cs
+cave entrance, PostAction()
+Commenting out the "player.bTiedUp = true" bit
+

@@ -1,0 +1,105 @@
+To speed this up a bit, putting chunks of stalactite and stalagmite into the central cavern.
+
+=====
+
+The story is well known - the Wizard of the Tiny Cave was, once upon a time, just a man, whose ambition far outstripped his ability.  He wanted to make something of himself, and live a life that was big and sprawling and action-packed.  He wanted to create things, and leave behind an amazing story or two.  He was big on ideas, but short on, well, any of the things he needed to make such things.
+
+Filled with despair and disappointment and despondence and other words beginning with d, he gave up on his ideas and went into finance and accounting.
+
+And there his boring story would have ended, were it not for the fact that he went off the deep end, went into the country and mountains, and found a tiny little cave.  He filled it with all sorts of dangers, oddities, and the occasional Very Valuable Thing.
+
+---
+
+You are not in that cave.  Not yet.  You'll get to it in a bit.
+
+---
+
+You are instead standing in an open field south of a white house, with a boarded up front door.  There is a mailbox here.
+
+> Take Carrybag
+
+You take the carrybag.
+
+> Put Sachet of Lemon Flavouring into Carrybag
+
+(Taking it first...)
+You get the sachet out of the basket.
+You put the sachet into the carrybag.
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+> Go East
+
+You walk through the twisty little tunnels and passages and end up back at the maze's entrance.
+
+In a corner you can see an old discarded book.
+
+> Put Tattered book into Carrybag
+
+(Taking it first...)
+You take the tattered book.
+You put the tattered book into the carrybag.
+
+> Go East
+
+You go to Central Cavern.
+
+> Put Chunk of Stalactite into Carrybag
+
+(Taking it first...)
+You take the chunk of stalactite.
+You put the chunk of stalactite into the carrybag.
+
+> Put Chunk of Stalagmite into Carrybag
+
+(Taking it first...)
+You take the chunk of stalagmite.
+You put the chunk of stalagmite into the carrybag.
+
+> Use Vending Machine
+
+While you might be tied up, it's not too hard to use the vending machine.
+A sign on the machine says "Welcome to TinyCave Vending(tm)!".  Inexplicably the vending machine is plugged into an electrical outlet and is working.
+
+Your options are:
+1. XXium Saw (cost: Lemonade)
+2. Paper and Stationery Kit (cost: 1 tin of tinned fish)
+3. Parkour Manual (cost: 1 chunk of stalagmite + 1 chunk of stalactite)
+4. Fizzy Drink (cost: 1 chunk of stalagmite)
+
+> Parkour Manual
+
+You deposit the chunks of stalagmite and stalactite into the payment slot and press the button for the Parkour Manual.  With a whirring and a clunk, the manual is dispensed.
+
+> Look at Carrybag
+
+A bag with a long strap, easily carried over one shoulder.  It looks old and threadbare, but still usable.
+It contains:
+   A sachet
+   A tattered book
+
+> 
+
+=====
+
+The transcript above shows that the chunks of stalagmite and stalactite are no longer in the carrybag.
+
+screenshot.png shows that the inventory is correct.
