@@ -7,6 +7,11 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.IO;
 
+// 24/5/2017 - Enhancements 1+5 : Adding Size.  Adding a Size to all object definitions, and capacity to
+//             all container definitions.
+//           - Enhancements 1+5 : In PostAction, add and remove climb based on whether the player is
+//             tied up or carrying anything.
+//
 // 22/5/2017 - Bug 3 - Changes to MoveTo() to improve the messaging to the player if the
 // player does not have the required movement types.
 
@@ -107,7 +112,7 @@ namespace Engine
         [DataMember()] public static FirePitsObject _firePits = new FirePitsObject();
         [DataMember()] public static FoodStoresObject _foodStores = new FoodStoresObject();
 
-        public static Engine.Object _infiniteCarryBag;
+        public static Engine.Object _CarryBag;
 
 
         // We'll just call NPCs Objects for now
@@ -270,6 +275,7 @@ namespace Engine
             _leaflet.sDefiniteName = "the leaflet";
             _leaflet.bTakeable = true;
             _leaflet.bDroppable = true;
+            _leaflet.sSize = Size.Small;
 
             _mailbox = new Engine.Object();
             _mailbox.sName = "Mailbox";
@@ -278,13 +284,16 @@ namespace Engine
             _mailbox.sIndefiniteName = "a mailbox";
             _mailbox.bContainer = true;
             _mailbox.Add(_leaflet);
+            _mailbox.sSize = Size.Medium;
+            _mailbox.iContainerCapacity = 20; // Totally arbitrary!  
+            _mailbox.sContainerSize = Size.Medium;
 
             _washingLine = new Engine.Object();
             _washingLine.sName = "Washing Lines";
             _washingLine.sDescription = "Washing lines are strung up between handy tree branches.  There is nothing on them.";
             _washingLine.sIndefiniteName = "washing lines";
             _washingLine.sDefiniteName = "the washing lines";
-
+            _washingLine.sSize = Size.NA;
 
             _nest = new Engine.Object();
             _nest.sName = "Bird's nest";
@@ -293,6 +302,9 @@ namespace Engine
             _nest.sIndefiniteName = "a bird's nest";
             _nest.bContainer = true;
             _nest.bDiscoveredContents = true;
+            _nest.sSize = Size.Small;
+            _nest.sContainerSize = Size.Small;
+            _nest.iContainerCapacity = 5; // Mostly arbitrary.  You can't fit that many things in a bird's nest.
 
             _ring = new Engine.Object();
             _ring.sName = "Ring";
@@ -301,6 +313,7 @@ namespace Engine
             _ring.sIndefiniteName = "a ring";
             _ring.bTakeable = true;
             _ring.bDroppable = true;
+            _ring.sSize = Size.Tiny;
 
             _stormBlownPants = new Engine.Object();
             _stormBlownPants.sName = "Storm-blown pants";
@@ -309,6 +322,7 @@ namespace Engine
             _stormBlownPants.sIndefiniteName = "some storm-blown pants";
             _stormBlownPants.bTakeable = true;
             _stormBlownPants.bDroppable = true;
+            _stormBlownPants.sSize = Size.Medium;
 
             _stormBlownClothes = new Engine.Object();
             _stormBlownClothes.sName = "Storm-blown clothes";
@@ -317,6 +331,7 @@ namespace Engine
             _stormBlownClothes.sIndefiniteName = "some storm-blown clothes";
             _stormBlownClothes.bTakeable = true;
             _stormBlownClothes.bDroppable = true;
+            _stormBlownClothes.sSize = Size.Medium;
 
             _vendingMachine = new Engine.Object();
             _vendingMachine.sName = "Vending Machine";
@@ -325,6 +340,7 @@ namespace Engine
             _vendingMachine.sDefiniteName = "the vending machine";
             _vendingMachine.bUsableWhileTiedUp = true;
             _vendingMachine.bUsableAnyway = true;
+            _vendingMachine.sSize = Size.NA;
 
             _chunkOfStalagmite = new Engine.Object();
             _chunkOfStalagmite.sName = "Chunk of Stalagmite";
@@ -333,6 +349,7 @@ namespace Engine
             _chunkOfStalagmite.sDefiniteName = "the chunk of stalagmite";
             _chunkOfStalagmite.bTakeable = true;
             _chunkOfStalagmite.bDroppable = true;
+            _chunkOfStalagmite.sSize = Size.Tiny;
 
             _chunkOfStalactite = new Engine.Object();
             _chunkOfStalactite.sName = "Chunk of Stalactite";
@@ -341,12 +358,14 @@ namespace Engine
             _chunkOfStalactite.sDefiniteName = "the chunk of stalactite";
             _chunkOfStalactite.bTakeable = true;
             _chunkOfStalactite.bDroppable = true;
+            _chunkOfStalactite.sSize = Size.Tiny;
 
             _Note = new Engine.Object();
             _Note.sName = "Note";
             _Note.sDescription = "The note says, \"RETURNS BOX\nWe noticed you left something in the maze, so we are returning your things to you.\n - The Managament\"";
             _Note.sDefiniteName = "the note";
             _Note.sIndefiniteName = "a note";
+            _Note.sSize = Size.Small;
 
             _ReturnsBox = new Engine.Object();
             _ReturnsBox.sName = "box";
@@ -356,6 +375,9 @@ namespace Engine
             _ReturnsBox.bContainer = true;
             _ReturnsBox.bDiscoveredContents = false;
             _ReturnsBox.Inventory.Clear();
+            _ReturnsBox.sSize = Size.NA;
+            _ReturnsBox.iContainerCapacity = 0;
+            _ReturnsBox.sContainerSize = Size.Medium;
 
             _MazeBook = new Engine.Object();
             _MazeBook.sName = "Tattered book";
@@ -366,6 +388,7 @@ namespace Engine
             _MazeBook.bDroppable = true;
             _MazeBook.bUsableWhileTiedUp = true;
             _MazeBook.bUsableAnyway = true;
+            _MazeBook.sSize = Size.Medium;
 
             _stalagmiteBase = new Engine.Object();
             _stalagmiteBase.sName = "Stalagmite base";
@@ -373,6 +396,7 @@ namespace Engine
                 "off and reaching up to about waist height.";
             _stalagmiteBase.sIndefiniteName = "a stalagmite base";
             _stalagmiteBase.sDefiniteName = "the stalagmite base";
+            _stalagmiteBase.sSize = Size.NA;
 
             _boulder = new Engine.Object();
             _boulder.sName = "Boulder";
@@ -381,6 +405,7 @@ namespace Engine
                 "a short distance from the base of a broken-off stalagmite.";
             _boulder.sIndefiniteName = "a boulder";
             _boulder.sDefiniteName = "the boulder";
+            _boulder.sSize = Size.NA;
 
             _ledge = new Engine.Object();
             _ledge.sName = "Ledge";
@@ -389,6 +414,7 @@ namespace Engine
                 "the wall.";
             _ledge.sDefiniteName = "the ledge";
             _ledge.sIndefiniteName = "a ledge";
+            _ledge.sSize = Size.NA;
 
             _precariousPlatform = new Engine.Object();
             _precariousPlatform.sName = "Precarious Platform";
@@ -396,6 +422,7 @@ namespace Engine
                 "off stalactite, is balancing precariously on top of a number of stalagmites.";
             _precariousPlatform.sDefiniteName = "the precarious platform";
             _precariousPlatform.sIndefiniteName = "a precarious platform";
+            _precariousPlatform.sSize = Size.NA;
 
             _tinnedFish = new Engine.Object();
             _tinnedFish.sName = "Tinned fish";
@@ -406,6 +433,7 @@ namespace Engine
             _tinnedFish.sIndefiniteName = "a tin of fish";
             _tinnedFish.bTakeable = true;
             _tinnedFish.bDroppable = true;
+            _tinnedFish.sSize = Size.Tiny;
 
             _bottledWater = new Engine.Object();
             _bottledWater.sName = "Bottled water";
@@ -418,6 +446,7 @@ namespace Engine
             _bottledWater.bDroppable = true;
             _bottledWater.bUsableWhileTiedUp = true;
             _bottledWater.bUsableAnyway = true;
+            _bottledWater.sSize = Size.Small;
 
 
             _WallMap = new Engine.Object();
@@ -431,6 +460,7 @@ namespace Engine
             _WallMap.bUsableWhileTiedUp = true;
             _WallMap.bUsableAnyway = true;
             _WallMap.bStaysInMaze = true;
+            _WallMap.sSize = Size.Small;
 
             _PaperAndStationeryKit = new Engine.Object();
             _PaperAndStationeryKit.sName = "Paper and Stationery Kit";
@@ -442,6 +472,7 @@ namespace Engine
             _PaperAndStationeryKit.bUsableAnyway = true;
             _PaperAndStationeryKit.bTakeable = true;
             _PaperAndStationeryKit.bDroppable = true;
+            _PaperAndStationeryKit.sSize = Size.Small;
 
 
             _XXiumSaw = new Engine.Object();
@@ -454,6 +485,7 @@ namespace Engine
             _XXiumSaw.bUsableAnyway = true;
             _XXiumSaw.bTakeable = true;
             _XXiumSaw.bDroppable = true;
+            _XXiumSaw.sSize = Size.Medium;
 
             _map = new Engine.Object();
             _map.sName = "Maze Map";
@@ -466,6 +498,7 @@ namespace Engine
             _map.bDroppable = true;
             _map.bUsableWhileTiedUp = true;
             _map.bUsableAnyway = true;
+            _map.sSize = Size.Small;
 
             _abstractDesigns = new Engine.Object();
             _abstractDesigns.sName = "Strange abstract designs";
@@ -475,6 +508,7 @@ namespace Engine
             _abstractDesigns.sIndefiniteName = "some strange abstract designs";
             _abstractDesigns.bUsableWhileTiedUp = true;
             _abstractDesigns.bUsableAnyway = true;
+            _abstractDesigns.sSize = Size.NA;
 
             _sachet = new Engine.Object();
             _sachet.sName = "Sachet of Lemon Flavouring";
@@ -487,6 +521,7 @@ namespace Engine
             _sachet.bUsableWhileTiedUp = true;
             _sachet.bUsableAnyway = true;
             _sachet.bStaysInMaze = true;
+            _sachet.sSize = Size.Tiny;
 
             _holyBasket = new Engine.Object();
             _holyBasket.sName = "Very old basket";
@@ -500,6 +535,7 @@ namespace Engine
             _holyBasket.bContainer = true;
             _holyBasket.bDiscoveredContents = true;
             _holyBasket.Add(_sachet);
+            _holyBasket.sSize = Size.NA;
 
             _abandonedShrine = new Engine.Object();
             _abandonedShrine.sName = "Abandoned Shrine";
@@ -508,6 +544,7 @@ namespace Engine
             _abandonedShrine.sDefiniteName = "the abandoned shrine";
             _abandonedShrine.sIndefiniteName = "an abandoned shrine";
             _abandonedShrine.bStaysInMaze = true;
+            _abandonedShrine.sSize = Size.NA;
 
             _tribalCostume = new Engine.Object();
             _tribalCostume.sName = "Tribal Gear";
@@ -521,6 +558,7 @@ namespace Engine
             _tribalCostume.bWorn = false;
             _tribalCostume.sClothingType = "costume";
             _tribalCostume.bStaysInMaze = true;
+            _tribalCostume.sSize = Size.NA;
 
             _tribalHeadgear = new Engine.Object();
             _tribalHeadgear.sName = "Tribal Headgear";
@@ -536,6 +574,7 @@ namespace Engine
             _tribalHeadgear.bWorn = false;
             _tribalHeadgear.sClothingType = "head";
             _tribalHeadgear.bStaysInMaze = true;
+            _tribalHeadgear.sSize = Size.Medium;
 
             _lemonWater = new Engine.Object();
             _lemonWater.sName = "Lemony Water";
@@ -545,6 +584,7 @@ namespace Engine
             _lemonWater.sIndefiniteName = "a bottle of lemon water";
             _lemonWater.bTakeable = true;
             _lemonWater.bDroppable = true;
+            _lemonWater.sSize = Size.Small;
 
             _parkourManual = new Engine.Object();
             _parkourManual.sName = "Parkour Manual";
@@ -555,6 +595,7 @@ namespace Engine
             _parkourManual.sIndefiniteName = "a parkour manual";
             _parkourManual.bTakeable = true;
             _parkourManual.bDroppable = true;
+            _parkourManual.sSize = Size.Medium;
 
             _treasure = new Engine.Object();
             _treasure.sName = "Treasure";
@@ -562,6 +603,7 @@ namespace Engine
                 "massive then ever you dreamed in your own wild imaginings!";
             _treasure.sDefiniteName = "The Tiny Cave Treasure";
             _treasure.sIndefiniteName = "The Tiny Cave Treasure";
+            _treasure.sSize = Size.NA;
 
             _fizzyDrink = new Engine.Object();
             _fizzyDrink.sName = "Fizzy Drink";
@@ -570,6 +612,7 @@ namespace Engine
             _fizzyDrink.sIndefiniteName = "a bottle of fizzy soft drink.";
             _fizzyDrink.bTakeable = true;
             _fizzyDrink.bDroppable = true;
+            _fizzyDrink.sSize = Size.Small;
 
             _lostGemNecklace = new Engine.Object();
             _lostGemNecklace.sName = "Lost Necklace";
@@ -580,16 +623,22 @@ namespace Engine
             _lostGemNecklace.bWearable = true;
             _lostGemNecklace.sDefiniteName = "the Lost Necklace";
             _lostGemNecklace.sIndefiniteName = "the Lost Necklace";
+            _lostGemNecklace.sSize = Size.Tiny;
 
-            _infiniteCarryBag = new Engine.Object();
-            _infiniteCarryBag.sName = "Infinite Carrybag";
-            _infiniteCarryBag.sDefiniteName = "the Infinite Carrybag";
-            _infiniteCarryBag.sIndefiniteName = "an Infinite Carrybag";
-            _infiniteCarryBag.sDescription = "A bag with a long strap, easily carried over one shoulder, that has an infinite interior.  While useful, this is just a testing item.";
-            _infiniteCarryBag.bTakeable = true;
-            _infiniteCarryBag.bDroppable = true;
-            _infiniteCarryBag.bWearable = true;
-            _infiniteCarryBag.bContainer = true;
+            // 24/5/2017 - Enhancements 1 and 5 - This used to be the Infinite Carrybag, used in
+            // testing.  Turning it into a regular carrybag for Enhancements 1 + 5.
+            _CarryBag = new Engine.Object();
+            _CarryBag.sName = "Carrybag";
+            _CarryBag.sDefiniteName = "the carrybag";
+            _CarryBag.sIndefiniteName = "a carrybag";
+            _CarryBag.sDescription = "A bag with a long strap, easily carried over one shoulder.  It looks old and threadbare, but still usable.";
+            _CarryBag.bTakeable = true;
+            _CarryBag.bDroppable = true;
+            _CarryBag.bWearable = true;
+            _CarryBag.bContainer = true;
+            _CarryBag.sSize = Size.Small;
+            _CarryBag.sContainerSize = Size.Medium;
+            _CarryBag.iContainerCapacity = 0;
 
 
             // NPCs
@@ -1024,6 +1073,16 @@ namespace Engine
 
             // debug code, to set up various testing states
 
+            // _player.CurrentLocation = _highLedge;
+            // _player.Add(World._CarryBag);
+
+            //_player.CurrentLocation = _holyBasketSite;
+            //_centralCavern.Add(_chunkOfStalactite);
+            //_centralCavern.Add(_chunkOfStalagmite);
+            //_player.bTiedUp = true;
+            //_player.TieUp();
+            //_player.sMoveTypes += ",parkour";
+
             //_BackDoor.sName = "North of ruins";
             //_BackDoor.sDescription = "You are standing in an open field, to the north of the " +
             //    "smoking ruins of a white house.  It is mostly charred wood and ash now.  " +
@@ -1369,6 +1428,8 @@ namespace Engine
         // Note that this occurs after the action has completed, whether it was
         // successful or not, and its OutMessage is independent from the regular
         // action's OutMessage.
+        // 24/5/2017 - Enhancements 1+5 - Add and remove climb based on whether the player is tied up
+        //             or carrying anything.
         {
             // e.g. if a guard is going to turn around you can do that here
 
@@ -1496,6 +1557,26 @@ namespace Engine
             else
             {
                 World._questGiver.bCompletedCakeQuest = false;
+            }
+
+            // Adding and removing climb status
+            if ((World._player.carrying() == 0) && (World._player.bTiedUp == false))
+            {
+                // add climb to player movements
+                if (World._player.sMoveTypes.Contains("climb") == false)
+                {
+                    World._player.sMoveTypes += ",climb";
+                }
+                //OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
+            }
+            else
+            {
+                // remove climb from player movements
+                if (World._player.sMoveTypes.Contains("climb"))
+                {
+                    World._player.sMoveTypes = World._player.sMoveTypes.Replace(",climb", "");
+                }
+                //OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
             }
 
 
