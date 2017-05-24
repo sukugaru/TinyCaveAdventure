@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 24/5/217 - Enhancements 1+5 : Adding Carry Bag to Holy Basket site.
+//                             - Adding 'climb' to movement types to south pathway from Central Cavern
+//                             - Adding 'climb' to movement types to down pathway from High Ledge
+//                             - Fully doing pathways for High Ledge, so adding a north pathway.
+//
 // 19/5/2017 - Bug 1 - Bugfix.  Adding (if ToLocation == World._treasureCave) around the 
 // parkour check for central cavern's premove.
 
@@ -744,6 +749,7 @@ namespace Engine
                 "an old picnic basket.";
             bDiscovered = false;
             Add(World._holyBasket);
+            Add(World._CarryBag);
         }
 
         public override void LinkLocation()
@@ -1027,6 +1033,9 @@ namespace Engine
             NorthLoc = World._mazeEntrance;         // After the crazy old guy leads you
                                                     // through the maze the first time, this'll
                                                     // get set to _maze.
+            SetPathway("climb", World._down, World._stalagmiteCave);
+            SetPathway("", World._north, World._mazeEntrance);
+
         }
 
         public override void PreMove(Location ToLocation, ref string OutMessage, ref bool bSuccess)
@@ -1058,6 +1067,7 @@ namespace Engine
 
                         bSuccess = true;
                         World._highLedge.NorthLoc = World._maze;
+                        World._highLedge.SetPathway("", World._north, World._maze);
                         World._crazyGuy.bFollowedThroughMaze = true;
 
                         // The Maze Entrance location's PostAction will set its bsuppressgomsg
@@ -1455,7 +1465,7 @@ namespace Engine
                     "hands tied tightly together.  You are very feeling very sore, as if " +
                     "you were hit hard in the head, dragged for a while, and then dumped " +
                     "into this cave.\n\n";
-                World._player.bTiedUp = true;
+                //World._player.bTiedUp = true;
                 World._player.TieUp();
                 World._player.iSore = 15;
                 bEnteredCave = true;
@@ -1524,7 +1534,7 @@ namespace Engine
             NorthLoc = World._caveEntrance;
             EastLoc = World._tinyLedge;
 
-            SetPathway("parkour", World._south, World._treasureCave);
+            SetPathway("parkour,climb", World._south, World._treasureCave);
             SetPathway("", World._west, World._mazeEntrance);
             SetPathway("", World._northeast, World._sageGrotto);
             SetPathway("", World._north, World._caveEntrance);
@@ -1877,7 +1887,7 @@ namespace Engine
         {
             // This gets populated later in game, once you learn how to parkour.
 
-            SetPathway("parkour", World._north, World._centralCavern);
+            SetPathway("parkour,climb", World._north, World._centralCavern);
 
         }
 
