@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using CustomExtensions;
 using System.Reflection;
 
+// 24/5/2017 - Bug 8 - Making sure that Remove works if object is in a container in Inventory.
 
 namespace Engine
 {
@@ -61,8 +62,16 @@ namespace Engine
         // Remove doesn't know where the object is going so can't assign its new hiOwner.
         // Make sure to assign it afterwards, either manually or by adding the object to
         // something else with HasInventory.Add().
+        // 24/5/2017 - Bug 8 - Making sure that this works if object is in a container in Inventory.
         {
-            Inventory.Remove(i);
+            if (i.hiOwner == this)
+            {
+                Inventory.Remove(i);
+            }
+            if (Inventory.Exists(x => x == i.hiOwner))
+            {
+                i.hiOwner.Remove(i);
+            }
         }
 
 
