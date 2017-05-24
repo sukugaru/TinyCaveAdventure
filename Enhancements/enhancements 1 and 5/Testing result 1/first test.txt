@@ -1,0 +1,23 @@
+OK, a few things here.
+
+1) The chunks of stalagmite and stalactite are in the bag when the vending machine is used.  They are not properly removed from the carry bag and so end up still in the bag after getting the parkour manual.
+
+2) I took a screenshot, because it shows that "A parkour manual" is not under "A carry bag"... oh, I see!  The full list of things in the carry bag still contains the stalagmite and stalactite, except due to the shenanigans with those (see (1) above) they're not indented.
+
+=====
+
+OK, think I know what's going on with the vending machine.
+
+HasInventory.Remove(object) is used to take the chunks away from the player.  That procedure is very simple though.  All it does is this:
+
+        public void Remove(Engine.Object i)
+        // Remove doesn't know where the object is going so can't assign its new hiOwner.
+        // Make sure to assign it afterwards, either manually or by adding the object to
+        // something else with HasInventory.Add().
+        {
+            Inventory.Remove(i);
+        }
+
+It's possible that the item is an item that the player has.
+
+Anyway, have raised Bug 8 and fixed it.

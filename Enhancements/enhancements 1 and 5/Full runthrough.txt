@@ -1,0 +1,1363 @@
+The story is well known - the Wizard of the Tiny Cave was, once upon a time, just a man, whose ambition far outstripped his ability.  He wanted to make something of himself, and live a life that was big and sprawling and action-packed.  He wanted to create things, and leave behind an amazing story or two.  He was big on ideas, but short on, well, any of the things he needed to make such things.
+
+Filled with despair and disappointment and despondence and other words beginning with d, he gave up on his ideas and went into finance and accounting.
+
+And there his boring story would have ended, were it not for the fact that he went off the deep end, went into the country and mountains, and found a tiny little cave.  He filled it with all sorts of dangers, oddities, and the occasional Very Valuable Thing.
+
+---
+
+You are not in that cave.  Not yet.  You'll get to it in a bit.
+
+---
+
+You are instead standing in an open field south of a white house, with a boarded up front door.  There is a mailbox here.
+
+Player's move types are now standard,climb
+
+> Go Northeast
+
+You go to East of House.
+
+Player's move types are now standard,climb
+
+> Go East
+
+You go to Forest.
+
+Oh wow.  There are a lot of clothes scattered all over the place.
+
+Player's move types are now standard,climb
+
+> Take Storm-blown clothes
+
+You take the storm-blown clothes.
+
+Player's move types are now standard
+
+> Go Northwest
+
+You go to Forest Clearing.
+
+Player's move types are now standard
+
+> Go Up
+
+You go to Up a tree.
+
+There are some pants, blown away during a storm and draped over the branches.
+
+Player's move types are now standard
+
+> Take Storm-blown pants
+
+You take the storm-blown pants.
+
+Player's move types are now standard
+
+> Take Ring
+
+You get the ring out of the bird's nest.
+
+Player's move types are now standard
+
+> Go Down (to Forest Clearing)
+
+You go to Forest Clearing.
+
+Player's move types are now standard
+
+> Go South
+
+You go to Back door.
+
+Player's move types are now standard
+
+> Talk to House Owner
+
+"So, an adventurous sort, eh?  Willing to take quests and and go off to strange and possibly dangerous locations, in the off chance of finding treasure and interesting things?  You're just who I need to see!  I got a quest for ya.  There was a pretty big storm, and it blew my washing all over the forest.  And then on top of that I'd left my mother's ring in a pocket in the washing somewhere!  Be a dear and go find that too, thanks."
+
+As you already have everything she wants, you hand the wayward washing and the ring over to the woman.
+
+"Oh wow, I knew I could count on you!  You'd already found it all already!  So, hey.  Thanks for that!  And I've got another quest for ya.  A much more interesting quest.  Somewhere nearby is *the* Tiny Cave, where once I went looking for a fortune in treasure and gold.  Didn't get squat, and I dropped my mother's favourite cake recipe somewhere in the place.  I've asked a bunch of people to go find it for me, though some of them what entered ain't never been seen again.  Others say that magic and weird stuff works in the cave.  Anyway, you're an adventurous sort, do be a dear and go find my cake recipe for me, willya?  You can find the cave entrance in the mountains to the south."
+
+Player's move types are now standard,climb
+
+> Go South
+
+"Nuh-uh," says the house owner, "you're not coming in.  I know you adventurous sorts, you'd be taking all my stuff, entirely out of habit."
+
+Player's move types are now standard,climb
+
+> Go Southeast (to East of House)
+
+You go to East of House.
+
+Player's move types are now standard,climb
+
+> Go Southwest (to Front of house)
+
+You go to Front of house.
+
+Player's move types are now standard,climb
+
+> Go South
+
+You go to Forest Path.
+
+Player's move types are now standard,climb
+
+> Go South
+
+You go to Impassable Mountains.
+
+Player's move types are now standard,climb
+
+> Go Southeast (to Cave Entrance)
+
+You go to Cave Entrance.
+
+Player's move types are now standard,climb
+As you enter the Tiny Cave, your eyes blink, adjusting to the dim light - you're probably going to need some sort of light source.  But before you can think much further on that, there is a very solid THUMP as you are hit in the back of the head, and you lose consciousness.
+
+You awake in a gloomy cavern, surrounded by stalagmites, and with your hands tied tightly together.  You are very feeling very sore, as if you were hit hard in the head, dragged for a while, and then dumped into this cave.
+
+Player's move types are now standard
+At the top of the rockface a man appears - details are hard to make out at this distance but it's pretty obvious he has a big crazy white beard and big crazy white hair.  "Hey down there!" he calls.  "Welcome to the cave!  You're going to need these!"  He follows up throwing some tinned fish and bottled water down to you.
+
+He moves away from the edge and disappears from sight.
+
+> Take Tinned fish
+
+You take the tinned fish.
+
+Player's move types are now standard
+
+> Wait a turn
+
+You wait a turn.
+
+Player's move types are now standard
+
+> Wait a turn
+
+You wait a turn.
+
+Player's move types are now standard
+
+> Wait a turn
+
+You wait a turn.
+
+Player's move types are now standard
+
+> Jump up to Stalagmite base
+
+You jump to the stalagmite base.  As you land, you make quite some noise.
+
+You hear a voice from above.  "Hey!  What's all that noise?" it shouts.
+
+Player's move types are now standard
+
+> Jump up to Boulder
+
+You jump to the boulder from the stalagmite base.  As you land, you make quite some noise.
+
+You hear a voice from above.  "Hey!  What's all that noise?" it shouts.
+
+Player's move types are now standard
+
+> Jump up to Ledge
+
+You jump to the ledge from the boulder.  As you land, you crash into the side of the rockface and disturb a bunch of pebbles, which clatter to the ground far below.
+
+You hear a voice from above.  "Hey!  What's all that noise?" it shouts.
+
+Player's move types are now standard
+
+> Jump up to Precarious Platform
+
+You jump to the precarious platform from the ledge.  As you land, the platform wobbles and grinds against its precarious perch, making an enormous clatter.  Above you, just within jumping reach, is the top of the rock face.
+
+You hear a voice from above.  "Hey!  What's all that noise?" it shouts.
+
+Player's move types are now standard
+
+> Jump up
+
+You jump up, just making it to the top of the rockface.
+
+Player's move types are now standard
+You see the crazy old guy hurrying towards you, carrying a rock.  He sees you jump up to the ledge and sighs.  "Well, so much for that then," he says, and throws the rock over the side of the ledge.  "So you're going to want to kill yourself, I see," he says.
+
+> Talk to Crazy Guy
+
+
+Player's move types are now standard
+"Hi!" he says, his eyes only slightly vibrating.
+
+> What do you mean, I'm trying to kill myself?
+
+"Lots of people come, and nobody leaves.  The best way to stay alive is to not struggle!  Struggling is bad.  It's never worked and then you fall and land on the table.  But you're struggling anyway, though I'm trying to save you.  Which is clearly not working.  So follow me!"
+
+He squeezes through the crack in the wall.  Just before he vanishes from sight he turns and beckons to you to follow him.
+
+Player's move types are now standard
+
+> Go Down (to Stalagmite cave)
+
+You need to be able to climb to go that way.
+
+Player's move types are now standard
+
+> Go North
+
+You squeeze through the crack, following the old man.  It is *very* tight and it branches into a dizzying maze of narrow and twisty passages and it all looks the same.  Eventually he leads you out of the maze and you arrive at the maze's entrance.
+
+"Toodles!" he says.  "Maybe you won't actually kill yourself.  Let's find out!"  With that he wanders eastwards.
+
+In a corner you can see an old discarded book.
+
+Player's move types are now standard
+
+> Go East
+
+You go to Central Cavern.
+
+Player's move types are now standard
+
+> Use Vending Machine
+
+While you might be tied up, it's not too hard to use the vending machine.
+
+Player's move types are now standard
+A sign on the machine says "Welcome to TinyCave Vending(tm)!".  Inexplicably the vending machine is plugged into an electrical outlet and is working.
+
+Your options are:
+1. XXium Saw (cost: Lemonade)
+2. Paper and Stationery Kit (cost: 1 tin of tinned fish)
+3. Parkour Manual (cost: 1 chunk of stalagmite + 1 chunk of stalactite)
+4. Fizzy Drink (cost: 1 chunk of stalagmite)
+
+> Paper and Stationery Kit
+
+With some difficulty, you manage to deposit the tin of fish into the payment slot and press the button for the Paper and Stationery Kit.  With a whirring and a clunk, the staionery kit is dispensed.
+
+Player's move types are now standard
+
+> Go Northeast
+
+You go to Sage's Grotto.
+
+Player's move types are now standard
+
+> Talk to Wise old sage
+
+The sage opens her eyes as you approach, and studies you thoughtfully.  "Up hill and mountain, and down dale, and through storm, thick and clearing, and even up in the trees, you shall find your path," she says.
+
+Player's move types are now standard
+
+> Go Southwest (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard
+
+> Go West (to Maze Entrance)
+
+You go to Maze Entrance.
+
+Player's move types are now standard
+
+> Go West
+
+You enter the maze.
+
+Player's move types are now standard
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go East
+
+You walk through the twisty little tunnels and passages and end up back at the maze's entrance.
+
+Player's move types are now standard
+
+> Go East (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard
+
+> Use Vending Machine
+
+While you might be tied up, it's not too hard to use the vending machine.
+
+Player's move types are now standard
+A sign on the machine says "Welcome to TinyCave Vending(tm)!".  Inexplicably the vending machine is plugged into an electrical outlet and is working.
+
+Your options are:
+1. XXium Saw (cost: Lemonade)
+2. Paper and Stationery Kit (cost: 1 tin of tinned fish)
+3. Parkour Manual (cost: 1 chunk of stalagmite + 1 chunk of stalactite)
+4. Fizzy Drink (cost: 1 chunk of stalagmite)
+
+> Leave
+
+You leave the vending machine.
+
+Player's move types are now standard
+
+> Take Paper and Stationery Kit
+
+As you are tied up, you can only carry one thing at a time, and very awkwardly.
+
+Player's move types are now standard
+
+> Go West (to Maze Entrance)
+
+You go to Maze Entrance.
+
+Player's move types are now standard
+
+> Go West
+
+You enter the maze.
+
+Player's move types are now standard
+
+> Go West
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go South
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go North
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go Up
+
+You walk through the twisty little tunnels and passages and end up back at the maze's entrance.
+
+Player's move types are now standard
+
+> Go West
+
+You enter the maze.
+
+Player's move types are now standard
+
+> Go South
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go West
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go East
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go North
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go Up
+
+You walk through the twisty little tunnels and passages and end up at a Special Maze Location.
+
+Player's move types are now standard
+
+> Use Paper and Stationery Kit with Map
+
+It's quite awkward with your hands still tied up, but you use the stationery kit to make your own map of the maze.  You have to use all the paper to do it, and you use up a couple of the pens as well.
+
+Player's move types are now standard
+
+> Drop Maze Map
+
+You drop your maze map.
+
+Player's move types are now standard
+
+> Use Map
+
+
+Player's move types are now standard
+Where do you want to go?
+
+> Go to High Ledge
+
+You walk through the twisty little tunnels and they get *very* narrow and you have to really squeeze through the last bits, and you end up back at the High Ledge.
+
+Player's move types are now standard
+
+> Go Down (to Stalagmite cave)
+
+You need to be able to climb to go that way.
+
+Player's move types are now standard
+
+> Jump down to Precarious Platform
+
+You jump to the precarious platform from the high ledge.  As you land, the platform wobbles and grinds against its precarious perch, making an enormous clatter.  Above you, just within jumping reach, is the top of the rock face.
+
+Player's move types are now standard
+
+> Jump down to Ledge
+
+You jump to the ledge from the precarious platform.  As you land, you crash into the side of the rockface and disturb a bunch of pebbles, which clatter to the ground far below.
+
+Player's move types are now standard
+
+> Jump down to Boulder
+
+You jump to the boulder from the ledge.  As you land, you make quite some noise.
+
+Player's move types are now standard
+
+> Jump down to Stalagmite base
+
+You jump to the stalagmite base from the boulder.  As you land, you make quite some noise.
+
+Player's move types are now standard
+
+> Jump down
+
+You jump down to the rocky floor of the Stalagmite Cave.
+
+Player's move types are now standard
+
+> Take Bottled water
+
+You take the bottled water.
+
+Player's move types are now standard
+
+> Jump up to Stalagmite base
+
+You jump to the stalagmite base from the stalagmite base.  As you land, you make quite some noise.
+
+Player's move types are now standard
+
+> Jump up to Boulder
+
+You jump to the boulder from the stalagmite base.  As you land, you make quite some noise.
+
+Player's move types are now standard
+
+> Jump up to Ledge
+
+You jump to the ledge from the boulder.  As you land, you crash into the side of the rockface and disturb a bunch of pebbles, which clatter to the ground far below.
+
+Player's move types are now standard
+
+> Jump up to Precarious Platform
+
+You jump to the precarious platform from the ledge.  As you land, the platform wobbles and grinds against its precarious perch, making an enormous clatter.  Above you, just within jumping reach, is the top of the rock face.
+
+Player's move types are now standard
+
+> Jump up
+
+You jump up, just making it to the top of the rockface.
+
+Player's move types are now standard
+
+> Go North
+
+You squeeze through the narrow crack and into the maze.
+
+Player's move types are now standard
+
+> Go Northeast
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go Northeast
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go Northeast
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go Northeast
+
+You walk through the twisty little tunnels and passages and come to another junction in this very confusing maze.
+
+Player's move types are now standard
+
+> Go Northeast
+
+You walk through the twisty little tunnels and passages and end up back at the maze's entrance.
+
+Player's move types are now standard
+
+> Go East (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard
+
+> Drop Bottled water
+
+You drop the bottled water.
+
+Player's move types are now standard
+
+> Go West (to Maze Entrance)
+
+You go to Maze Entrance.
+
+Player's move types are now standard
+
+> Look at Returns Box
+
+There is a large returns box here, half as large as you.  A note is taped to it.
+It contains:
+   A note
+   Your maze map
+
+Player's move types are now standard
+
+> Take Maze Map
+
+You get your maze map out of the Returns Box.
+
+Player's move types are now standard
+
+> Go East (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard
+
+> Go Southwest
+
+You go to Sloping Passage.
+
+Player's move types are now standard
+
+> Use Maze Map with Strange abstract designs
+
+You compare your map to the designs on the walls of the passage, and are able to fill in a couple more points of interest.
+
+Player's move types are now standard
+
+> Go Northeast (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard
+
+> Go West (to Maze Entrance)
+
+You go to Maze Entrance.
+
+Player's move types are now standard
+
+> Use Maze Map
+
+
+Player's move types are now standard
+Where do you want to go?
+
+> Holy Basket
+
+You walk through the twisty little tunnels until you get to the "Holy Basket" site.
+
+Player's move types are now standard
+
+> Put Maze Map into Carrybag
+
+You put your maze map into the carrybag.
+
+Player's move types are now standard
+
+> Put Sachet of Lemon Flavouring into Carrybag
+
+(Taking it first...)
+You get the sachet out of the basket.
+You put the sachet into the carrybag.
+
+Player's move types are now standard
+
+> Take Carrybag
+
+You take the carrybag.
+
+Player's move types are now standard
+
+> Use Maze Map
+
+
+Player's move types are now standard
+Where do you want to go?
+
+> Go to Maze Entrance
+
+You walk through the twisty little tunnels and passages and end up back at the maze's entrance.
+
+Player's move types are now standard
+
+> Go East (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard
+
+> Drop Carrybag
+
+You drop the carrybag.
+
+Player's move types are now standard
+
+> Use Sachet of Lemon Flavouring with Bottled water
+
+(Taking the sachet first...)
+You get the sachet out of the carrybag.
+(Taking the bottled water first...)
+You take the bottled water.
+You pour the contents of the sachet into the bottle of water and shake thoroughly.
+
+Player's move types are now standard
+
+> Use Vending Machine
+
+While you might be tied up, it's not too hard to use the vending machine.
+
+Player's move types are now standard
+A sign on the machine says "Welcome to TinyCave Vending(tm)!".  Inexplicably the vending machine is plugged into an electrical outlet and is working.
+
+Your options are:
+1. XXium Saw (cost: Lemonade)
+2. Paper and Stationery Kit (cost: 1 tin of tinned fish)
+3. Parkour Manual (cost: 1 chunk of stalagmite + 1 chunk of stalactite)
+4. Fizzy Drink (cost: 1 chunk of stalagmite)
+
+> XXium Saw
+
+You put the bottle of lemony water into the payment slot and press the button for the XXium Saw.  There is a whirring as the machine seems to think about it for a moment, then with a DING it accepts the bottle of lemony water.  With a SHING of audible sharpness and a clunk, the XXium Saw is dispensed.
+
+Player's move types are now standard
+
+> Use XXium Saw
+
+With your arms tied up it's quite awkward, but you manage to use the saw to cut through your bonds and finally, *finally* free your hands.
+
+Player's move types are now standard
+
+> Wear Carrybag
+
+(Taking it first...)
+You take the carrybag.
+You put the carrybag on.
+
+Player's move types are now standard
+
+> Put XXium Saw into Carrybag
+
+You put the XXium saw into the carrybag.
+
+Player's move types are now standard,climb
+
+> Go West (to Maze Entrance)
+
+You go to Maze Entrance.
+
+Player's move types are now standard,climb
+
+> Use Maze Map
+
+
+Player's move types are now standard,climb
+Where do you want to go?
+
+> Abandoned Shrine
+
+You walk through the twisty little tunnels until you get to the abandoned shrine.
+
+Player's move types are now standard,climb
+
+> Put Tribal Gear into Maze Map
+
+Your maze map is not something you can put things into.
+
+Player's move types are now standard,climb
+
+> Put Tribal Gear into Carrybag
+
+That's too big to fit into the carrybag.
+
+Player's move types are now standard,climb
+
+> Wear Tribal Gear
+
+(Taking it first...)
+You take the tribal gear.
+You put the tribal gear on.
+
+Player's move types are now standard,climb
+
+> Wear Tribal Headgear
+
+(Taking it first...)
+You take the tribal headgear.
+You put the tribal headgear on.
+
+Player's move types are now standard,climb
+
+> Use Maze Map
+
+
+Player's move types are now standard,climb
+Where do you want to go?
+
+> Go to High Ledge
+
+You walk through the twisty little tunnels and they get *very* narrow and you have to really squeeze through the last bits, and you end up back at the High Ledge.
+
+Player's move types are now standard,climb
+
+> Go Down (to Stalagmite cave)
+
+With your hands free you can finally easily climb down to the Stalagmite Cave.
+
+Player's move types are now standard,climb
+
+> Put Chunk of Stalactite into Carrybag
+
+(Taking it first...)
+You take the chunk of stalactite.
+You put the chunk of stalactite into the carrybag.
+
+Player's move types are now standard,climb
+
+> Put Chunk of Stalagmite into Carrybag
+
+(Taking it first...)
+You take the chunk of stalagmite.
+You put the chunk of stalagmite into the carrybag.
+
+Player's move types are now standard,climb
+
+> Go Up (to High ledge)
+
+You go to High ledge.
+
+Player's move types are now standard,climb
+
+> Go North
+
+You squeeze through the narrow crack and into the maze.
+
+Player's move types are now standard,climb
+
+> Use Maze Map
+
+
+Player's move types are now standard,climb
+Where do you want to go?
+
+> Go to Maze Entrance
+
+You walk through the twisty little tunnels and passages and end up back at the maze's entrance.
+
+Player's move types are now standard,climb
+
+> Go East (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard,climb
+
+> Use Vending Machine
+
+While you might be tied up, it's not too hard to use the vending machine.
+
+Player's move types are now standard,climb
+A sign on the machine says "Welcome to TinyCave Vending(tm)!".  Inexplicably the vending machine is plugged into an electrical outlet and is working.
+
+Your options are:
+1. XXium Saw (cost: Lemonade)
+2. Paper and Stationery Kit (cost: 1 tin of tinned fish)
+3. Parkour Manual (cost: 1 chunk of stalagmite + 1 chunk of stalactite)
+4. Fizzy Drink (cost: 1 chunk of stalagmite)
+
+> Parkour Manual
+
+You deposit the chunks of stalagmite and stalactite into the payment slot and press the button for the Parkour Manual.  With a whirring and a clunk, the manual is dispensed.
+
+Player's move types are now standard
+
+> Use Parkour Manual
+
+
+Player's move types are now standard
+How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+We could either do this the easy gamey way, where by using an in-game item you compress months and months of physical training into a one-second button click, or the hard way by making you click on that item 300 times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+> No thanks, I'd like to click on this option just once.
+
+Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+Player's move types are now standard,parkour
+
+> Put Parkour Manual into Carrybag
+
+You put the parkour manual into the carrybag.
+
+Player's move types are now standard,parkour,climb
+
+> Go South
+
+You Le Parkour over the gap and continue down the south passageway.
+
+Player's move types are now standard,parkour,climb
+
+> Look at Treasure
+
+The fabled treasure hoard of the Tiny Cave.  It is more massive then ever you dreamed in your own wild imaginings!
+
+Player's move types are now standard,parkour,climb
+
+> Take Treasure
+
+
+Player's move types are now standard,parkour,climb
+You feel you shouldn't take anything; besides, you can't carry all that much stuff when you're parkouring around.
+
+> But I've been parkouring around with all this stuff already.
+
+You feel you shouldn't take anything; besides, you can't carry all that much stuff when you're parkouring around.
+
+Player's move types are now standard,parkour,climb
+
+> How about I just take something small?
+
+You feel you shouldn't take anything; besides, you can't carry all that much stuff when you're parkouring around.
+
+Player's move types are now standard,parkour,climb
+
+> It's a massive treasure hoard, in a cave, surely there's something I'm allowed to take.
+
+You feel you shouldn't take anything; besides, you can't carry all that much stuff when you're parkouring around.
+
+Player's move types are now standard,parkour,climb
+
+> Hey, something's going on.
+
+You feel you shouldn't take anything; besides, you can't carry all that much stuff when you're parkouring around.
+
+Player's move types are now standard,parkour,climb
+
+> Is there anything here that seems particularly strange?
+
+You feel you shouldn't take anything from the hoard; in particular, there is a vividly green gemstone that looks stunning and just fine where it is.
+
+Player's move types are now standard,parkour,climb
+
+> Leave.
+
+Sure thing.
+
+Player's move types are now standard,parkour,climb
+
+> Go North (to Central Cavern)
+
+You Le Parkour back over the gap to the main central cavern.
+
+Player's move types are now standard,parkour,climb
+
+> Go Southwest (to Sloping Passage)
+
+You go to Sloping Passage.
+
+Player's move types are now standard,parkour,climb
+
+> Go West
+
+You go to Tribal Cavern.
+
+At the west end of the Sloping Passage, there are a couple of people, dressed in a very bizarre style.  They're wearing what you might call "tribal-ish" clothes, with a hodgepodge of furs and teeth and claws and loincloths and such.  But in addition to all the archetypical tribal-ish gear, they're wearing bits of smashed-up crockery and twisted forks and bent spoons.  For weapons, they're wielding kitchen knives that look quite incredibly sharp.
+
+---
+
+As you approach, in your purloined shrine outfit, their eyes light up and they start talking excitedly, though you can't understand a word they're saying.
+
+After a few moments, they seem to recognise that you can't understand them.  Rather than getting suspicious, one of them turns, and beckons you to come with her.  You follow her into a large cavern.
+
+---
+
+In the middle of the large cavern is a hole.  You look through it and can see a lot of sharp looking stalagmites below.
+
+But the main obvious feature of this cavern is that it's filled with people.  Most of them are dressed in what you would think of 'typical tribal-ish' gear, with furs and teeth and claws, and not very much.  But some, who look like guards, or more important figures, are wearing the 'smashed-up crockery armor' look.
+
+When the people see you all chatter stops immediately - they stare at you openmouthed.  Some of them drop to their knees and start kowtowing.
+
+---
+
+The guard takes you to one of the more important looking figures and talks at length.  The important-looking figure is a large fat man with a headband made of spoons twisted together, which have been polished to an amazing shine.  He nods, and then dismisses the guard with a wave.  She goes back to the cavern entrance.
+
+The man turns to you, and gets out an old, yellowing piece of paper, studies it carefully, and says, in halting pronunciation, "Wun Kahp Shoo-gar?"
+
+---
+
+He sees your expression and looks happy and launches into a stream of gibberish, none of which you understand.  When he realises you aren't understanding him, he looks at you quizzically, and consults his paper again.  "Too Stikk But-tah?  Hahf kahp mllk?  Phoower Aigs?"
+
+"One cup sugar?" you ask.  "Two sticks of butter?  Half a cup of milk? Four eggs?  What is this?"
+
+"Ah, so even the gods must modernise," the man says sadly.  "But I suppose it makes sense.  After all, we don't actually use 'wunhahfkahpphaloower'or 'tuhereekahpcuhohcualahtte' anymore.  So, welcome to your humble servants, Wunkahpshoogar!"  He turns to the crowd and shouts.  "The god walks amongst us!"
+
+A great party ensues.
+
+Player's move types are now standard,parkour,climb
+
+> Drop Recipe through the cavern floor hole
+
+You don't have that item.
+You could not drop the recipe through the hole.
+
+Player's move types are now standard,parkour,climb
+
+> Take Recipe
+
+You take the recipe.
+
+Player's move types are now standard,parkour
+
+> Drop Recipe through the cavern floor hole
+
+You drop the recipe through the hole, and it falls into the gloom below.
+
+Player's move types are now standard,parkour,climb
+
+> Go East (to Sloping Passage)
+
+A great hue and cry goes up.  While everybody was partying like mad and they didn't notice you dropping the recipe through the hole in the floor, they have now noticed it is missing.  The leader absolutely FREAKS OUT.
+
+"AUIII!  Truly we are accursed!  No matter how much and how many we sacrifice to you, Wunkahpshoo-gar, we remain stuck in this cave, unable to leave, and now even the Holy Words are gone!  Why don't we just sacrifice *you*?!?
+
+That gives him an idea.  "Hey now.  Nothing else has worked.  And you're a god, so it won't be permanent.  Let's give it a shot!"
+
+You are thrown into the hole in the middle of the cavern.  The stalagmites below rush towards you and you wonder if you are about to die, you land with a very painful CRUNCH, but miraculously you are alive and unbroken.
+
+Player's move types are now standard,parkour,climb
+
+> Put Recipe into Carrybag
+
+(Taking it first...)
+You take the recipe.
+You put the recipe into the carrybag.
+
+Player's move types are now standard,parkour,climb
+
+> Go Up (to High ledge)
+
+You go to High ledge.
+
+Player's move types are now standard,parkour,climb
+
+> Use Maze Map
+
+
+Player's move types are now standard,parkour,climb
+Where do you want to go?
+
+> Go to Maze Entrance
+
+You squeeze through the narrow crack and into the maze, then walk through the twisty little tunnels and passages back to the maze's entrance.
+
+Player's move types are now standard,parkour,climb
+
+> Go East (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard,parkour,climb
+
+> Talk to Crazy Guy
+
+
+Player's move types are now standard,parkour,climb
+"Oh... you haven't killed yourself yet I see," he says.
+
+> Of course not.  Not planning to.
+
+"Excellent, excellent... oh!  You have to remember!  Beware the lobster!!!  So!  How's it hanging?" he continues.  "Hopefully not limply and dead!  Don't want you killing yourself!"
+
+Player's move types are now standard,parkour,climb
+
+> Okay, I'm off.
+
+"Okay!  Good to know you're still alive!"
+
+Player's move types are now standard,parkour,climb
+
+> Go North (to Cave Entrance)
+
+You go to Cave Entrance.
+
+Player's move types are now standard,parkour,climb
+
+> Go Northwest
+
+There is... something stopping you from exiting the cave.  You can see the way out just right in front of you, but no matter how much you try to exit, you simply don't move.
+
+Player's move types are now standard,parkour,climb
+
+> Go South (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard,parkour,climb
+
+> Go Northeast (to Sage's Grotto)
+
+You go to Sage's Grotto.
+
+Player's move types are now standard,parkour,climb
+
+> Talk to Wise old sage
+
+The sage opens her eyes as you approach, and studies you thoughtfully.  "Greed dooms not only the self, but contains the potential to doom others as well," she says.  "Embrace nothingness. Only then can you empty your mind of greed and material thought, and continue on the path to understanding and transcendence."
+
+Player's move types are now standard,parkour,climb
+
+> Go Southwest (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard,parkour,climb
+
+> Drop Carrybag
+
+(Removing it first...)
+You remove the carrybag.
+You drop the carrybag.
+
+Player's move types are now standard,parkour,climb
+
+> Drop Tribal Gear
+
+(Removing it first...)
+You remove the tribal gear.
+You drop the tribal gear.
+
+Player's move types are now standard,parkour,climb
+
+> Drop Tribal Headgear
+
+(Removing it first...)
+You remove the tribal headgear.
+You drop the tribal headgear.
+
+Player's move types are now standard,parkour,climb
+
+> Go East
+
+You go to Tiny Ledge.
+
+Player's move types are now standard,parkour,climb
+
+> Go Down
+
+With nothing burdening you, and facing nothingness before you, you take a deep breath, and step forwards, arms wide, to embrace the nothingness all around you.
+
+You are falling, falling, falling, but you feel as light as a feather, you feel as if you are drifting, and you find yourself touching down in a very familiar place.
+
+Player's move types are now standard,parkour,climb
+"How curious..." says a voice in your head.  "The old adventuress has been trying for decades to achieve what you just did in less than a day.
+
+"You will need to depart this place, but only to return what once was taken.  You have leave to do so.  Beware, few have reached this point, and none have succeeded.  Once, one almost made it, but he returned in failure, full of ravings, his mind gone."
+
+> I shall.
+
+"Go.  Return what was taken."
+
+Player's move types are now standard,parkour,climb
+
+> Go North (to Central Cavern)
+
+You Le Parkour back over the gap to the main central cavern.
+
+Player's move types are now standard,parkour,climb
+
+> Take Carrybag
+
+You take the carrybag.
+
+Player's move types are now standard,parkour
+
+> Go North (to Cave Entrance)
+
+You go to Cave Entrance.
+
+Player's move types are now standard,parkour
+
+> Go Northwest (to Impassable Mountains)
+
+You go to Impassable Mountains.
+
+Player's move types are now standard,parkour
+
+> Wear Carrybag
+
+You put the carrybag on.
+
+Player's move types are now standard,parkour,climb
+
+> Go North (to Forest Path)
+
+You go to Forest Path.
+
+Player's move types are now standard,parkour,climb
+
+> Go East (to Forest)
+
+You go to Forest.
+
+Player's move types are now standard,parkour,climb
+
+> Go Northwest (to Forest Clearing)
+
+You go to Forest Clearing.
+
+Player's move types are now standard,parkour,climb
+
+> Go South (to Back door)
+
+You go to Back door.
+
+Player's move types are now standard,parkour,climb
+
+> Talk to House Owner
+
+
+Player's move types are now standard,parkour,climb
+"OHMYGODOHMYGODOHMYGOD!" she cries.  "You did it!  You got Mum's recipe back!  Thankyouthankyouthankyou!  I knew you could do it!"
+
+> So, uh, where did you get the necklace from?
+
+Her expression sours.  "The necklace thing again?  Oh, come on, it was just one little thing in a massive hoard!  Surely I'm allowed to take one little thing from massive treasure hoards in caves?"
+
+Player's move types are now standard,parkour,climb
+
+> You, uh, kinda created a curse on the cave by doing that.
+
+"A curse?"
+
+"No-one in the cave can get out."
+
+"Oh!  That explains why I could never get back in!  But still, you got out and brought my recipe back so all's well!"
+
+"The cave curse is kinda still going, and it wants your necklace back," you hopefully say.
+
+"Eh, whatever.  Heeeey!  I know!  I just recently got this delivery of some amazing-tasting seafood.  Here, have some of that, if you like!"  She hopefully holds something that smells vaguely seafoody towards you, wrapped in newspaper.
+
+Player's move types are now standard,parkour,climb
+
+> REMEMBER!  BEWARE THE LOBSTER!!!
+
+"No thanks!" you say, rejecting her offer.
+
+"What?  NO!  NO NO NO!  It'll come after me now!"
+
+"What'll come after you?"
+
+A Giant Enemy Lobster appears.  The House Owner has a moment to scream, then the lobster hits her in a weak spot for massive damage.  There is a massive amount of magical blowback and an enormous explosion.
+
+You regain consciousness up in the branches of a tree.
+
+Player's move types are now standard,parkour,climb
+
+> Go Down (to Forest Clearing)
+
+You go to Forest Clearing.
+
+Player's move types are now standard,parkour,climb
+
+> Go South (to North of ruins)
+
+You go to North of ruins.
+
+Player's move types are now standard,parkour,climb
+
+> Take Lost Necklace
+
+You take the necklace, being careful to disturb Dotty as little as possible.
+
+Player's move types are now standard,parkour
+
+> Go South (to South of ruins)
+
+You go to South of ruins.
+
+Player's move types are now standard,parkour
+
+> Drop Lost Necklace
+
+You drop the Lost Necklace.
+
+Player's move types are now standard,parkour,climb
+
+> Take Lost Necklace
+
+You take the Lost Necklace.
+
+Player's move types are now standard,parkour
+
+> Put Lost Necklace into Carrybag
+
+You put the Lost Necklace into the carrybag.
+
+Player's move types are now standard,parkour,climb
+
+> Go South (to Forest Path)
+
+You go to Forest Path.
+
+Player's move types are now standard,parkour,climb
+
+> Go South (to Impassable Mountains)
+
+You go to Impassable Mountains.
+
+Player's move types are now standard,parkour,climb
+
+> Go Southeast (to Cave Entrance)
+
+You go to Cave Entrance.
+
+Player's move types are now standard,parkour,climb
+
+> Go South (to Central Cavern)
+
+You go to Central Cavern.
+
+Player's move types are now standard,parkour,climb
+
+> Go South (to Treasure Cave)
+
+You Le Parkour over the gap and continue down the south passageway.
+
+Player's move types are now standard,parkour,climb
+
+> Use Lost Necklace with Treasure
+
+(Taking the Lost Necklace first...)
+You get the Lost Necklace out of the carrybag.
+You return the necklace to the treasure hoard.
+
+"At last," the voice says in your head.  "Together again!  All affected by the curse, yourself included, are now completely free of its effects!  You may go tell them the good news.  Thank you for all your efforts."
+
+You go to the sage first.  She nods, calmly and serenely accepting the news.  "Thank you for all your efforts.  But I shall not return to my old life.  I feel much calmer now.  To the one who cursed us here... I feel... regret.  I also, regretfully, feel anger.
+
+"Besides, I'm also a bit too old now to go jumping and climbing around old caves and tombs and whatnot."
+
+---
+
+You consider how best to tell the Crockery Tribe.  How would they handle the truth, to learn that their gods were never real?  That they were stuck in the cave for so long because of Dotty's mistake?
+
+You go to them in costume and spin them a story of god fighting god for their freedom, and you give them the Recipe - their Holy Words - back to the Leader.
+
+"I think perhaps we no longer need those Holy Words, Wunkahpshoo-gar.  They have caused us far too much trouble."
+
+"That's probably for the best," you say diplomatically.
+
+---
+
+They were the easy ones.
+
+---
+
+You take Dotty's cake recipe back to her.  All she wanted was a treasured memento of a mother long gone, of her childhood, back again.  But it was denied to her, for so incredibly long, and in her anger and desperation she caused so much anguish and despair for so many people in the Tiny Cave.
+
+"I'm not sure what, exactly, you deserve, Dotty.  But one thing you should definitely have is your mother's recipe back," you say.  You press the recipe into her hands.
+
+---
+
+You don't even know the Crazy Old Guy's name, or anything you can do for him.
+
+"I see now you were only trying to help, to warn me... thank you."
+
+---
+
+"Oorgh... oh, wow, my mind feels so clear now!  You know what it's like to be affected by two mind-affecting enchantments at the same time?  For 50 years?  It's murder on the old brain is what it is."
+
+"You...you're alive?"
+
+"Of course I'm alive, I'm talking to you right now, aren't I?  Help me up, goshdarnit!  My back is murder after a Lobster transformation.  You got any idea what it's like to turn into a giant enemy lobster when you're over 70?  It hits your joints in the weak spots for massive damage."
+
+He gets up and decides not to.  "And get me some goshdurned pants too."
+
+---
+
+YOU HAVE FINISHED.
+
+Thanks for playing!  Your score is 4 shcmaltzy scenes out of 4.
+
+Player's move types are now standard,parkour,climb
+
+> 
+
+========================================================================================================
+
+Seems to work pretty well!
+
+Points of interest
+You can climb up the tree in the clearing even while carrying something.
+

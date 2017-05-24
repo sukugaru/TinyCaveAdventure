@@ -1,0 +1,91 @@
+Enhancement 1: Implement sizes and storage space.
+Enhancement 5: Make the tunnel south from the central cavern require both parkour and climbing - and to climb, the player will need their hands free.
+
+To free up their hands, the player can find a bag of some sort, thus coverig both enhancements at the same time.
+
+Also, to illustrate sizes in the game, the Returns Box can be infinite, and the carry bag can only carry a few things.  And perhaps only smaller things.
+
+Basic play question:  Where does the player get this bag from?
+
+1) Have yet another location in the maze.  However, this feels lazy.  And why does this location have a carry bag in it?
+
+2) Have it be one of Dotty's things, that she left at the Holy Basket Site.  Why doesn't she ask for it back though?
+   Well, even if she does get it back, the bit with the Lobster and the magic blowback means the bag would be available for the player to take.
+   Hm.  This seems to be working out well!  Plus, it and the basket have some sort of magic preservation on them, which is why they haven't yet rotted completely away.
+
+=====
+
+How it works:
+There's a size enumerator: Tiny, Small, Medium, Large, NA
+Large is too large too carry and NA means size is not applicable as object is not carriable.
+(Probably lots of overlap with Large and NA!)
+
+A container has a carrying capacity showing how many objects can fit in it, and how large those objects can get.  Yes this leads to weirdness like you can carry 10 Tiny items but no Small items, but eh.
+
+Things to do:
+1) Put in the size enumerator and the properties on the main Object class (done)
+
+2) Go through every object and assign a size. (Object.cs - done) (World.cs - done)
+rings e.g. are Tiny
+Hats and Costume e.g. are Medium
+Bottles e.g. are Small
+
+3) Modify the Put In action so that it looks at the size stuff as one of its sanity checks. (Done)
+
+4) Create a CarryBag object and place it in the Holy Basket site.  (Done.)
+
+5) Make sure the Returns Box object has an infinite interior and a carrying capacity of Medium.  (Done)
+
+6) In PostAction in World.cs, check the player's carrying() or if they're tied up.  If carrying > 0 or player is tied up, take "climb" out of the player's movement types.  If carrying = 0 and player is not tied up, ensure "climb" is in the player's movement types.
+
+7) Change the movement types on the south pathway from central cavern. (Done)
+
+8) Stalagmite Cave - Allow the player to go up and down if they can climb, using the Pathway system.  Will this play nice with the existing Jump Up/Down actions already in the location? (Done)
+
+
+
+
+Code changes:
+World.cs
+// 24/5/2017 - Enhancements 1+5 : Adding Size.  Adding a Size to all object definitions, and capacity to
+//             all container definitions.
+//           - Enhancements 1+5 : In PostAction, add and remove climb based on whether the player is
+//             tied up or carrying anything.
+
+Object.cs
+// 24/5/217 - Enhancements 1+5 : Adding Size.  Adding sizes to all objects.
+
+Locations.cs
+// 24/5/217 - Enhancements 1+5 : Adding Carry Bag to Holy Basket site.
+//                             - Adding 'climb' to movement types to south pathway from Central Cavern
+//                             - Adding 'climb' to movement types to down pathway from High Ledge
+//                             - Fully doing pathways for High Ledge, so adding a north pathway.
+
+Action_PutInto.cs
+// 24/5/2017 - Enhancements 1+5 : Adding Sizes, so adding a sanity check to make sure the container is
+//             large enough and doesn't have too many things in it.
+
+HasInventory.cs
+// 24/5/2017 - Bug 8 - Making sure that Remove works if object is in a container in Inventory.
+
+Player.cs
+// 24/5/2017 - Bug 9 - TieUp doesn't set bTiedUp!
+
+
+Testing:
+Broadly speaking, we need to test:
+ that containers and sizes work (done)
+ that the carry bag has the correct carrying capacity for its intended use.  That, or just make it infinite and Medium. (at the moment is infinite and medium)
+ that being empty-handed (or tied up) correctly adds climb to your movement types, and not being empty-handed takes it out of your movement types. (done)
+ the movement between central cavern and treasure cave (done)
+ the climbing movement between stalagmite cave and high ledge (done)
+ that the jumping actions in the stalagmite cave aren't broken (done)
+
+
+Notes
+In testing, discovered Bug 8.  That's in HasInventory.Remove and has been fixed under that bug report.
+
+
+Bit more testing:
+Do a full runthrough and make sure nothing's broken.
+PASS
