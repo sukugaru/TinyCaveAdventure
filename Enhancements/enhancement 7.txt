@@ -1,0 +1,83 @@
+In the Pathways class, have methods that add and remove movement types.
+
+-
+
+It should be easy enough!
+
+To add movement type "x", first make sure it's not already there (indexof), and add ",x".
+
+To remove movement type, make sure it's there (indexof), and remove(x).
+
+Then to deal with commas, do something like this:
+
+string s = ",blah,blah,,blah,blah,,,";
+s = s.Trim(',');
+s = s.Replace(",,", ",");
+OutMessage += s + "\n";
+
+-
+
+Created these methods in the pathway class.
+
+        public void AddType(string s)
+        {
+            if (sMovementTypes.IndexOf(s) == 0)
+            {
+                sMovementTypes += "," + s;
+            }
+            sMovementTypes = sMovementTypes.Trim(',');
+            sMovementTypes = sMovementTypes.Replace(",,", ",");
+        }
+
+        public void RemoveType(string s)
+        {
+            if (sMovementTypes.IndexOf(s) != 0)
+            {
+                sMovementTypes = sMovementTypes.Replace(s, "");
+            }
+            sMovementTypes = sMovementTypes.Trim(',');
+            sMovementTypes = sMovementTypes.Replace(",,", ",");
+        }
+
+-
+
+No, hang about, now that I'm looking at debugging this, it's become clear this isn't quite the right approach.
+
+The reason I thought of this enhancement is because I'm adding and removing "climb" from the player's movement types, and it's a very basic approach that just adds and removes ",climb".  Obviously this won't always work.
+
+We have movementTypes as a thing that exists in the Pathway class and the player class.  So those methods would be better in a MovementTypesList type class... except, why not just change the Pathway class and the player class to use a List of strings?  That way you don't need to worry about commas.  But then what do you need to change elsewhere in the code?
+
+I could be sneaky and use my customextensions class to create "AddMovementType" and "RemoveMovementType" methods to all strings.  This isn't a very nice solution though.
+
+Needs more thought.
+
+-
+
+Have rolled back location.cs and world.cs.
+
+-
+
+LATER
+Change movementTypes in Pathway and Player to a List of strings.
+Lists have Remove and Add methods.
+MoveTo has a bit where it looks at pathways and available movement types etc. This would definitely need adjusting.
+
+-
+
+LATER AGAIN
+
+Have found Bug 10.  Locked and blocked don't work!  This is getting messier than I thought.
+
+Also, this is currently what you have to do to modify the movement types of a pathway...
+
+string TypeToAdd = "climb";
+string TypeToRemove = "fly";
+pathway p1 = World._centralCavern.Pathways.Find(x => x.dir == World._South);
+string s1 = p1.sMovementTypes;
+s1 += TypeToAdd;                  // to add
+s1 = s1.Replace(TypeToRemove,""); // to remove
+s1 = s1.Trim(',');
+s1 = s1.Replace(",,", ",");
+p1.sMovementTypes = s1;
+
+It's messy.
