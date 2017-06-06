@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
-// 24/5/217 - Enhancements 1+5 : Adding Carry Bag to Holy Basket site.
+// 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
+//                            Various fixes to central cavern's PreMove to account for climb
+//
+// 24/5/2017 - Enhancements 1+5 : Adding Carry Bag to Holy Basket site.
 //                             - Adding 'climb' to movement types to south pathway from Central Cavern
 //                             - Adding 'climb' to movement types to down pathway from High Ledge
 //                             - Fully doing pathways for High Ledge, so adding a north pathway.
@@ -401,6 +404,36 @@ namespace Engine
         // the Tribal Mask, you could have some code here that kills him for his impunity.
         { }
 
+
+        public virtual void AddMoveType(Direction dir, string addType)
+        // Add a movement type to a location's pathway in a specified direction.
+        {
+            Pathway p = Pathways.Find(x => x.dir == dir);
+            string s = p.sMovementTypes;
+
+            if (s.Contains(addType) == false)
+            {
+                s += "," + addType;
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                p.sMovementTypes = s;
+            }
+        }
+
+        public virtual void RemoveMoveType(Direction dir, string removeType)
+        // Remove a movement ype from a location's pathway in a specified direction.
+        {
+            Pathway p = Pathways.Find(x => x.dir == dir);
+            string s = p.sMovementTypes;
+
+            if (s.Contains(removeType))
+            {
+                s = s.Replace(removeType, "");
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                p.sMovementTypes = s;
+            }
+        }
 
 
     }
@@ -1548,6 +1581,10 @@ namespace Engine
             return "";
         }
 
+        // 6/6/2017 - Enhancement 7 - Making sure this handles the climb movement type, and also
+        //                            making sure that the OutMessage overwrites the standard
+        //                            message from MoveTo().
+        //
         // 19/5/2017 - Bug 1 - Bugfix.  Adding (if ToLocation == World._treasureCave) around the 
         // parkour check.
         public override void PreMove(Location ToLocation, ref string OutMessage, ref bool bSuccess)
@@ -1556,17 +1593,20 @@ namespace Engine
 
             if (ToLocation == World._treasureCave)
             {
-                if (World._player.sMoveTypes.IndexOf("parkour") == -1)
+                if ((World._player.sMoveTypes.IndexOf("parkour") == -1) ||
+                    (World._player.sMoveTypes.IndexOf("climb") == -1)
+                    )
                 {
-                    OutMessage += "There is absolutely no way you're jumping over that gap.  It's " +
-                        "much too long.\n";
+                    OutMessage = "There is absolutely no way you're jumping over that gap.  It's " +
+                        "much too long, and you'll also need your hands free so you can climb " +
+                        "swing from outcropping to outcropping.\n";
                     bSuccess = false;
                     return;
                 }
                 else
                 {
                     World._treasureCave.bSuppressGoMsg = true;
-                    OutMessage += "You Le Parkour over the gap and continue down the south " +
+                    OutMessage = "You Le Parkour over the gap and continue down the south " +
                         "passageway.\n";
                     bSuccess = true;
                     return;
@@ -1577,7 +1617,7 @@ namespace Engine
             {
                 if (World._player.iParkourTrainingLevel != 300)
                 {
-                    OutMessage += "There is absolutely no way you're jumping over that gap.  It's " +
+                    OutMessage = "There is absolutely no way you're jumping over that gap.  It's " +
                         "much too long.\n";
                     bSuccess = false;
                     return;
