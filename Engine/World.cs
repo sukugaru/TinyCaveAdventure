@@ -1106,16 +1106,13 @@ namespace Engine
             //_questGiver.bCanTalkTo = false;
             //_BackDoor.Add(_lostGemNecklace);
 
-            Pathway p;
-            p = World._centralCavern.Pathways.Find(x => x.dir == World._west);
-            p.sMovementTypes += ",locked";
-
-            p = World._centralCavern.Pathways.Find(x => x.dir == World._north);
-            p.sMovementTypes += ",blocked";
-
+            // World._centralCavern.AddMoveType(World._west, "locked");
+            // World._centralCavern.AddMoveType(World._north, "blocked");
 
             _player.CurrentLocation = _centralCavern;
-            _player.sMoveTypes += ",parkour, climb";
+            _player.Add(World._parkourManual);
+            //_player.sMoveTypes += ",parkour, climb";
+
             //_player.CurrentLocation = _abandonedShrineSite;
             //_abandonedShrineSite.Add(_ReturnsBox);
             //_abandonedShrineSite.Add(_infiniteCarryBag);
@@ -1429,7 +1426,6 @@ namespace Engine
                 }
             }
 
-
         }
 
         public static void PreAction(ref string OutMessage)
@@ -1614,10 +1610,58 @@ namespace Engine
             //}
             //OutMessage += "\n";
 
-            string s = ",blah,blah,,blah,blah,,,";
-            s = s.Trim(',');
-            s = s.Replace(",,", ",");
-            OutMessage += s + "\n";
+            /*
+            Pathway p = World._centralCavern.Pathways.Find(x => x.dir == World._south);
+
+            OutMessage += "(1) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.AddMoveType(World._south, "locked");
+
+            OutMessage += "(2) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.AddMoveType(World._south, "blocked");
+
+            OutMessage += "(3) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "blocked");
+
+            OutMessage += "(4) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "locked");
+
+            OutMessage += "(5) central cavern south movement types: " + p.sMovementTypes + "\n";
+         
+            World._centralCavern.AddMoveType(World._south, "parkour");
+
+            OutMessage += "(6) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "fly");
+
+            OutMessage += "(7) central cavern south movement types: " + p.sMovementTypes + "\n";
+            */
+
+            /*
+            _player.AddMoveType("fly");
+
+            OutMessage += "(1) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.AddMoveType("parkour");
+
+            OutMessage += "(2) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("teleport");
+
+            OutMessage += "(3) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("parkour");
+
+            OutMessage += "(4) player movement types: " + _player.sMoveTypes + "\n";
+            */
+
+            //string s = ",blah,blah,,blah,blah,,,";
+            //s = s.Trim(',');
+            //s = s.Replace(",,", ",");
+            //OutMessage += s + "\n";
 
             // Bodgy serialisation test
             /*
