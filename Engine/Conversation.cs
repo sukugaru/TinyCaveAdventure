@@ -558,7 +558,8 @@ namespace Engine
                     OutMessage += "Congratulations and oh my god.  You reached maximum " +
                         "training level by clicking on this option 300 times!\n";
                     World._player.bCanParkour = true;
-                    World._player.sMoveTypes += ",parkour";
+//                    World._player.sMoveTypes += ",parkour";
+                    World._player.AddMoveType("parkour");
                     World._centralCavern.SouthLoc = World._treasureCave;
                     World._treasureCave.NorthLoc = World._centralCavern;
                     EndConversation();
