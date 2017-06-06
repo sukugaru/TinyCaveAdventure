@@ -112,3 +112,21 @@ Code changes
 World.cs - 
         // 6/6/2017 - Bug 10 - The Pathway system wasn't working if locked or blocked is in the
         //                     MovementTypes.  Also fixing up some formatting.
+
+
+
+
+
+ARGH
+====
+
+With debugging stuff taken out, going west from the central cavern misses the "You go west to blah" message.
+
+> Go West
+
+
+In a corner you can see an old discarded book.
+
+> 
+
+...though, hang about, it's just because Maze Entrance has its bSuppressGoMsg set to true.
