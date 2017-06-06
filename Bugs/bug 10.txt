@@ -1,0 +1,114 @@
+Issue
+=====
+Enhancement 7 has had me looking at and experimenting with movement types, and I've found that putting locked and blocked in a pathway's MovementTypes doesn't actually stop you from moving along that pathway.
+
+Investigation and fix
+=====================
+In MoveTo() in World.cs:
+
+The code was like this.
+
+                    bProceed == true;
+
+                    // ...intervening code...
+
+                    foreach (string RequiredType in FullNeededTypes)
+                    {
+                        if ((HasTypes.IndexOf(RequiredType) == -1) &&
+                             (RequiredType != "blocked") &&
+                             (RequiredType != "locked")
+                            )
+                        {
+                            // sNope += "\"" + RequiredType + "\" (" + HasTypes.IndexOf(RequiredType) + ") ";
+                            bProceed = false;
+                            sNope2 += ", " + RequiredType;
+                        }
+                    }
+
+So there were some problems with this.
+
+If locked or blocked is in FullNeededTypes, then the if inside the foreach loop doesn't get triggered, so bProceed doesn't get set to false.  So it's been changed to the following, to make sure bProceed does get set.
+
+                    foreach (string RequiredType in FullNeededTypes)
+                    {
+                        if ((HasTypes.IndexOf(RequiredType) == -1) // &&
+//                             (RequiredType != "blocked") &&
+//                             (RequiredType != "locked")
+                            )
+                        {
+                            bProceed = false;
+                            // Add the RequiredType to sNope2 - this eventually gets used
+                            // to give the player a message about why they can't go this way.
+                            if ((RequiredType != "blocked") && (RequiredType != "locked"))
+                            {
+                                // sNope += "\"" + RequiredType + "\" (" + HasTypes.IndexOf(RequiredType) + ") ";
+//                                bProceed = false;
+                                sNope2 += ", " + RequiredType;
+                            }
+                        }
+                    }
+
+But even then that wasn't enough.  A specific bit of code needed to be put in after all the Pathway checks, to say:
+
+            // if after all the Pathway stuff, bProceed is still false, return
+            if (bProceed == false)
+            {
+                return;
+            }
+
+Basically, the idea is:
+1) there are some standard checks.  Is the way locked?  is the way blocked?  Is the player missing a required movement type?  If so, put something into OutMessage and set bProceed to false.
+
+2) But then, in case the location's PreMove() method wants to do something of its own, do not automatically return.  Call the PreMove() method.  This may overwrite OutMessage.  If bSuccess from PreMove is false, then return.
+
+3) If PreMove() is not implemented for the location, then OutMessage is left the same and bSuccess is true, so there is one final check to see if bProceed is true.
+
+It's not quite as streamlined as it oculd be, because I want to keep the old non-Pathways movement code still in there.
+
+
+Testing
+=======
+In central cavern, have added "locked" to the west pathway, and "blocked" to the north pathway.  I'm expecting the standard "the way is locked" and "the way is blocked" messages.  Also, try at least one of the old directions to make sure that regular movement still works!
+
+
+> Go South
+
+You Le Parkour over the gap and continue down the south passageway.
+
+> Go North
+
+You Le Parkour back over the gap to the main central cavern.
+
+> Go West
+
+The way is locked.
+
+> Go North (to Cave Entrance)
+
+The way is blocked.
+
+> Go East
+
+You go to Tiny Ledge.
+
+> Go West (to Central Cavern)
+
+You go to Central Cavern.
+
+> Go South (to Treasure Cave)
+
+You Le Parkour over the gap and continue down the south passageway.
+
+> Go North (to Central Cavern)
+
+You Le Parkour back over the gap to the main central cavern.
+
+
+Success!
+
+
+Code changes
+============
+World.cs - 
+        // 6/6/2017 - Bug 10 - The Pathway system wasn't working if locked or blocked is in the
+        //                     MovementTypes.  Also fixing up some formatting.
