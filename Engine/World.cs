@@ -7,6 +7,10 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.IO;
 
+// 6/6/2017 - Enhancement 7 - PostAction method - use the new AddMoveType and RemoveMoveType to add and
+//                            remove "climb" from the player.
+//                            Commenting out various debuggery type things in PostAction
+//
 // 6/6/2017 - Bug 10 - The Pathway system wasn't working if locked or blocked is in the
 //                     MovementTypes.  Also fixing up some formatting.
 //
@@ -1585,18 +1589,20 @@ namespace Engine
                 // add climb to player movements
                 if (World._player.sMoveTypes.Contains("climb") == false)
                 {
-                    World._player.sMoveTypes += ",climb";
+                    // World._player.sMoveTypes += ",climb";
+                    World._player.AddMoveType("climb");
                 }
-                //OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
+                // OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
             }
             else
             {
                 // remove climb from player movements
                 if (World._player.sMoveTypes.Contains("climb"))
                 {
-                    World._player.sMoveTypes = World._player.sMoveTypes.Replace(",climb", "");
+                    // World._player.sMoveTypes = World._player.sMoveTypes.Replace(",climb", "");
+                    World._player.RemoveMoveType("climb");
                 }
-                //OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
+                // OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
             }
 
 
