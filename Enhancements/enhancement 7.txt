@@ -19,7 +19,7 @@ OutMessage += s + "\n";
 
 Created these methods in the pathway class.
 
-        public void AddType(string s)
+        public void AddMoveType(string s)
         {
             if (sMovementTypes.IndexOf(s) == 0)
             {
@@ -29,7 +29,7 @@ Created these methods in the pathway class.
             sMovementTypes = sMovementTypes.Replace(",,", ",");
         }
 
-        public void RemoveType(string s)
+        public void RemoveMoveType(string s)
         {
             if (sMovementTypes.IndexOf(s) != 0)
             {
@@ -81,3 +81,302 @@ s1 = s1.Replace(",,", ",");
 p1.sMovementTypes = s1;
 
 It's messy.
+
+-
+
+LATER AGAIN
+(6/6/2017)
+
+Added these to the location class.
+
+        public virtual void AddMoveType(Direction dir, string addType)
+        // Add a movement type to a location's pathway in a specified direction.
+        {
+            Pathway p = Pathways.Find(x => x.dir == dir);
+            string s = p.sMovementTypes;
+
+            if (s.IndexOf(addType) == 0)
+            {
+                s += "," + addType;
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                p.sMovementTypes = s;
+            }
+        }
+
+        public virtual void RemoveMoveType(Direction dir, string removeType)
+        // Remove a movement ype from a location's pathway in a specified direction.
+        {
+            Pathway p = Pathways.Find(x => x.dir == dir);
+            string s = p.sMovementTypes;
+
+            if (s.IndexOf(removeType) > 0)
+            {
+                s = s.Replace(removeType, "");
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                p.sMovementTypes = s;
+            }
+        }
+
+
+Testing part 1
+==============
+Now testing these.
+
+            Pathway p = World._centralCavern.Pathways.Find(x => x.dir == World._south);
+
+            OutMessage += "(1) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.AddMoveType(World._south, "locked");
+
+            OutMessage += "(2) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.AddMoveType(World._south, "blocked");
+
+            OutMessage += "(3) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "blocked");
+
+            OutMessage += "(4) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "locked");
+
+            OutMessage += "(5) central cavern south movement types: " + p.sMovementTypes + "\n";
+         
+            World._centralCavern.AddMoveType(World._south, "parkour");
+
+            OutMessage += "(6) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "fly");
+
+            OutMessage += "(7) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+Results...
+
+(1) central cavern south movement types: parkour,climb
+(2) central cavern south movement types: parkour,climb
+(3) central cavern south movement types: parkour,climb
+(4) central cavern south movement types: parkour,climb
+(5) central cavern south movement types: parkour,climb
+(6) central cavern south movement types: parkour,climb,parkour
+(7) central cavern south movement types: parkour,climb,parkour
+
+Well, that didn't quite go as planned.
+
+...because I'm using IndexOf.  Use string.Contains(string) instead.
+
+Trying again...
+
+(1) central cavern south movement types: parkour,climb
+(2) central cavern south movement types: parkour,climb,locked
+(3) central cavern south movement types: parkour,climb,locked,blocked
+(4) central cavern south movement types: parkour,climb,locked
+(5) central cavern south movement types: parkour,climb
+(6) central cavern south movement types: parkour,climb
+(7) central cavern south movement types: parkour,climb
+
+> 
+
+Success!  That looks more sensible.  6 shows that something doesn't get added if it's already there.
+
+-
+
+Testing part 2
+==============
+
+Putting these in initialisation, and starting the player in the central cavern.  This is to make sure that they actually do what I'm expecting.
+
+            World._centralCavern.AddMoveType(World._west, "locked");
+            World._centralCavern.AddMoveType(World._north, "blocked");
+
+Results:
+
+> Go North (to Cave Entrance)
+
+The way is blocked.
+
+> Go West
+
+The way is locked.
+
+
+Success!
+
+=========================
+
+Now, what about the player class?  It needs the same methods.
+
+Putting them in...
+
+        public virtual void AddMoveType(string addType)
+        // Add a movement type to a location's pathway in a specified direction.
+        {
+            string s = sMoveTypes;
+
+            if (s.Contains(addType) == false)
+            {
+                s += "," + addType;
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                sMoveTypes = s;
+            }
+        }
+
+        public virtual void RemoveMoveType(string removeType)
+        // Remove a movement ype from a location's pathway in a specified direction.
+        {
+            string s = sMoveTypes;
+
+            if (s.Contains(removeType))
+            {
+                s = s.Replace(removeType, "");
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                sMoveTypes = s;
+            }
+        }
+
+And testing...
+
+            _player.AddMoveType("fly");
+
+            OutMessage += "(1) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.AddMoveType("parkour");
+
+            OutMessage += "(2) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("teleport");
+
+            OutMessage += "(3) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("parkour");
+
+            OutMessage += "(4) player movement types: " + _player.sMoveTypes + "\n";
+
+(1) player movement types: standard,parkour, climb,fly
+(2) player movement types: standard,parkour, climb,fly
+(3) player movement types: standard,parkour, climb,fly
+(4) player movement types: standard, climb,fly
+
+The space is already there so is not a problem in this test.
+
+Ayway, success!  Movement types are added when they're not already there, and taken out, and commas behave.
+
+=========================
+
+And the Parkour Training Manual needs to be updated to use the player.AddMoveType.
+
+Once again, setting things up so you start in the central cavern, with the parkour manual already in your possession.
+
+===
+> Go South
+
+You need to be able to parkour and climb to go that way.
+There is absolutely no way you're jumping over that gap.  It's much too long.
+
+> Use Parkour Manual
+
+How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+We could either do this the easy gamey way, where by using an in-game item you compress months and months of physical training into a one-second button click, or the hard way by making you click on that item 300 times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+> No thanks, I'd like to click on this option just once.
+
+Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+> Go South
+
+You need to be able to climb to go that way.
+You Le Parkour over the gap and continue down the south passageway.
+
+> Drop Parkour Manual
+
+You drop the parkour manual.
+
+> Go South
+
+You Le Parkour over the gap and continue down the south passageway.
+
+> 
+===
+
+Adding the movement type works, but there are still some problems there.
+
+"You need to be able to parkour and climb" isn't getting overwritten like it should. (central cavern's preMove() is using "+=" instead of "=".) (fixed)
+
+"You Le Parkour over the gap" gets put out by central cavern's PreMove() even though the player can't go that way.  PreMove() needs to get updated to look at climb.  (done)
+
+===
+> Go South
+
+There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your hands free so you can climb swing from outcropping to outcropping.
+
+> Use Parkour Manual
+
+How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+We could either do this the easy gamey way, where by using an in-game item you compress months and months of physical training into a one-second button click, or the hard way by making you click on that item 300 times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+> No thanks, I'd like to click on this option just once.
+
+Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+> Go South
+
+There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your hands free so you can climb swing from outcropping to outcropping.
+
+> Drop Parkour Manual
+
+You drop the parkour manual.
+
+> Go South
+
+You Le Parkour over the gap and continue down the south passageway.
+
+> 
+===
+
+Success!
+
+========
+
+One final addition:
+
+In World.PostAction(), make sure to use the new player.addMoveType and player.removeMoveType methods to add and remove "climb".
+
+Player's move types are now standard
+
+> Drop Parkour Manual
+
+You drop the parkour manual.
+
+Player's move types are now standard,climb
+
+> Take Parkour Manual
+
+You take the parkour manual.
+
+Player's move types are now standard
+
+> 
+
+Success!
+
+Code changes
+============
+Player.cs
+// 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
+
+Location.cs
+// 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
+//                            Various fixes to central cavern's PreMove to account for climb
+
+Conversation.cs
+// 6/6/2017 - Enhancement 7 - Parkour Manual conversation - Use the new AddMoveType method to add "parkour"
+
+World.cs
+// 6/6/2017 - Enhancement 7 - PostAction method - use the new AddMoveType and RemoveMoveType to add and
+//                            remove "climb" from the player.
+//                            Removing various debuggery type things
