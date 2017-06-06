@@ -7,6 +7,8 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.Reflection;
 
+// 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
+//
 // 24/5/2017 - Bug 9 - TieUp() didn't actually set bTiedUp!
 
 namespace Engine
@@ -282,6 +284,35 @@ namespace Engine
             return count;
 
         }
+
+        public virtual void AddMoveType(string addType)
+        // Add a movement type to a location's pathway in a specified direction.
+        {
+            string s = sMoveTypes;
+
+            if (s.Contains(addType) == false)
+            {
+                s += "," + addType;
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                sMoveTypes = s;
+            }
+        }
+
+        public virtual void RemoveMoveType(string removeType)
+        // Remove a movement type from a location's pathway in a specified direction.
+        {
+            string s = sMoveTypes;
+
+            if (s.Contains(removeType))
+            {
+                s = s.Replace(removeType, "");
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                sMoveTypes = s;
+            }
+        }
+
 
         public void TieUp()
         // When tied up the player is somewhat restricted in what they can do
