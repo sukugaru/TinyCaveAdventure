@@ -7,6 +7,9 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.IO;
 
+// 6/6/2017 - Bug 10 - The Pathway system wasn't working if locked or blocked is in the
+//                     MovementTypes.  Also fixing up some formatting.
+//
 // 24/5/2017 - Enhancements 1+5 : Adding Size.  Adding a Size to all object definitions, and capacity to
 //             all container definitions.
 //           - Enhancements 1+5 : In PostAction, add and remove climb based on whether the player is
@@ -14,6 +17,8 @@ using System.IO;
 //
 // 22/5/2017 - Bug 3 - Changes to MoveTo() to improve the messaging to the player if the
 // player does not have the required movement types.
+
+
 
 namespace Engine
 {
@@ -1101,8 +1106,16 @@ namespace Engine
             //_questGiver.bCanTalkTo = false;
             //_BackDoor.Add(_lostGemNecklace);
 
-            //_player.CurrentLocation = _centralCavern;
-            //_player.sMoveTypes += ",parkour, climb";
+            Pathway p;
+            p = World._centralCavern.Pathways.Find(x => x.dir == World._west);
+            p.sMovementTypes += ",locked";
+
+            p = World._centralCavern.Pathways.Find(x => x.dir == World._north);
+            p.sMovementTypes += ",blocked";
+
+
+            _player.CurrentLocation = _centralCavern;
+            _player.sMoveTypes += ",parkour, climb";
             //_player.CurrentLocation = _abandonedShrineSite;
             //_abandonedShrineSite.Add(_ReturnsBox);
             //_abandonedShrineSite.Add(_infiniteCarryBag);
@@ -1207,6 +1220,9 @@ namespace Engine
             */
         }
 
+        // 6/6/2017 - Bug 10 - The Pathway system wasn't working if locked or blocked is in the
+        //                     MovementTypes.  Also fixing up some formatting.
+
         public static void MoveTo(Location TargetLocation, Direction dir, bool Suppress, ref String OutMessage, ref bool bSuccess)
         // Moving in direction dir to TargetLocation
         // Suppress = if true, do not put out the "You go to X" message.
@@ -1218,8 +1234,8 @@ namespace Engine
             string HasTypes;
             string[] FullNeededTypes; // includes locked and blocked
 
-            bool bProceed;
-            string sNope;
+            bool bProceed = true;
+            // string sNope;
 
             string sNope2;
             int lastCommaIndex;
@@ -1257,7 +1273,7 @@ namespace Engine
 
                 if (pathToMove != null)
                 {
-                    // Movement types you need
+                    // Determine the Movement types you need for the movement
                     s = pathToMove.sMovementTypes.ToLower();
                     if (s == "")
                     {
@@ -1266,7 +1282,7 @@ namespace Engine
                     s = s.Replace(" ", "");
                     FullNeededTypes = s.Split(',');
 
-                    // Movement types you have
+                    // Determine the Movement types you actually have
                     HasTypes = World._player.sMoveTypes.ToLower();
                     HasTypes = HasTypes.Replace(" ", "");
 
@@ -1278,20 +1294,20 @@ namespace Engine
                     // If not, then disallow the movement
                     // At the same time, sNope2 is being built up as a list of movement types that
                     // the player needs, that will be displayed to the player later. 
+
+                    // sNope = "";
                     bProceed = true;
-                    sNope = "";
                     sNope2 = "";
 
                     foreach (string RequiredType in FullNeededTypes)
                     {
-                        if ((HasTypes.IndexOf(RequiredType) == -1) &&
-                             (RequiredType != "blocked") &&
-                             (RequiredType != "locked")
-                            )
+                        if (HasTypes.IndexOf(RequiredType) == -1)
                         {
-                            // sNope += "\"" + RequiredType + "\" (" + HasTypes.IndexOf(RequiredType) + ") ";
                             bProceed = false;
-                            sNope2 += ", " + RequiredType;
+                            if ((RequiredType != "blocked") && (RequiredType != "locked"))
+                            {
+                                sNope2 += ", " + RequiredType;
+                            }
                         }
                     }
 
@@ -1322,34 +1338,34 @@ namespace Engine
                         }
                     }
 
+                    // If the movement isn't allowed, put the standard message into OutMessage.
                     if (bProceed == false)
                     {
-                        if (sNope.IndexOf("blocked") != -1)
+                        if ((s.IndexOf("blocked") != -1) || 
+                            (FullNeededTypes.Contains("blocked"))
+                            )
                         {
                             OutMessage += "The way is blocked.\n";
                         }
-                        else if (sNope.IndexOf("locked") != -1)
+                        else if ( (s.IndexOf("locked") != -1) ||
+                                  (FullNeededTypes.Contains("locked"))
+                                )
                         {
                             OutMessage += "The way is locked.\n";
-
                         }
                         else
                         {
-                            //OutMessage += "You need the following movement modes for that movement:" +
-                            //    sNope + "\n";
                             OutMessage += "You need to be able to " + sNope2 + " to go that way.\n";
-                            return;
                         }
+                        // However don't return yet, we still need to call the location's PreMove()
+                        // method.  This may give a custom OutMessage.
                     }
                 }
-
-
             }
 
-
-
             // Run location-specific code to check if the move is okay.
-            // This might override "The way is locked" or "The way is blocked" text.
+            // This might override the standard "The way is locked", "The way is blocked", or
+            // "You need to be able to X to go that way" text.
             bSuccess = false;
             _player.CurrentLocation.PreMove(TargetLocation, ref OutMessage, ref bSuccess);
             if (bSuccess == false)
@@ -1357,7 +1373,14 @@ namespace Engine
                 return;
             }
 
+            // if after all the Pathway stuff, bProceed is still false, return
+            if (bProceed == false)
+            {
+                return;
+            }
+
             // Standard locked and blocked messages.
+            // (Old movement system)
 
             if (TargetLocation == _locked)
             {
@@ -1381,6 +1404,10 @@ namespace Engine
                 OutMessage += "You go to " + TargetLocation.sName + ".\n";
             }
 
+            World._player.CurrentLocation = TargetLocation;
+            TargetLocation.bDiscovered = true;
+            bSuccess = true;
+
             // =========================================================================
             // Post-Move stuff
 
@@ -1402,9 +1429,6 @@ namespace Engine
                 }
             }
 
-            World._player.CurrentLocation = TargetLocation;
-            TargetLocation.bDiscovered = true;
-            bSuccess = true;
 
         }
 
@@ -1589,6 +1613,11 @@ namespace Engine
             //    OutMessage += d.sName + " ";
             //}
             //OutMessage += "\n";
+
+            string s = ",blah,blah,,blah,blah,,,";
+            s = s.Trim(',');
+            s = s.Replace(",,", ",");
+            OutMessage += s + "\n";
 
             // Bodgy serialisation test
             /*
