@@ -1,0 +1,44 @@
+I have a class called Object, dating back to my very first attempts to write something like this.  Problem is, Object is a C# keyword, and so needs to be referred to as Engine.Object all the time.  Is there a better name I can use?
+
+Investigation
+This is simple to do.  Highlight the "Object.cs" filename in the file list in the upper right of the screen.  Press F2, rename file.  This is VS2013 so you get a dialog asking if you want to change the name of the class throughout the project.  So the main trick is figuring out a better name for the class.
+ADDITION 7/6/2017: How about "Item"?
+Experimented on a copy of all files and it seems to work!  Do the rename of Object to Item, then find-and-replace to replace "Engine.Item" with "Item", and it compiles and works.  Now doing this for real...
+
+Main test
+Does it still compile?
+
+Yes.
+
+
+
+Code changes
+Mostly everywhere!
+Player.cs
+LocationGroup.cs
+World.cs
+Location.cs
+Item.cs
+HasInventory.cs
+Action_Wear.cs
+Action_Wait.cs
+Action_UseWith.cs
+Action_Use.cs
+Action_TalkTo.cs
+Action_Take.cs
+Action_Remove.cs
+Action_PutInto.cs
+Action_LookAtLocation.cs
+Action_LookAtItem.cs
+Action_Jump.cs
+Action_Inventory.cs
+Action_GetOut.cs
+Action_DropThroughHole.cs
+Action_Drop.cs
+Action.cs
+
+
+
+
+Code deletions
+Object.cs - has been renamed to item.cs
