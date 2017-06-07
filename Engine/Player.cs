@@ -7,6 +7,8 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.Reflection;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
 //
 // 24/5/2017 - Bug 9 - TieUp() didn't actually set bTiedUp!
@@ -204,7 +206,7 @@ namespace Engine
             bool bWearingCostume = false;
             bool bWearingHeaddress = false;
             string s = "";
-            Object i;
+            Item i;
 
             if (iSore == 1)
             {

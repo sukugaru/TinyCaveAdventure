@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+
 namespace Engine
 {
 
@@ -16,7 +18,7 @@ namespace Engine
             iNumArgs = 1;
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             bSuccess = false;
 
@@ -133,12 +135,12 @@ namespace Engine
             bSuccess = true;
         }
 
-        private void UseHead(Engine.Object i, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        private void UseHead(Item i, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             OutMessage += "You think about things.\n";
         }
 
-        private void UseMazeBook(Engine.Object i, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        private void UseMazeBook(Item i, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             World._UseWith.GetToUse(i, ref OutMessage, ref bSuccess);
             if (bSuccess)
@@ -161,7 +163,7 @@ namespace Engine
             }
         }
 
-        private void UseXXiumSaw(Engine.Object i, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        private void UseXXiumSaw(Item i, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             World._UseWith.GetToUse(i, ref OutMessage, ref bSuccess);
             if (bSuccess)
@@ -188,7 +190,7 @@ namespace Engine
             }
         }
 
-        private void UseMap(Engine.Object i, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        private void UseMap(Item i, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             if (World.MazeLocations.HasPlayer() == false)
             {

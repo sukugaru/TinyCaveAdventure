@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 
 namespace Engine
@@ -13,8 +15,8 @@ namespace Engine
     public class JumpTo_Action : Action
     // Used to jump from object to object in the stalagmite cave.
     {
-        public Engine.Object oTarget { get; set; }
-        public Engine.Object oFrom { get; set; }
+        public Item oTarget { get; set; }
+        public Item oFrom { get; set; }
 
         public JumpTo_Action()
         {
@@ -23,7 +25,7 @@ namespace Engine
             iNumArgs = 0;
         }
 
-        public void SetTarget(Engine.Object poTarget, string sDirection)
+        public void SetTarget(Item poTarget, string sDirection)
         {
             if (poTarget != null)
             {
@@ -39,7 +41,7 @@ namespace Engine
             }
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             bSuccess = false;
             if (oTarget != null)

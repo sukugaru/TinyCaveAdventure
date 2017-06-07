@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+
 namespace Engine
 {
 
@@ -19,7 +21,7 @@ namespace Engine
             iNumArgs = 0;
         }
 
-        public override void DoAction(Engine.Object item1, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item item1, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             string s;
 

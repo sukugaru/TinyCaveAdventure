@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 19/5/2017 - Bug 2 - Fixing the take code for the lost necklace so that it only refers to Dotty
 //             when in the _BackDoor location.
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
@@ -21,9 +23,9 @@ namespace Engine
             iNumArgs = 1;
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object iFrom, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item iFrom, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
-            Engine.Object i2;
+            Item i2;
             bSuccess = false;
 
             // Sanity Checks
@@ -70,11 +72,11 @@ namespace Engine
 
             // Use Get Out action if the object is in another object
             if ((i.hiOwner != null) &&
-                 (i.hiOwner.GetType() == typeof(Engine.Object))
+                 (i.hiOwner.GetType() == typeof(Item))
                )
             {
                 //                GetOut(i, (Engine.Object)i.hiOwner, ref bSuccess);
-                World._GetOutOf.DoAction(i, (Engine.Object)i.hiOwner, false, ref OutMessage, ref bSuccess);
+                World._GetOutOf.DoAction(i, (Item)i.hiOwner, false, ref OutMessage, ref bSuccess);
                 return;
             }
 

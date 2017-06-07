@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 //             Making changes in DoAction so that sDefiniteName gets used, for both dropped object
 //             and the containing object (if applicable).
@@ -21,7 +23,7 @@ namespace Engine
             iNumArgs = 1;
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             // This code is has a bunch of messages being built up and can be confusing.
 
@@ -45,7 +47,7 @@ namespace Engine
             bool _proceed = true;           // If sanity checks were successful
 
             string _DropMessage = "";       // "Drop the item" message
-            Engine.Object ContainerObject;
+            Item ContainerObject;
 
             bSuccess = false;
 
@@ -117,10 +119,10 @@ namespace Engine
             }
 
             // Take it out of what it's in if it's in a container you have
-            if (i.hiOwner.GetType() == typeof(Engine.Object))
+            if (i.hiOwner.GetType() == typeof(Item))
             {
                 // Need to cast the container to Engine.Object so we can use sDefiniteName
-                ContainerObject = (Engine.Object)i.hiOwner;
+                ContainerObject = (Item)i.hiOwner;
 
                 // OutMessage += "(Getting it out from " + i.hiOwner.sName + " first...)\n";
                 // World._GetOutOf.DoAction(i, (Engine.Object)i.hiOwner, false, ref OutMessage, ref bSuccess);

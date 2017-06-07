@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 //             A few minor changes in GetToUse().
 
@@ -28,7 +30,7 @@ namespace Engine
             iNumArgs = 2;
         }
 
-        public override void DoAction(Engine.Object item1, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item item1, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             bSuccess = false;
             int OldCarrySize = World._player.iCarrySize;
@@ -59,7 +61,7 @@ namespace Engine
 
         }
 
-        public void GetToUse(Engine.Object i, ref string OutMessage, ref bool bSuccess)
+        public void GetToUse(Item i, ref string OutMessage, ref bool bSuccess)
         {
             if ((i.hiOwner != World._player) && (i.bTakeable == true))
             {
@@ -85,7 +87,7 @@ namespace Engine
 
         }
 
-        public void WrappedDoAction(Engine.Object item1, Engine.Object item2, ref string OutMessage, ref bool bDoneSomething, ref bool bSuccess)
+        public void WrappedDoAction(Item item1, Item item2, ref string OutMessage, ref bool bDoneSomething, ref bool bSuccess)
         {
             bSuccess = false;
             bDoneSomething = false;

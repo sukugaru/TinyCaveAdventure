@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
 //                            Various fixes to central cavern's PreMove to account for climb
 //
@@ -455,7 +457,7 @@ namespace Engine
         public void MoveToReturnsBox()
         // Move any dropped items back to the Entrance
         {
-            List<Engine.Object> tempList = new List<Engine.Object>();
+            List<Item> tempList = new List<Item>();
             int count;
 
             tempList.Clear();
@@ -575,8 +577,8 @@ namespace Engine
 
         public override void PostMove(Location FromLocation, Direction dir, ref string OutMessage)
         {
-            Engine.Object i;
-            List<Engine.Object> tempList = new List<Engine.Object>();
+            Item i;
+            List<Item> tempList = new List<Item>();
             int count;
 
             if (FromLocation == World._mazeEntrance)

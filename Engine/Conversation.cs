@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using CustomExtensions;
 using System.Reflection;
 
+// 6/6/17 - Using the new AddMoveType to add "parkour" to the player in the Parkour Manual conversation
 
 namespace Engine
 {

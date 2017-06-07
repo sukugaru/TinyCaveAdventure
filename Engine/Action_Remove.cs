@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 
 namespace Engine
@@ -18,9 +20,9 @@ namespace Engine
             iNumArgs = 1;
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object iFrom, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item iFrom, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
-            Engine.Object i2;
+            Item i2;
 
             bSuccess = false;
 

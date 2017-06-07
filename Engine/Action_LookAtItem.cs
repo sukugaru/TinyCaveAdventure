@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomExtensions;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 //             Needed for looking at items in a container.  Also, putting out the "it contains..." bit
 //             only if the container has anything in it.
@@ -22,7 +24,7 @@ namespace Engine
             sName = "Look at";
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object Item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item Item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             OutMessage = "";
             bSuccess = false;

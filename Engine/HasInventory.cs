@@ -7,6 +7,8 @@ using System.Runtime.Serialization;
 using CustomExtensions;
 using System.Reflection;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 24/5/2017 - Bug 8 - Making sure that Remove works if object is in a container in Inventory.
 
 namespace Engine
@@ -18,12 +20,12 @@ namespace Engine
     // Serialization note:  You don't need to serialize the Inventory attribute.  It can be
     //     reconstructed by looking at the hiOwner of all objects.
     {
-        public List<Engine.Object> Inventory = new List<Engine.Object>();
+        public List<Item> Inventory = new List<Item>();
         
         [DataMember()]
         public string sName { get; set; }
 
-        public bool HasItem(Engine.Object i)
+        public bool HasItem(Item i)
         // A HasInventory has an object if it's in the Inventory, or in a container
         // in the Inventory.
         // While it probably wouldn't be too difficult to put containers into other containers
@@ -38,7 +40,7 @@ namespace Engine
 
         }
 
-        public void Add(Engine.Object i)
+        public void Add(Item i)
         // Bodyparts and NPCs go to the top of the list.  Everything else gets added to the end.
         // This'll keep things like "Your head" at the top of the player's inventory, and NPCs
         // at the top of the current location's inventory.
@@ -58,7 +60,7 @@ namespace Engine
             i.hiOwner = this;
         }
 
-        public void Remove(Engine.Object i)
+        public void Remove(Item i)
         // Remove doesn't know where the object is going so can't assign its new hiOwner.
         // Make sure to assign it afterwards, either manually or by adding the object to
         // something else with HasInventory.Add().
@@ -75,7 +77,7 @@ namespace Engine
         }
 
 
-        public void DetermineDisplayList(ref List<Engine.Object> FullList)
+        public void DetermineDisplayList(ref List<Item> FullList)
         // Come up with a list of objects that is everything in an inventory, including inside
         // containers.  Used to determine everything to display in the UI.
         // This is something that straddles the line a bit between UI function and game engine

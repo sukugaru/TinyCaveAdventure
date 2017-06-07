@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using CustomExtensions;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
 //             Making changes in DoAction so that sDefiniteName gets used.
 
@@ -22,7 +24,7 @@ namespace Engine
             iNumArgs = 2;
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object iFrom, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item iFrom, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             bSuccess = false;
             string s;

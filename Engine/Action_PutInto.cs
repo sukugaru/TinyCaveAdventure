@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomExtensions;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 24/5/217 - Enhancements 1+5 : Adding Sizes, so adding a sanity check to make sure the container is
 //            large enough and doesn't have too many things in it.
 //
@@ -23,9 +25,9 @@ namespace Engine
             iNumArgs = 2;
         }
 
-        public override void DoAction(Engine.Object i, Engine.Object iTo, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item i, Item iTo, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
-            Engine.Object i2;
+            Item i2;
             bSuccess = false;
             string PutMessage = "";         // Used if a specific 'put item into other item' message
                                             // is needed.

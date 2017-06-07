@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+
 namespace Engine
 {
 
@@ -31,7 +33,7 @@ namespace Engine
             LocationList = InList;
         }
 
-        public bool HasItem(Object SearchItem)
+        public bool HasItem(Item SearchItem)
         {
             bool returnValue = false;
 

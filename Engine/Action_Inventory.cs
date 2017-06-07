@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+
 namespace Engine
 {
 
@@ -11,17 +13,17 @@ namespace Engine
     // Not really used for the graphical UI, but would be used if an old-style parser
     // plus single window UI is implemented.
     {
-        private List<Engine.Object> DisplayList;
+        private List<Item> DisplayList;
 
         public Inventory_Action()
         {
             sName = "Inventory";
             sProtoCmdLine = "Inventory";
             iNumArgs = 0;
-            DisplayList = new List<Engine.Object>();
+            DisplayList = new List<Item>();
         }
 
-        public override void DoAction(Engine.Object item1, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item item1, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             OutMessage += "You have: \n";
 

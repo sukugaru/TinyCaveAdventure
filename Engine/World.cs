@@ -7,6 +7,8 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.IO;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 6/6/2017 - Enhancement 7 - PostAction method - use the new AddMoveType and RemoveMoveType to add and
 //                            remove "climb" from the player.
 //                            Commenting out various debuggery type things in PostAction
@@ -75,45 +77,45 @@ namespace Engine
         //        public static List<Direction> AllDirections = new List<Direction>();
 
         // Objects
-        [DataMember()] public static Engine.Object _head;
+        [DataMember()] public static Item _head;
 
-        [DataMember()] public static Engine.Object _mailbox;
-        [DataMember()] public static Engine.Object _leaflet;
-        [DataMember()] public static Engine.Object _washingLine;
-        [DataMember()] public static Engine.Object _nest;
-        [DataMember()] public static Engine.Object _stormBlownClothes;
-        [DataMember()] public static Engine.Object _stormBlownPants;
-        [DataMember()] public static Engine.Object _ring;
+        [DataMember()] public static Item _mailbox;
+        [DataMember()] public static Item _leaflet;
+        [DataMember()] public static Item _washingLine;
+        [DataMember()] public static Item _nest;
+        [DataMember()] public static Item _stormBlownClothes;
+        [DataMember()] public static Item _stormBlownPants;
+        [DataMember()] public static Item _ring;
 
-        [DataMember()] public static Engine.Object _stalagmiteBase;
-        [DataMember()] public static Engine.Object _boulder;
-        [DataMember()] public static Engine.Object _ledge;
-        [DataMember()] public static Engine.Object _precariousPlatform;
-        [DataMember()] public static Engine.Object _chunkOfStalagmite;
-        [DataMember()] public static Engine.Object _chunkOfStalactite;
-        [DataMember()] public static Engine.Object _tinnedFish;
-        [DataMember()] public static Engine.Object _bottledWater;
+        [DataMember()] public static Item _stalagmiteBase;
+        [DataMember()] public static Item _boulder;
+        [DataMember()] public static Item _ledge;
+        [DataMember()] public static Item _precariousPlatform;
+        [DataMember()] public static Item _chunkOfStalagmite;
+        [DataMember()] public static Item _chunkOfStalactite;
+        [DataMember()] public static Item _tinnedFish;
+        [DataMember()] public static Item _bottledWater;
 
-        [DataMember()] public static Engine.Object _vendingMachine;
-        [DataMember()] public static Engine.Object _Note;
-        [DataMember()] public static Engine.Object _ReturnsBox;
-        [DataMember()] public static Engine.Object _MazeBook;
-        [DataMember()] public static Engine.Object _WallMap;
-        [DataMember()] public static Engine.Object _PaperAndStationeryKit;
-        [DataMember()] public static Engine.Object _XXiumSaw;
-        [DataMember()] public static Engine.Object _map;
-        [DataMember()] public static Engine.Object _abstractDesigns;
-        [DataMember()] public static Engine.Object _holyBasket;
-        [DataMember()] public static Engine.Object _sachet;
-        [DataMember()] public static Engine.Object _abandonedShrine;
-        [DataMember()] public static Engine.Object _tribalCostume;
-        [DataMember()] public static Engine.Object _tribalHeadgear;
-        [DataMember()] public static Engine.Object _lemonWater;
-        [DataMember()] public static Engine.Object _parkourManual;
-        [DataMember()] public static Engine.Object _treasure;
-        [DataMember()] public static Engine.Object _fizzyDrink;
+        [DataMember()] public static Item _vendingMachine;
+        [DataMember()] public static Item _Note;
+        [DataMember()] public static Item _ReturnsBox;
+        [DataMember()] public static Item _MazeBook;
+        [DataMember()] public static Item _WallMap;
+        [DataMember()] public static Item _PaperAndStationeryKit;
+        [DataMember()] public static Item _XXiumSaw;
+        [DataMember()] public static Item _map;
+        [DataMember()] public static Item _abstractDesigns;
+        [DataMember()] public static Item _holyBasket;
+        [DataMember()] public static Item _sachet;
+        [DataMember()] public static Item _abandonedShrine;
+        [DataMember()] public static Item _tribalCostume;
+        [DataMember()] public static Item _tribalHeadgear;
+        [DataMember()] public static Item _lemonWater;
+        [DataMember()] public static Item _parkourManual;
+        [DataMember()] public static Item _treasure;
+        [DataMember()] public static Item _fizzyDrink;
         [DataMember()] public static Lobster _lobster = new Lobster();
-        [DataMember()] public static Engine.Object _lostGemNecklace;
+        [DataMember()] public static Item _lostGemNecklace;
 
         [DataMember()] public static RecipeObject _recipe = new RecipeObject();
         [DataMember()] public static DaisObject _dais = new DaisObject();
@@ -121,7 +123,7 @@ namespace Engine
         [DataMember()] public static FirePitsObject _firePits = new FirePitsObject();
         [DataMember()] public static FoodStoresObject _foodStores = new FoodStoresObject();
 
-        public static Engine.Object _CarryBag;
+        public static Item _CarryBag;
 
 
         // We'll just call NPCs Objects for now
@@ -268,7 +270,7 @@ namespace Engine
 
         public static void populateObjects()
         {
-            _head = new Engine.Object();
+            _head = new Item();
             _head.sName = "Head";
             _head.sDescription = "It's your head.";
             _head.sDefiniteName = "your head";
@@ -277,7 +279,7 @@ namespace Engine
             _head.bUsableWhileTiedUp = true;
             _head.bUsableAnyway = true;
 
-            _leaflet = new Engine.Object();
+            _leaflet = new Item();
             _leaflet.sName = "Leaflet";
             _leaflet.sDescription = "The leaflet has a simple message on it:  \"Beware of mail thieves!\"";
             _leaflet.sIndefiniteName = "a leaflet";
@@ -286,7 +288,7 @@ namespace Engine
             _leaflet.bDroppable = true;
             _leaflet.sSize = Size.Small;
 
-            _mailbox = new Engine.Object();
+            _mailbox = new Item();
             _mailbox.sName = "Mailbox";
             _mailbox.sDescription = "This is a mailbox.  There is no house number on it, instead, there is a name: \"The Forest Clearing House\".";
             _mailbox.sDefiniteName = "the mailbox";
@@ -297,14 +299,14 @@ namespace Engine
             _mailbox.iContainerCapacity = 20; // Totally arbitrary!  
             _mailbox.sContainerSize = Size.Medium;
 
-            _washingLine = new Engine.Object();
+            _washingLine = new Item();
             _washingLine.sName = "Washing Lines";
             _washingLine.sDescription = "Washing lines are strung up between handy tree branches.  There is nothing on them.";
             _washingLine.sIndefiniteName = "washing lines";
             _washingLine.sDefiniteName = "the washing lines";
             _washingLine.sSize = Size.NA;
 
-            _nest = new Engine.Object();
+            _nest = new Item();
             _nest.sName = "Bird's nest";
             _nest.sDescription = "The nest has been expertly woven together by its owner, has stunning forest views, and is even padded with grass, for the bird with exacting requirements.";
             _nest.sDefiniteName = "the bird's nest";
@@ -315,7 +317,7 @@ namespace Engine
             _nest.sContainerSize = Size.Small;
             _nest.iContainerCapacity = 5; // Mostly arbitrary.  You can't fit that many things in a bird's nest.
 
-            _ring = new Engine.Object();
+            _ring = new Item();
             _ring.sName = "Ring";
             _ring.sDescription = "This is a really fancy looking gold ring.  There is an inscription on the inside but it's archaic, ancient, and incomprehensible.";
             _ring.sDefiniteName = "the ring";
@@ -324,7 +326,7 @@ namespace Engine
             _ring.bDroppable = true;
             _ring.sSize = Size.Tiny;
 
-            _stormBlownPants = new Engine.Object();
+            _stormBlownPants = new Item();
             _stormBlownPants.sName = "Storm-blown pants";
             _stormBlownPants.sDescription = "These are some pants, blown away during a violent storm and looking rather worse for wear.";
             _stormBlownPants.sDefiniteName = "the storm-blown pants";
@@ -333,7 +335,7 @@ namespace Engine
             _stormBlownPants.bDroppable = true;
             _stormBlownPants.sSize = Size.Medium;
 
-            _stormBlownClothes = new Engine.Object();
+            _stormBlownClothes = new Item();
             _stormBlownClothes.sName = "Storm-blown clothes";
             _stormBlownClothes.sDescription = "These are a lot of clothes, blown away during a violent storm and looking rather worse for wear.";
             _stormBlownClothes.sDefiniteName = "the storm-blown clothes";
@@ -342,7 +344,7 @@ namespace Engine
             _stormBlownClothes.bDroppable = true;
             _stormBlownClothes.sSize = Size.Medium;
 
-            _vendingMachine = new Engine.Object();
+            _vendingMachine = new Item();
             _vendingMachine.sName = "Vending Machine";
             _vendingMachine.sDescription = "Inexplicably, in the middle of this tiny cave you're in, there is a vending machine.";
             _vendingMachine.sIndefiniteName = "a vending machine";
@@ -351,7 +353,7 @@ namespace Engine
             _vendingMachine.bUsableAnyway = true;
             _vendingMachine.sSize = Size.NA;
 
-            _chunkOfStalagmite = new Engine.Object();
+            _chunkOfStalagmite = new Item();
             _chunkOfStalagmite.sName = "Chunk of Stalagmite";
             _chunkOfStalagmite.sDescription = "A piece of stalagmite, broken off.";
             _chunkOfStalagmite.sIndefiniteName = "a chunk of stalagmite";
@@ -360,7 +362,7 @@ namespace Engine
             _chunkOfStalagmite.bDroppable = true;
             _chunkOfStalagmite.sSize = Size.Tiny;
 
-            _chunkOfStalactite = new Engine.Object();
+            _chunkOfStalactite = new Item();
             _chunkOfStalactite.sName = "Chunk of Stalactite";
             _chunkOfStalactite.sDescription = "A piece of stalactite, broken off.";
             _chunkOfStalactite.sIndefiniteName = "a chunk of stalactite";
@@ -369,14 +371,14 @@ namespace Engine
             _chunkOfStalactite.bDroppable = true;
             _chunkOfStalactite.sSize = Size.Tiny;
 
-            _Note = new Engine.Object();
+            _Note = new Item();
             _Note.sName = "Note";
             _Note.sDescription = "The note says, \"RETURNS BOX\nWe noticed you left something in the maze, so we are returning your things to you.\n - The Managament\"";
             _Note.sDefiniteName = "the note";
             _Note.sIndefiniteName = "a note";
             _Note.sSize = Size.Small;
 
-            _ReturnsBox = new Engine.Object();
+            _ReturnsBox = new Item();
             _ReturnsBox.sName = "box";
             _ReturnsBox.sDescription = "There is a large box here, half as large as you.";
             _ReturnsBox.sDefiniteName = "the box";
@@ -388,7 +390,7 @@ namespace Engine
             _ReturnsBox.iContainerCapacity = 0;
             _ReturnsBox.sContainerSize = Size.Medium;
 
-            _MazeBook = new Engine.Object();
+            _MazeBook = new Item();
             _MazeBook.sName = "Tattered book";
             _MazeBook.sDescription = "The title of this book is \"A history of adventures\".";
             _MazeBook.sDefiniteName = "the tattered book";
@@ -399,7 +401,7 @@ namespace Engine
             _MazeBook.bUsableAnyway = true;
             _MazeBook.sSize = Size.Medium;
 
-            _stalagmiteBase = new Engine.Object();
+            _stalagmiteBase = new Item();
             _stalagmiteBase.sName = "Stalagmite base";
             _stalagmiteBase.sDescription = "This is the base of a large stalagmite, broken " +
                 "off and reaching up to about waist height.";
@@ -407,7 +409,7 @@ namespace Engine
             _stalagmiteBase.sDefiniteName = "the stalagmite base";
             _stalagmiteBase.sSize = Size.NA;
 
-            _boulder = new Engine.Object();
+            _boulder = new Item();
             _boulder.sName = "Boulder";
             _boulder.sDescription = "This is a large boulder, much larger than you.  It looks " +
                 "like it used to be part of a massive stalagmite that broke off;  it is only " +
@@ -416,7 +418,7 @@ namespace Engine
             _boulder.sDefiniteName = "the boulder";
             _boulder.sSize = Size.NA;
 
-            _ledge = new Engine.Object();
+            _ledge = new Item();
             _ledge.sName = "Ledge";
             _ledge.sDescription = "Partway up the massive rockface you can see where a large " +
                 "chunk of the wall has been gouged out.  This is making a natural ledge in " +
@@ -425,7 +427,7 @@ namespace Engine
             _ledge.sIndefiniteName = "a ledge";
             _ledge.sSize = Size.NA;
 
-            _precariousPlatform = new Engine.Object();
+            _precariousPlatform = new Item();
             _precariousPlatform.sName = "Precarious Platform";
             _precariousPlatform.sDescription = "A large chunk of rock, probably from a broken-" +
                 "off stalactite, is balancing precariously on top of a number of stalagmites.";
@@ -433,7 +435,7 @@ namespace Engine
             _precariousPlatform.sIndefiniteName = "a precarious platform";
             _precariousPlatform.sSize = Size.NA;
 
-            _tinnedFish = new Engine.Object();
+            _tinnedFish = new Item();
             _tinnedFish.sName = "Tinned fish";
             _tinnedFish.sDescription = "A small tin of mashed-up fish.  The tin is a vivid " +
                 "red, and says it is the finest tinned herring in the entire Tiny Cave.  " +
@@ -444,7 +446,7 @@ namespace Engine
             _tinnedFish.bDroppable = true;
             _tinnedFish.sSize = Size.Tiny;
 
-            _bottledWater = new Engine.Object();
+            _bottledWater = new Item();
             _bottledWater.sName = "Bottled water";
             _bottledWater.sDescription = "The label says this water is from the purest " +
                 "mountain river snowmelt, and bottled with care by water technicians in " +
@@ -458,7 +460,7 @@ namespace Engine
             _bottledWater.sSize = Size.Small;
 
 
-            _WallMap = new Engine.Object();
+            _WallMap = new Item();
             _WallMap.sName = "Map";
             _WallMap.sDescription = "At first this just looks like some sort of abstract art, " +
                 "drawn on the side of the wall.  As you study it closer, you realise it's " +
@@ -471,7 +473,7 @@ namespace Engine
             _WallMap.bStaysInMaze = true;
             _WallMap.sSize = Size.Small;
 
-            _PaperAndStationeryKit = new Engine.Object();
+            _PaperAndStationeryKit = new Item();
             _PaperAndStationeryKit.sName = "Paper and Stationery Kit";
             _PaperAndStationeryKit.sDescription = "This is a collection of 10 sheets of paper " +
                 "and a set of pens, pencils, an eraser, a straightedge and a compass.";
@@ -484,7 +486,7 @@ namespace Engine
             _PaperAndStationeryKit.sSize = Size.Small;
 
 
-            _XXiumSaw = new Engine.Object();
+            _XXiumSaw = new Item();
             _XXiumSaw.sName = "XXium Saw";
             _XXiumSaw.sDescription = "This is a saw made of the hardest material known in the " +
                 "entire Tiny Cave.";
@@ -496,7 +498,7 @@ namespace Engine
             _XXiumSaw.bDroppable = true;
             _XXiumSaw.sSize = Size.Medium;
 
-            _map = new Engine.Object();
+            _map = new Item();
             _map.sName = "Maze Map";
             _map.sDescription = "It might look like an abstract drawing, but this is actually " +
                 "a map of the Tiny Cave's maze of passages, along with a pen to make any " +
@@ -509,7 +511,7 @@ namespace Engine
             _map.bUsableAnyway = true;
             _map.sSize = Size.Small;
 
-            _abstractDesigns = new Engine.Object();
+            _abstractDesigns = new Item();
             _abstractDesigns.sName = "Strange abstract designs";
             _abstractDesigns.sDescription = "These are strange abstract designs drawn all " +
                 "over the walls of the passage.";
@@ -519,7 +521,7 @@ namespace Engine
             _abstractDesigns.bUsableAnyway = true;
             _abstractDesigns.sSize = Size.NA;
 
-            _sachet = new Engine.Object();
+            _sachet = new Item();
             _sachet.sName = "Sachet of Lemon Flavouring";
             _sachet.sDescription = "This is an old sachet of lemon flavouring.  A quick sniff " +
                 "reveals it is still potent.";
@@ -532,7 +534,7 @@ namespace Engine
             _sachet.bStaysInMaze = true;
             _sachet.sSize = Size.Tiny;
 
-            _holyBasket = new Engine.Object();
+            _holyBasket = new Item();
             _holyBasket.sName = "Very old basket";
             _holyBasket.sDescription = "There is a very old picnic basket here.  It is " +
                 "almost rotted through and fallen into pieces.  In its awful murky depths " +
@@ -546,7 +548,7 @@ namespace Engine
             _holyBasket.Add(_sachet);
             _holyBasket.sSize = Size.NA;
 
-            _abandonedShrine = new Engine.Object();
+            _abandonedShrine = new Item();
             _abandonedShrine.sName = "Abandoned Shrine";
             _abandonedShrine.sDescription = "This is an old abandoned shrine, adorned with a " +
                 "stone statue wearing tribal gear.";
@@ -555,7 +557,7 @@ namespace Engine
             _abandonedShrine.bStaysInMaze = true;
             _abandonedShrine.sSize = Size.NA;
 
-            _tribalCostume = new Engine.Object();
+            _tribalCostume = new Item();
             _tribalCostume.sName = "Tribal Gear";
             _tribalCostume.sDescription = "This is the oddest tribal gear you've ever seen, " +
                 "adorned as it is with teaspoons and shards of crockery.";
@@ -569,7 +571,7 @@ namespace Engine
             _tribalCostume.bStaysInMaze = true;
             _tribalCostume.sSize = Size.NA;
 
-            _tribalHeadgear = new Engine.Object();
+            _tribalHeadgear = new Item();
             _tribalHeadgear.sName = "Tribal Headgear";
             _tribalHeadgear.sDescription = "This is the oddest headgear you've ever seen.  " +
                 "The face is a mask, made of the shards of broken plates, and the crown is " +
@@ -585,7 +587,7 @@ namespace Engine
             _tribalHeadgear.bStaysInMaze = true;
             _tribalHeadgear.sSize = Size.Medium;
 
-            _lemonWater = new Engine.Object();
+            _lemonWater = new Item();
             _lemonWater.sName = "Lemony Water";
             _lemonWater.sDescription = "You're not game to actually drink it, but this now " +
                 "smells very very lemony.";
@@ -595,7 +597,7 @@ namespace Engine
             _lemonWater.bDroppable = true;
             _lemonWater.sSize = Size.Small;
 
-            _parkourManual = new Engine.Object();
+            _parkourManual = new Item();
             _parkourManual.sName = "Parkour Manual";
             _parkourManual.sDescription = "This book gives some quite detailed instructions " +
                 "and drills on how to become, if not a parkour master, at least proficient " +
@@ -606,7 +608,7 @@ namespace Engine
             _parkourManual.bDroppable = true;
             _parkourManual.sSize = Size.Medium;
 
-            _treasure = new Engine.Object();
+            _treasure = new Item();
             _treasure.sName = "Treasure";
             _treasure.sDescription = "The fabled treasure hoard of the Tiny Cave.  It is more " +
                 "massive then ever you dreamed in your own wild imaginings!";
@@ -614,7 +616,7 @@ namespace Engine
             _treasure.sIndefiniteName = "The Tiny Cave Treasure";
             _treasure.sSize = Size.NA;
 
-            _fizzyDrink = new Engine.Object();
+            _fizzyDrink = new Item();
             _fizzyDrink.sName = "Fizzy Drink";
             _fizzyDrink.sDescription = "A bottle of fizzy soft drink.";
             _fizzyDrink.sDefiniteName = "the fizzy drink";
@@ -623,7 +625,7 @@ namespace Engine
             _fizzyDrink.bDroppable = true;
             _fizzyDrink.sSize = Size.Small;
 
-            _lostGemNecklace = new Engine.Object();
+            _lostGemNecklace = new Item();
             _lostGemNecklace.sName = "Lost Necklace";
             _lostGemNecklace.sDescription = "A gold necklace, with a vividly green gemstone set " +
                 "in it.";
@@ -636,7 +638,7 @@ namespace Engine
 
             // 24/5/2017 - Enhancements 1 and 5 - This used to be the Infinite Carrybag, used in
             // testing.  Turning it into a regular carrybag for Enhancements 1 + 5.
-            _CarryBag = new Engine.Object();
+            _CarryBag = new Item();
             _CarryBag.sName = "Carrybag";
             _CarryBag.sDefiniteName = "the carrybag";
             _CarryBag.sIndefiniteName = "a carrybag";
@@ -1113,8 +1115,8 @@ namespace Engine
             // World._centralCavern.AddMoveType(World._west, "locked");
             // World._centralCavern.AddMoveType(World._north, "blocked");
 
-            _player.CurrentLocation = _centralCavern;
-            _player.Add(World._parkourManual);
+            //_player.CurrentLocation = _centralCavern;
+            //_player.Add(World._parkourManual);
             //_player.sMoveTypes += ",parkour, climb";
 
             //_player.CurrentLocation = _abandonedShrineSite;

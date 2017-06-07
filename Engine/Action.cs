@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using CustomExtensions;
 using System.Reflection;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
 
 namespace Engine
 {
@@ -38,7 +39,7 @@ namespace Engine
             return sName;
         }
 
-        public virtual void DoAction(Engine.Object Item1, Engine.Object Item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public virtual void DoAction(Item Item1, Item Item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         // Item1 - the item to act on
         // Item2 - if the action works on two items, this is the second
         // Suppress - if the action is successful, do we want to suppress the successful message?

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
+// 19/5/2017 - Articles Project - Making sure definite and indefinite articles are properly used.
+
 namespace Engine
 {
 
@@ -17,7 +21,7 @@ namespace Engine
             iNumArgs = 1;
         }
 
-        public override void DoAction(Engine.Object item1, Engine.Object item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
+        public override void DoAction(Item item1, Item item2, bool Suppress, ref string OutMessage, ref bool bSuccess)
         {
             bSuccess = false;
 
@@ -39,7 +43,7 @@ namespace Engine
             // same, maybe you could have NPCs you can't talk to.
             if (item1.bCanTalkTo == false)
             {
-                OutMessage = "You cannot talk to " + item1.sName + ".\n";
+                OutMessage = "You cannot talk to " + item1.sDefiniteName + ".\n";
                 return;
             }
 
