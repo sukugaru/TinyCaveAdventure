@@ -1,0 +1,131 @@
+Proposed Enhancement
+====================
+Extending from Enhancement 7.  Make sure that the location class and the player class have a HasType(string MoveType) method.  Then change code so that this is actually used.
+
+
+Investigation
+=============
+What code looks at sMoveTypes directly?
+
+* I know central cavern's PreMove does it.  Anywhere else?
+
+* Pre-Move checks of World.MoveTo() - but to see if the player has no modes of movement.  (ie equal to "" or equal to "none".)  This would need a IsNone() method.  But if anything is allowed to look at movement types directly, shouldn't it be the main movement method?
+
+* Determining the movement types the player has, later in World.MoveTo(), then comparing those to what's required for the movement.  Again, if anything is allowed to look at movement types directly, it would be the main movement method.
+
+ * World.PostAction() looks at player.sMoveTypes directly.  This adds or removes "climb" if the player is carrying anything.  This is a candidate for using AddMoveType and RemoveMoveType.
+
+ * InitialisePlayer sets sMoveTypes to "standard".  If you weren't allowed to set sMoveTypes directly, you would need a Clear() method (to set it to "") and then a AddMoveType("standard").
+
+
+Emerging thought
+================
+IsNone() and Clear()... these are methods for Lists.  Why go to all this trouble to code and test these methods when it would be SO MUCH EASIER to just convert these sMoveTypes variables to Lists?  You could then also get rid of all the comma handling.
+   AddMoveType() is useful as a new method, because it does some error checking to make sure a movement type isn't being added twice.
+   IsNone() is useful as a new method, because it checks both for "" and "none".
+   Hm.  You might want to have separate methods anyway, to convert a movement type to lower case before calling List methods to add or remove it.  Doing lowercase conversions is useful; otherwise, you have to worry about "Climb" not being the same as "climb".
+   Hm, again.  Look at the existing addMoveType and removeMoveType methods, they don't convert to lower case.
+
+
+Anyway, on with the Investigation
+=================================
+ * HandleResponse in ParkourManualConversation adds ",parkour" directly, instead of using AddMoveType("parkour").
+
+ * Player.FreeHands() adds "climb" to player's move types.  Rather than use AddMoveType("climb"), just remove it entirely, because PostAction() adds and removes "climb" based on whether you're tied up and/or carrying anything.
+
+ * That seems to be everything.
+
+
+Another thought
+===============
+There's a big double-up going on anyway.  Player and Location have their own AddMoveType and RemoveMoveType methods.
+   Though, to be fair, they *are* different.  Location's MoveType methods needs to specify a direction and the movement type.  Player's MoveType methods only needs to specify the movement type.
+
+
+So a HasType() would be used in...
+==================================
+Central Cavern's PreMove().
+
+
+Just experimenting
+==================
+
+In MoveTo() we have the following:
+
+    (Lots of code to fiddle with case and commas, and creates the List FullNeededTypes from a comma-separated list)
+
+    bProceed = true;
+    sNope2 = "";
+
+    foreach (string RequiredType in FullNeededTypes)
+    {
+        if (HasTypes.IndexOf(RequiredType) == -1)
+        {
+            bProceed = false;
+            if ((RequiredType != "blocked") && (RequiredType != "locked"))
+            {
+                sNope2 += ", " + RequiredType;
+            }
+        }
+    }
+
+
+If we had HasType(), we could do something like this:
+
+    (Less stuff with case and commas.  No need to create HasTypes, just FullNeededTypes)
+
+    bProceed = true;
+    sNope2 = "";
+
+
+    foreach (string RequiredType in FullNeededTypes)
+    {
+        if (World._player.HasType(RequiredType) == false)
+        {
+            bProceed = false;
+            if ((RequiredType != "blocked") && (RequiredType != "locked"))
+            {
+                sNope2 += ", " + RequiredType;
+            }
+        }
+    }
+
+Which is a lot easier to follow.  And later on, if lists are used, you don't need any case and commas, and just do:
+
+    (Nothing with case and commas)
+
+    bProceed = true;
+    sNope2 = "";
+
+    foreach (string RequiredType in pathToMove.sMoveTypes)
+    {
+        if (World._player.HasType(RequiredType) == false)
+        {
+            bProceed = false;
+            if ((RequiredType != "blocked") && (RequiredType != "locked"))
+            {
+                sNope2 += ", " + RequiredType;
+            }
+        }
+    }
+
+
+
+
+Pathway stuff
+=============
+sMoveTypes being strings mean some of the pathway code is very simple.  Just take the incoming string and assign to sMoveTypes.
+   If sMoveTypes become Lists then this pathway code will get harder.
+
+
+Conclusions
+===========
+ * At the moment, HasType would be used in two parts of the code - central cavern's PreMove(), and in parts of MoveTo().
+
+ * Even if the sMoveTypes strings are converted to Lists, you would still need separate methods in location and player, because the location methods also need to specify a direction.
+
+ * AddMoveType(), RemoveMoveType(), and the hypothetical HasMoveType() would all need to convert the passed-in string to lowercase before doing any operations.
+
+ * A HasNoMoveTypes() method could also be useful, because another part of MoveTo() also looks directly at sMoveTypes.  (But scope creep!)
+
+
