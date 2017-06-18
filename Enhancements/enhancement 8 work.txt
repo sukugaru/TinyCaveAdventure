@@ -1,0 +1,362 @@
+Have added hasMoveType(string MoveType) to player.
+
+Testing
+=======
+
+In postAction:
+
+            _player.AddMoveType("fly");
+
+            OutMessage += "(1) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.AddMoveType("parkour");
+
+            OutMessage += "player has parkour: " + _player.HasMoveType("parkour") + "\n";
+
+            OutMessage += "(2) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("teleport");
+
+            OutMessage += "(3) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("parkour");
+
+            OutMessage += "player has parkour: " + _player.HasMoveType("parkour") + "\n";
+
+            OutMessage += "(4) player movement types: " + _player.sMoveTypes + "\n";
+
+
+Results
+=======
+
+(1) player movement types: standard,climb,fly
+player has parkour: True
+(2) player movement types: standard,climb,fly,parkour
+(3) player movement types: standard,climb,fly,parkour
+player has parkour: False
+(4) player movement types: standard,climb,fly
+
+Matches up with what's expected.
+
+=========================================================================================
+
+Changing central cavern's PreMove to use the new player.HasMoveType()
+
+Testing
+=======
+Starting player in central cavern with the parkour manual.
+
+Results
+=======
+> Go South
+
+There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your hands free so you can climb swing from outcropping to outcropping.
+
+> Take Parkour Manual
+
+You already have it.
+
+> Use Parkour Manual
+
+How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+We could either do this the easy gamey way, where by using an in-game item you compress months and months of physical training into a one-second button click, or the hard way by making you click on that item 300 times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+> No thanks, I'd like to click on this option just once.
+
+Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+> Go South
+
+There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your hands free so you can climb swing from outcropping to outcropping.
+
+> Drop Parkour Manual
+
+You drop the parkour manual.
+
+> Go South
+
+You Le Parkour over the gap and continue down the south passageway.
+
+> 
+
+PASS
+
+=========================================================================================
+
+Modify MoveTo so that it uses player.HasMoveType().
+
+Testing
+=======
+Same as before, start the player in central cavern with the parkour manual, and attempt going south.  After using manual to learn parkour, and dropping manual, should be able to go south.
+
+Should also be able to go in all other available directions.
+
+Results
+=======
+
+> Go South
+
+There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your hands free so you can climb swing from outcropping to outcropping.
+
+> Use Parkour Manual
+
+How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+We could either do this the easy gamey way, where by using an in-game item you compress months and months of physical training into a one-second button click, or the hard way by making you click on that item 300 times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+> No thanks, I'd like to click on this option just once.
+
+Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+> Go South
+
+There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your hands free so you can climb swing from outcropping to outcropping.
+
+> Drop Parkour Manual
+
+You drop the parkour manual.
+
+> Go South
+
+You Le Parkour over the gap and continue down the south passageway.
+
+> Go North
+
+You Le Parkour back over the gap to the main central cavern.
+
+> Go Northeast
+
+You go to Sage's Grotto.
+
+> Go Southwest (to Central Cavern)
+
+You go to Central Cavern.
+
+> Go East
+
+You go to Tiny Ledge.
+
+> Go West (to Central Cavern)
+
+You go to Central Cavern.
+
+-
+
+So the movement type checks still work.
+
+PASS
+
+=========================================================================================
+
+There's nothing that actually uses a hypothetical location.HasMoveType() method.
+
+Have added this.
+
+public Boolean HasMoveType(Direction dir, string pMoveType)
+        // Does the specified pathway have the moveType?
+        {
+            Pathway p = Pathways.Find(x => x.dir == dir);
+            string sInType = pMoveType.ToLower();
+            string sPathwayMoveTypes;
+            
+            if (p == null)
+            {
+                return false;
+            }
+            
+            sPathwayMoveTypes = p.sMovementTypes.ToLower();
+
+            if (sPathwayMoveTypes.IndexOf(sInType) == -1)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+
+At same time, have added to the location's addmovetype and removeMoveType so that they convert things to lowercase.
+
+
+Testing
+=======
+Added some test code.
+
+            Pathway p = World._centralCavern.Pathways.Find(x => x.dir == World._south);
+
+            OutMessage += "(1) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.AddMoveType(World._south, "Locked");
+
+            OutMessage += "(2) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.AddMoveType(World._south, "Blocked");
+
+            OutMessage += "(3) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "blocked");
+
+            OutMessage += "(4) central cavern south movement types: " + p.sMovementTypes + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "locked");
+
+            OutMessage += "(5) central cavern south movement types: " + p.sMovementTypes + "\n";
+         
+            World._centralCavern.AddMoveType(World._south, "parkour");
+
+            OutMessage += "(6) central cavern south movement types: " + p.sMovementTypes + "\n";
+            OutMessage += "Has parkour: " + World._centralCavern.HasMoveType(World._south, "Parkour") + "\n";
+
+            World._centralCavern.RemoveMoveType(World._south, "fly");
+
+            OutMessage += "(7) central cavern south movement types: " + p.sMovementTypes + "\n";
+            OutMessage += "Has fly: " + World._centralCavern.HasMoveType(World._south, "Fly") + "\n";
+
+
+Results
+=======
+(1) central cavern south movement types: parkour,climb
+(2) central cavern south movement types: parkour,climb,locked
+(3) central cavern south movement types: parkour,climb,locked,blocked
+(4) central cavern south movement types: parkour,climb,locked
+(5) central cavern south movement types: parkour,climb
+(6) central cavern south movement types: parkour,climb
+Has parkour: True
+(7) central cavern south movement types: parkour,climb
+Has fly: False
+
+Test code adds and removes things using different case, yet everything is in lowercase.  Pass.
+Things actually get added and removed properly.  Pass.
+HasMoveType works, again ignoring case.  Pass.
+
+=========================================================================================
+
+Oh, and let's modify player addMoveType and removeMoveType to also do lowercasing.
+
+        public virtual void AddMoveType(string addType)
+        // 18/6/2017 - Enhancement 8 - Doing it all in lowercase
+        //
+        // Add a movement type to a location's pathway in a specified direction.
+        {
+            string s = sMoveTypes.ToLower();
+            addType = addType.ToLower();
+
+            if (s.Contains(addType) == false)
+            {
+                s += "," + addType;
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                sMoveTypes = s;
+            }
+        }
+
+        public virtual void RemoveMoveType(string removeType)
+        // 18/6/2017 - Enhancement 8 - Doing it all in lowercase
+        //
+        // Remove a movement type from a location's pathway in a specified direction.
+        {
+            string s = sMoveTypes.ToLower();
+            removeType = removeType.ToLower();
+
+            if (s.Contains(removeType))
+            {
+                s = s.Replace(removeType, "");
+                s = s.Trim(',');
+                s = s.Replace(",,", ",");
+                sMoveTypes = s;
+            }
+        }
+
+Testing
+=======
+A slight modification of that first test.
+
+            _player.AddMoveType("Fly");
+
+            OutMessage += "(1) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.AddMoveType("PaRkOuR");
+
+            OutMessage += "player has parkour: " + _player.HasMoveType("parkour") + "\n";
+
+            OutMessage += "(2) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("TELEPORT");
+
+            OutMessage += "(3) player movement types: " + _player.sMoveTypes + "\n";
+
+            _player.RemoveMoveType("parkour");
+
+            OutMessage += "player has parkour: " + _player.HasMoveType("parkour") + "\n";
+
+            OutMessage += "(4) player movement types: " + _player.sMoveTypes + "\n";
+
+
+Results
+=======
+(1) player movement types: standard,climb,fly
+player has parkour: True
+(2) player movement types: standard,climb,fly,parkour
+(3) player movement types: standard,climb,fly,parkour
+player has parkour: False
+(4) player movement types: standard,climb,fly
+
+PASS
+
+=========================================================================================
+
+Slight bugfix, parkour manual conversation still had a bit where ",parkour" was being added directly.  (For the "click on this option only once" response.)  Changing to use AddMoveType().
+
+Testing
+=======
+Start player in central cavern with parkour manual.
+
+Results
+=======
+> Use Parkour Manual
+
+How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+We could either do this the easy gamey way, where by using an in-game item you compress months and months of physical training into a one-second button click, or the hard way by making you click on that item 300 times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+> No thanks, I'd like to click on this option just once.
+
+Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+> Drop Parkour Manual
+
+You drop the parkour manual.
+
+> Go South
+
+You Le Parkour over the gap and continue down the south passageway.
+
+> 
+
+PASS
+=========================================================================================
+
+Shouldn't need to worry about a NoMoveTypes() in the player class.  The restriction system should be used to stop the player moving.  Have commented out the part of MoveTo that does == "" or == "none" and we'll leave it commented out, and further review later.
+
+
+
+
+
+Code changes
+============
+player.cs
+adding HasMoveType
+
+Location.cs
+Changing central cavern's preMove to use player.HasMoveType()
+Adding location.HasMoveType.
+Modifying location.AddMoveType and RemoveMoveType to work in lowercase.
+
+World.cs
+Changing MoveTo() so that it uses player.HasMoveType().
+Commenting out a useless check at the beginning of MoveTo that sees if player's movetypes is blank.  (Use the restriction system instead.)
+
+Conversation.cs
+Missed a use of AddMoveType in parkour manual conversation
+
