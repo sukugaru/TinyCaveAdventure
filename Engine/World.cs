@@ -7,6 +7,8 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.IO;
 
+// 18/6/2017 - Enhancement 8 - MoveTo() changes, to use new player.HasMoveType method
+//
 // 7/6/2017 - Bug 6 - Renaming the Object class to Item.
 // 
 // 6/6/2017 - Enhancement 7 - PostAction method - use the new AddMoveType and RemoveMoveType to add and
@@ -1115,8 +1117,8 @@ namespace Engine
             // World._centralCavern.AddMoveType(World._west, "locked");
             // World._centralCavern.AddMoveType(World._north, "blocked");
 
-            //_player.CurrentLocation = _centralCavern;
-            //_player.Add(World._parkourManual);
+            _player.CurrentLocation = _centralCavern;
+            _player.Add(World._parkourManual);
             //_player.sMoveTypes += ",parkour, climb";
 
             //_player.CurrentLocation = _abandonedShrineSite;
@@ -1223,6 +1225,9 @@ namespace Engine
             */
         }
 
+        // 18/6/2017 - Enhancement 8 - Making sure to use Player.HasMoveType()
+        //                           - Commenting out check for player.sMoveTypes == "" or "none"
+        //
         // 6/6/2017 - Bug 10 - The Pathway system wasn't working if locked or blocked is in the
         //                     MovementTypes.  Also fixing up some formatting.
 
@@ -1234,7 +1239,6 @@ namespace Engine
         {
             Pathway pathToMove;
             string s;
-            string HasTypes;
             string[] FullNeededTypes; // includes locked and blocked
 
             bool bProceed = true;
@@ -1255,13 +1259,13 @@ namespace Engine
                 return;
             }
             
-            if ( (World._player.sMoveTypes == "") ||
-                 (World._player.sMoveTypes == "none")
-                )
-            {
-                OutMessage += World._player.sCantMoveMsg + "\n";
-                return;
-            }
+            //if ( (World._player.sMoveTypes == "") ||
+            //     (World._player.sMoveTypes == "none")
+            //    )
+            //{
+            //    OutMessage += World._player.sCantMoveMsg + "\n";
+            //    return;
+            //}
 
             // 22/5/2017 - Bug 3 - Changes to MoveTo() to improve the messaging to the player if the
             // player does not have the required movement types.
@@ -1277,6 +1281,8 @@ namespace Engine
                 if (pathToMove != null)
                 {
                     // Determine the Movement types you need for the movement
+                    // Because I'll probably forget and create lists of movement types both with spaces
+                    // after commas, and without spaces after commas, I strip spaces from s and hasTypes.
                     s = pathToMove.sMovementTypes.ToLower();
                     if (s == "")
                     {
@@ -1285,16 +1291,8 @@ namespace Engine
                     s = s.Replace(" ", "");
                     FullNeededTypes = s.Split(',');
 
-                    // Determine the Movement types you actually have
-                    HasTypes = World._player.sMoveTypes.ToLower();
-                    HasTypes = HasTypes.Replace(" ", "");
-
-                    // Because I'll probably forget and create lists of movement types both with spaces
-                    // after commas, and without spaces after commas, I strip spaces from s and hasTypes.
-
-                    // For each required movement type, see if the player has that movement type
-                    // (Basically, is it in HasTypes?)
-                    // If not, then disallow the movement
+                    // For each required movement type, see if the player has that movement type.
+                    // If not, then disallow the movement.
                     // At the same time, sNope2 is being built up as a list of movement types that
                     // the player needs, that will be displayed to the player later. 
 
@@ -1304,7 +1302,8 @@ namespace Engine
 
                     foreach (string RequiredType in FullNeededTypes)
                     {
-                        if (HasTypes.IndexOf(RequiredType) == -1)
+//                        if (HasTypes.IndexOf(RequiredType) == -1)
+                        if (_player.HasMoveType(RequiredType) == false)
                         {
                             bProceed = false;
                             if ((RequiredType != "blocked") && (RequiredType != "locked"))
@@ -1623,11 +1622,11 @@ namespace Engine
 
             OutMessage += "(1) central cavern south movement types: " + p.sMovementTypes + "\n";
 
-            World._centralCavern.AddMoveType(World._south, "locked");
+            World._centralCavern.AddMoveType(World._south, "Locked");
 
             OutMessage += "(2) central cavern south movement types: " + p.sMovementTypes + "\n";
 
-            World._centralCavern.AddMoveType(World._south, "blocked");
+            World._centralCavern.AddMoveType(World._south, "Blocked");
 
             OutMessage += "(3) central cavern south movement types: " + p.sMovementTypes + "\n";
 
@@ -1642,29 +1641,36 @@ namespace Engine
             World._centralCavern.AddMoveType(World._south, "parkour");
 
             OutMessage += "(6) central cavern south movement types: " + p.sMovementTypes + "\n";
+            OutMessage += "Has parkour: " + World._centralCavern.HasMoveType(World._south, "Parkour") + "\n";
 
             World._centralCavern.RemoveMoveType(World._south, "fly");
 
             OutMessage += "(7) central cavern south movement types: " + p.sMovementTypes + "\n";
+            OutMessage += "Has fly: " + World._centralCavern.HasMoveType(World._south, "Fly") + "\n";
             */
 
             /*
-            _player.AddMoveType("fly");
+            _player.AddMoveType("Fly");
 
             OutMessage += "(1) player movement types: " + _player.sMoveTypes + "\n";
 
-            _player.AddMoveType("parkour");
+            _player.AddMoveType("PaRkOuR");
+
+            OutMessage += "player has parkour: " + _player.HasMoveType("parkour") + "\n";
 
             OutMessage += "(2) player movement types: " + _player.sMoveTypes + "\n";
 
-            _player.RemoveMoveType("teleport");
+            _player.RemoveMoveType("TELEPORT");
 
             OutMessage += "(3) player movement types: " + _player.sMoveTypes + "\n";
 
             _player.RemoveMoveType("parkour");
 
+            OutMessage += "player has parkour: " + _player.HasMoveType("parkour") + "\n";
+
             OutMessage += "(4) player movement types: " + _player.sMoveTypes + "\n";
             */
+            
 
             //string s = ",blah,blah,,blah,blah,,,";
             //s = s.Trim(',');

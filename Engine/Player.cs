@@ -7,6 +7,8 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.Reflection;
 
+// 18/6/2017 - Enhancement 8 - Added HasMoveType() method
+//
 // 7/6/2017 - Bug 6 - Renaming the Object class to Item.
 // 
 // 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
@@ -288,9 +290,12 @@ namespace Engine
         }
 
         public virtual void AddMoveType(string addType)
+        // 18/6/2017 - Enhancement 8 - Doing it all in lowercase
+        //
         // Add a movement type to a location's pathway in a specified direction.
         {
-            string s = sMoveTypes;
+            string s = sMoveTypes.ToLower();
+            addType = addType.ToLower();
 
             if (s.Contains(addType) == false)
             {
@@ -302,9 +307,12 @@ namespace Engine
         }
 
         public virtual void RemoveMoveType(string removeType)
+        // 18/6/2017 - Enhancement 8 - Doing it all in lowercase
+        //
         // Remove a movement type from a location's pathway in a specified direction.
         {
-            string s = sMoveTypes;
+            string s = sMoveTypes.ToLower();
+            removeType = removeType.ToLower();
 
             if (s.Contains(removeType))
             {
@@ -313,6 +321,21 @@ namespace Engine
                 s = s.Replace(",,", ",");
                 sMoveTypes = s;
             }
+        }
+
+        public Boolean HasMoveType(string pMoveType)
+        // See if the player has a movement type
+        {
+            string sInType = pMoveType.ToLower();
+            string sPlayerMoveTypes = sMoveTypes.ToLower();
+
+            if (sPlayerMoveTypes.IndexOf(sInType) == -1)
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
 

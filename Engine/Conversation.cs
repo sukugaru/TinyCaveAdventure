@@ -7,6 +7,8 @@ using System.Runtime.Serialization;
 using CustomExtensions;
 using System.Reflection;
 
+// 18/6/17 - Enhancement 8 - I'd missed a spot where AddMoveType should have been used.
+//
 // 6/6/17 - Using the new AddMoveType to add "parkour" to the player in the Parkour Manual conversation
 
 namespace Engine
@@ -32,11 +34,6 @@ namespace Engine
     // You don't have to implement EndConversation() as the UI doesn't call it.  You'll need
     // to make sure bStarted is set back to false, and CurrentConversation to null in some
     // way though.
-    //
-    // ISSUE:  HandleResponse seems to get called twice by the UI, where it should be called once.
-    //         if HandleResponse spits out an OutMessage but doesn't end the conversation, then
-    //         you get that OutMessage multiple times.
-    //         It means this is probably all too complicated and needs a rethink.
     {
         [DataMember()]
         protected bool bStarted;
@@ -576,7 +573,8 @@ namespace Engine
                     "training level at 300 straight away.\n";
                 World._player.iParkourTrainingLevel = 300;
                 World._player.bCanParkour = true;
-                World._player.sMoveTypes += ",parkour";
+                //World._player.sMoveTypes += ",parkour";
+                World._player.AddMoveType("parkour");
                 World._centralCavern.SouthLoc = World._treasureCave;
                 World._treasureCave.NorthLoc = World._centralCavern;
 

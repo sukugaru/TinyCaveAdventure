@@ -5,6 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 18/6/2017 - Enhancement 8 - Added a hasMoveType() method to Location
+//                           - Making sure AddMoveType and RemoveMoveType work in lowercase.
+//                             (It would be all too easy to make a lazy mistake and have a movetype
+//                             somewhere with different cases causing an annoying error...)
+//
 // 7/6/2017 - Bug 6 - Renaming the Object class to Item.
 // 
 // 6/6/2017 - Enhancement 7 - Have methods to add and remove movement types
@@ -408,14 +413,17 @@ namespace Engine
 
 
         public virtual void AddMoveType(Direction dir, string addType)
+        // 18/6/2017 - Enhancement 8 - Doing everything in lowercase
+        //
         // Add a movement type to a location's pathway in a specified direction.
         {
             Pathway p = Pathways.Find(x => x.dir == dir);
-            string s = p.sMovementTypes;
+            string s = p.sMovementTypes.ToLower();
+            string sInType = addType.ToLower();
 
-            if (s.Contains(addType) == false)
+            if (s.Contains(sInType) == false)
             {
-                s += "," + addType;
+                s += "," + sInType;
                 s = s.Trim(',');
                 s = s.Replace(",,", ",");
                 p.sMovementTypes = s;
@@ -423,18 +431,46 @@ namespace Engine
         }
 
         public virtual void RemoveMoveType(Direction dir, string removeType)
-        // Remove a movement ype from a location's pathway in a specified direction.
+        // 18/6/2017 - Enhancement 8 - Doing everything in lowercase
+        //
+        // Remove a movement type from a location's pathway in a specified direction.
         {
             Pathway p = Pathways.Find(x => x.dir == dir);
-            string s = p.sMovementTypes;
+            string s = p.sMovementTypes.ToLower();
+            string sInType = removeType.ToLower();
 
-            if (s.Contains(removeType))
+            if (s.Contains(sInType))
             {
-                s = s.Replace(removeType, "");
+                s = s.Replace(sInType, "");
                 s = s.Trim(',');
                 s = s.Replace(",,", ",");
                 p.sMovementTypes = s;
             }
+        }
+
+        public Boolean HasMoveType(Direction dir, string pMoveType)
+        // 18/6/2017 - Enhancement 8 - first version
+        //
+        // Does the specified pathway have the moveType?
+        {
+            Pathway p = Pathways.Find(x => x.dir == dir);
+            string sInType = pMoveType.ToLower();
+            string sPathwayMoveTypes;
+            
+            if (p == null)
+            {
+                return false;
+            }
+            
+            sPathwayMoveTypes = p.sMovementTypes.ToLower();
+
+            if (sPathwayMoveTypes.IndexOf(sInType) == -1)
+            {
+                return false;
+            }
+
+            return true;
+
         }
 
 
@@ -1595,8 +1631,11 @@ namespace Engine
 
             if (ToLocation == World._treasureCave)
             {
-                if ((World._player.sMoveTypes.IndexOf("parkour") == -1) ||
-                    (World._player.sMoveTypes.IndexOf("climb") == -1)
+                //if ((World._player.sMoveTypes.IndexOf("parkour") == -1) ||
+                //    (World._player.sMoveTypes.IndexOf("climb") == -1)
+                //    )
+                if ((World._player.HasMoveType("parkour") == false) ||
+                    (World._player.HasMoveType("climb") == false)
                     )
                 {
                     OutMessage = "There is absolutely no way you're jumping over that gap.  It's " +
