@@ -1,0 +1,545 @@
+So, the problem is: The Player class and the Pathway class have sMoveTypes attributes.  This is a string that is a comma-separated list of movement types.  This was a stopgap method that I put in when first creating the Pathways system.  As time has gone on this has gotten clunkier, and there's duplicated code for manipulating these strings, in both the Player class and the Location class.
+
+The question is: Is there a way that I can get rid of this duplication?  Is there a better way I can handle the movement types?
+
+-
+
+When thinking about it, this feels big and complicated.  Using comma-separated lists in strings was easy.  Changing it to a List<string> is not as easy, and may require large changes throughout the code.  So this could be Project-sized.
+
+Stratey on how to go ahead:
+1) For any of this to work, I need a class that is a list of strings.  So start by creating that, with all the obvious methods required.  SetList(comma-separated list), AddMoveType(string), RemoveMoveType(string), HasMoveType(string).
+(Done)
+
+2) Instead of outright replacement, see if I can have the old comma-separated string and new List<string> systems working side-by-side.
+(Okay)
+
+3) Update player to use the new list of strings class.
+(Done)
+
+4) Update locations and pathways to use the new list of strings class.
+(This is going to be the biggie!)
+(Done, and not too hard after all)
+
+
+==================================================================================================
+
+OK, let's start by creating a MoveTypesList class.
+
+Made a copy of location.cs as most of the changes will be in this file.  (At least at first.)
+
+MoveTypesList class
+===================
+
+First up is creating the MoveTypesList class.  I haven't folded this into Location and Player just yet, I'm just making sure it works.
+
+It has the following methods:
+   MoveTypesList(string s) - constructor, that takes a string that's a comma-separated list 
+   SetList(string s) - takes a string that's a comma-separated list, and converts to a List of lowercased strings
+   OutputList() - returns a string that shows what's in the list.  Debug method.
+   AddMoveType(string s) - adds lowercased s if it's not already in the list
+   RemoveMoveType(string s) - removes s from the list
+   HasMoveType(string s) - Sees if lowercased s is in the list
+
+Pathway.sMoveTypes and Player.sMoveTypes will get changed from strings to this MoveTypesList class.  There are methods in Player and Location that will need changing so that they call MoveTypesList methods.
+
+
+Testing of MoveTypesList methods
+================================
+I've got this testing code:
+
+   MoveTypesList mtl = new MoveTypesList("Blah,foo,fooWarBAH");
+   MoveTypesList mtl2 = new MoveTypesList("");
+   MoveTypesList mtl3 = new MoveTypesList("oofrooarghlewarble");
+
+   OutMessage += "mtl: " + mtl.OutputList() + "\n";
+   OutMessage += "mtl2: " + mtl2.OutputList() + "\n";
+   OutMessage += "mtl3: " + mtl3.OutputList() + "\n";
+
+   mtl.SetList("Parkour,climB,teleport,FLY");
+
+   OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+   OutMessage += "mtl has blah: " + mtl.HasMoveType("blah") + "\n";
+   OutMessage += "mtl has parkour: " + mtl.HasMoveType("parkour") + "\n";
+
+   mtl.AddMoveType("Jump");
+   OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+   mtl.AddMoveType("jump");
+   OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+   mtl.RemoveMoveType("ner!");
+   OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+   mtl.RemoveMoveType("parkouR");
+   OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+   mtl.SetList("");
+   mtl3.RemoveMoveType("ooFrooArghlewarBLE");
+   OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+   OutMessage += "mtl3 is now: " + mtl3.OutputList() + "\n";
+   mtl.AddMoveType("climb");
+   OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+   OutMessage += "mtl has climb: " + mtl.HasMoveType("CLIMB") + "\n";
+   OutMessage += "mtl has parkour: " + mtl.HasMoveType("parkoUR") + "\n";
+   OutMessage += "mtl has teleport: " + mtl.HasMoveType("Teleport") + "\n";
+
+And these are the results:
+
+   mtl: blah,foo,foowarbah,
+   mtl2: 
+   mtl3: oofrooarghlewarble,
+   mtl is now: parkour,climb,teleport,fly,
+   mtl has blah: False
+   mtl has parkour: True
+   mtl is now: parkour,climb,teleport,fly,jump,
+   mtl is now: parkour,climb,teleport,fly,jump,
+   mtl is now: parkour,climb,teleport,fly,jump,
+   mtl is now: climb,teleport,fly,jump,
+   mtl is now: 
+   mtl3 is now: 
+   mtl is now: climb,
+   mtl has climb: True
+   mtl has parkour: False
+   mtl has teleport: False
+
+ 
+Movement types, when added or set, are all in lowercase, regardless of the input parameters.  Pass.
+SetList to "", and removing all things in the list, result in it cleared.  Pass.
+Adding things to a cleared list works.  Pass.
+
+HasMoveType, AddMoveType, and RemoveMoveType all work as expected.  Pass.
+
+
+Further thought on MoveTypesList
+================================
+MoveTo does some funny stuff with "standard".
+
+But instead of worrying about that, just assume the player can always walk.  If they can't, that would use the restriction system instead.  The movement system is for any non-standard type of movement, such as "the Pathway is blocked" or "the player needs to swim to go this way" or "the player needs to parkour and climb to go this way".
+
+
+
+==================================================================================================
+
+Updating player.cs
+
+Added a MoveTypesList attribute, called lMoveTypes.
+
+Player.AddMoveType(), Player.RemoveMoveType(), and Player.HasMoveType() have been updated to also look at lMoveTypes if it's not null.  (And then quit, before doing the old string-based code.)
+
+initialisePlayer() sets lMoveTypes to "".
+
+Have needed to create a player constructor!  Haven't used one before.
+
+Let's see if all this works.  Using similar tests to the above.
+
+
+Testing
+=======
+
+Test code is:
+   OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList() + "\n";
+
+   _player.lMoveTypes.SetList("climb,fly,blah,foo");
+   OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList() + "\n";
+
+   _player.lMoveTypes.AddMoveType("parkour");
+   _player.lMoveTypes.AddMoveType("Parkour");
+   _player.lMoveTypes.AddMoveType("PeterParker");
+   OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList() + "\n";
+
+   _player.lMoveTypes.RemoveMoveType("climb");
+   _player.lMoveTypes.RemoveMoveType("blargle");
+   OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList();
+   OutMessage += "Player's lMoveTypes has climb: " + _player.lMoveTypes.HasMoveType("climb") + "\n";
+   OutMessage += "Player's lMoveTypes has parkour: " + _player.lMoveTypes.HasMoveType("parkour") + "\n";
+
+Results:
+
+   Player's lMoveTypes: 
+   Player's lMoveTypes: climb,fly,blah,foo,
+   Player's lMoveTypes: climb,fly,blah,foo,parkour,peterparker,
+   Player's lMoveTypes: fly,blah,foo,parkour,peterparker,
+   Player's lMoveTypes has climb: False
+   Player's lMoveTypes has parkour: True
+
+Results are as expected!
+
+
+Testing 2
+=========
+With player.HasMoveType(string s) updated, do things work?  Can you move along a Pathway?  Let's find out!
+
+Test setup:
+Put player in central cavern, with the parkour manual.
+They should be able to move in all directions except south.
+Use the manual then drop it, and you should be able to move south.
+
+Test result:
+
+   > Go Northeast
+
+   You need to be able to  to go that way.
+
+   > Go East
+
+   You need to be able to  to go that way.
+
+   > Go South
+
+   There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your
+   hands free so you can climb swing from outcropping to outcropping.
+
+   > Use Parkour Manual
+
+   How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+   We could either do this the easy gamey way, where by using an in-game item you compress months and months
+   of physical training into a one-second button click, or the hard way by making you click on that item 300
+   times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+   > No thanks, I'd like to click on this option just once.
+
+   Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+   > Drop Parkour Manual
+
+   You drop the parkour manual.
+
+   > Go South
+
+   You Le Parkour over the gap and continue down the south passageway.
+
+   > Go North
+
+   You Le Parkour back over the gap to the main central cavern.
+
+   > Go East
+
+   You need to be able to  to go that way.
+
+   > 
+
+Okay, only a partial success.  The stuff with the south Pathway works, but you can't go in any other direction.  A blank string converts to an array of strings with one entry: "".  Player's move types does not have a "".  So you can't move.  Fixing this by giving the player a move type that's ""!
+
+Testing again:
+
+   > Go Northeast
+
+   You go to Sage's Grotto.
+
+   > Go Southwest
+
+   You go to Central Cavern.
+
+   > Go East
+
+   You go to Tiny Ledge.
+
+   > Go West (to Central Cavern)
+
+   You go to Central Cavern.
+
+   > Go South
+
+   There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your
+   hands free so you can climb swing from outcropping to outcropping.
+
+   > Use Parkour Manual
+
+   How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+   We could either do this the easy gamey way, where by using an in-game item you compress months and months
+   of physical training into a one-second button click, or the hard way by making you click on that item 300
+   times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+   > No thanks, I'd like to click on this option just once.
+
+   Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+   > Drop Parkour Manual
+
+   You drop the parkour manual.
+
+   > Go South
+
+   You Le Parkour over the gap and continue down the south passageway.
+
+   > 
+
+Okay, it works that time.
+
+==================================================================================================
+
+Updating location.cs
+
+Okay, this is going to be the big and hard part.
+
+I say that because in the constructor for a lot of the locations, movement types are assigned directly.  I'll need to update all of those assignments, or figure out a way to not break them.
+
+Once again, do things in parallel - have a lMoveTypes alongside the sMoveTypes, if possible.
+
+Pathway
+-------
+Added lMoveTypes attribute to the Pathway class and to the Pathway's constructor.  Code compiles and you can still move along Pathways.
+
+
+Location
+--------
+Updated SetPathway, AddMoveType, RemoveMoveType, HasMoveType.
+
+Some more testing.  Test setup is usual, "start in central cavern with parkour manual".
+
+   > Go Northeast
+
+   You go to Sage's Grotto.
+
+   > Go Southwest
+
+   You go to Central Cavern.
+
+   > Go East
+
+   You go to Tiny Ledge.
+
+   > Go West (to Central Cavern)
+
+   You go to Central Cavern.
+
+   > Go South
+
+   There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your
+   hands free so you can climb swing from outcropping to outcropping.
+
+   > Use Parkour Manual
+
+   How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+   We could either do this the easy gamey way, where by using an in-game item you compress months and months
+   of physical training into a one-second button click, or the hard way by making you click on that item 300
+   times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+   > No thanks, I'd like to click on this option just once.
+
+   Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+   > Drop Parkour Manual
+
+   You drop the parkour manual.
+
+   > Go South
+
+   You Le Parkour over the gap and continue down the south passageway.
+
+   > Go North (to Central Cavern)
+
+   You Le Parkour back over the gap to the main central cavern.
+
+   > 
+
+On reflection I don't think any of the new methods get called in the movement code (at least not yet) so that test was pointless.  At least the code still compiles!  Let's try some other testing first.
+
+   Location loc = World._centralCavern;
+   Pathway p = loc.Pathways.Find(x => x.dir == World._south);
+   MoveTypesList mtl = p.lMovementTypes;
+
+   OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+
+   loc.AddMoveType(World._south, "fly");
+   OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+
+   loc.AddMoveType(World._south, "FLY");
+   OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+
+   loc.RemoveMoveType(World._south, "PARKOUR");
+   OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+   OutMessage += "South pathway has fly: " + mtl.HasMoveType("fly") + "\n";
+   OutMessage += "South pathway has parkour: " + mtl.HasMoveType("parkour") + "\n";
+   OutMessage += "South pathway has blarglewarble: " + mtl.HasMoveType("blarglewarble") + "\n";
+
+Results
+
+   South pathway: parkour,climb,
+   South pathway: parkour,climb,fly,
+   South pathway: parkour,climb,fly,
+   South pathway: climb,fly,
+   South pathway has fly: True
+   South pathway has parkour: False
+   South pathway has blarglewarble: False
+
+Seems to work!
+
+That wasn't too hard!
+
+Just go and double check the LinkLocation methods to make sure nothing directly updates sMoveTypes.
+
+Okay, done.  Everything uses SetPathway.  No changes required.
+
+
+==================================================================================================
+
+Movement system
+
+That is, MoveTo() in world.
+
+Hopefully this won't be too difficult!
+
+Needed to make sure the MoveTypeList implemented IEnumerable and GetEnumerator.
+
+Setting up some silly testing code to make sure locked and blocked still work:
+
+            Location loc = World._centralCavern;
+            loc.AddMoveType(World._northeast, "locked");
+            loc.AddMoveType(World._east, "blocked");
+
+And doing the usual thing of starting in the central cavern with the parkour manual:
+
+   > Go Northeast
+
+   The way is locked.
+
+   > Go East
+
+   The way is blocked.
+
+   > Go South
+
+   There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your
+   hands free so you can climb swing from outcropping to outcropping.
+
+   > Use Parkour Manual
+
+   How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+   We could either do this the easy gamey way, where by using an in-game item you compress months and months
+   of physical training into a one-second button click, or the hard way by making you click on that item 300
+   times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+   > No thanks, I'd like to click on this option just once.
+
+   Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+   > Drop Parkour Manual
+
+   You drop the parkour manual.
+
+   > Go South
+
+   You Le Parkour over the gap and continue down the south passageway.
+
+   > Go North
+
+   You Le Parkour back over the gap to the main central cavern.
+
+   > Go Southwest
+
+   You go to Sloping Passage.
+
+   > Go Northeast (to Central Cavern)
+
+   You go to Central Cavern.
+
+   > Go Northeast
+
+   The way is locked.
+
+   > Go East
+
+   The way is blocked.
+
+Excellent, it works!  That wasn't too hard!
+
+
+==================================================================================================
+
+(*)
+DO THIS
+IMPORTANT
+Once everything is using the list method, remember to go back to initialisePlayer() and remove the bit that adds "" to lMoveTypes and make sure the player can still move.
+
+After doing that, can we move at all?
+
+   > Go Northeast
+
+   The way is locked.
+
+   > Go East
+
+   The way is blocked.
+
+   > Go Southwest
+
+   You go to Sloping Passage.
+
+   > Go Northeast
+
+   You go to Central Cavern.
+
+   > Go South
+
+   There is absolutely no way you're jumping over that gap.  It's much too long, and you'll also need your
+   hands free so you can climb swing from outcropping to outcropping.
+
+   > Use Parkour Manual
+
+   How to become an amazing Le Parkour athlete, a comprehensive training manual.
+
+   We could either do this the easy gamey way, where by using an in-game item you compress months and months
+   of physical training into a one-second button click, or the hard way by making you click on that item 300
+   times, followed by an extensive 'cut-scene' showing your character's slow progress to mastery.
+
+   > No thanks, I'd like to click on this option just once.
+
+   Okay, let's skip past the training sequence and put your training level at 300 straight away.
+
+   > Drop Parkour Manual
+
+   You drop the parkour manual.
+
+   > Go South
+
+   You Le Parkour over the gap and continue down the south passageway.
+
+   > Go North (to Central Cavern)
+
+   You Le Parkour back over the gap to the main central cavern.
+
+Excellent, still works!
+
+
+
+
+
+
+
+
+
+
+
+
+Code changes
+
+// 28/6/2017 - Enhancement 9 - Changing from a comma-separated list of movement types
+//             to a List<string>.  Makes things simpler and more readable (I hope)
+
+Backed up Location.cs, World.cs, Player.cs
+
+Location.cs
+Created MoveTypesList class
+Editing comments of PostMove() to make it clearer (I hope)
+Edited AddMoveType, RemoveMoveType, HasMoveType, and SetPathway
+
+Pathway class
+Now has a MoveTypesList attribute.  Constructor sets it to empty.
+
+Player.cs
+Added new attribute: lMoveTypes.
+Modified AddMoveType, RemoveMoveType, HasMoveType to also modify lMoveTypes.
+Added a constructor at long last, because of the new List attribute.
+
+World.cs
+MoveTo: Getting rid of "standard" movetype.  Assumption is that the player character can always walk.
+In the check on movement types, getting rid of string manipulation stuff entirely!
+
+UI.cs
+aboutToolStripMenuItem_Click: Seeing as this is mostly done, I've made sure to update the About dialog box with today's date.
+howDoesThisWorkToolStripMenuItem_Click: Also seeing as this is mostly done, I've updated "How does this work?" to indicate that saving and loading may not be coming.
+
+
+There's still a fair bit of "old code" existing in parallel with "new code".  A later enhancement or project might clean this up.  I'm leaving it in for now to make sure nothing breaks.
+
