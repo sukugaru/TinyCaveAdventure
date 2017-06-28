@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Serialization;
 
+// 28/6/2017 - Enhancement 9 - MoveTo() changes.  Changing from a comma-separated list of movement types
+//             to a List<string>.  Has resulted in new class MoveTypesList, used in the Pathway and
+//             Player classes.
+//
 // 18/6/2017 - Enhancement 8 - Added a hasMoveType() method to Location
 //                           - Making sure AddMoveType and RemoveMoveType work in lowercase.
 //                             (It would be all too easy to make a lazy mistake and have a movetype
@@ -319,6 +323,7 @@ namespace Engine
 
             // And now update
             _pathToUpdate.sMovementTypes = psMoveTypes;
+            _pathToUpdate.lMovementTypes.SetList(psMoveTypes);
             _pathToUpdate.dir = pDir;
             _pathToUpdate.TargetLocation = pTarget;
 
@@ -330,6 +335,7 @@ namespace Engine
         {
             // Can't use LinQ as I want to modify the Pathway.  I've found before that
             // if you use LinQ to get an item from a List, then you can't modify that item.
+            // You have to find it with a foreach instead.
             // Pathway p = Pathways.Find(x => (x.dir == pDir));
 
             foreach (Pathway p in Pathways)
@@ -399,8 +405,10 @@ namespace Engine
         public virtual void PostMove(Location FromLocation, Direction direction, ref string OutMessage)
         // Called by World._MoveTo.
         // Use if you want a location-specific check to run after moving to it.
-        // Differs from PostAction is that at this point we know FromLocation and direction,
-        // and bVisited is still false.  It runs only once per location.
+        // Differs from PostAction is that:
+        // * at this point we know FromLocation and direction, and bVisited is still false.
+        // * Location.PostMove only runs after you move to the location, and on no further turns.
+        // * PostAction runs at the end of every turn.
         { }
 
         public virtual void PostAction(ref string OutMessage)
@@ -418,6 +426,14 @@ namespace Engine
         // Add a movement type to a location's pathway in a specified direction.
         {
             Pathway p = Pathways.Find(x => x.dir == dir);
+
+            // New way
+            if (p.lMovementTypes != null)
+            {
+                p.lMovementTypes.AddMoveType(addType);
+            }
+
+            // Old way
             string s = p.sMovementTypes.ToLower();
             string sInType = addType.ToLower();
 
@@ -436,6 +452,14 @@ namespace Engine
         // Remove a movement type from a location's pathway in a specified direction.
         {
             Pathway p = Pathways.Find(x => x.dir == dir);
+
+            // New way
+            if (p.lMovementTypes != null)
+            {
+                p.lMovementTypes.RemoveMoveType(removeType);
+            }
+
+            // Old way
             string s = p.sMovementTypes.ToLower();
             string sInType = removeType.ToLower();
 
@@ -454,14 +478,25 @@ namespace Engine
         // Does the specified pathway have the moveType?
         {
             Pathway p = Pathways.Find(x => x.dir == dir);
-            string sInType = pMoveType.ToLower();
-            string sPathwayMoveTypes;
             
             if (p == null)
             {
                 return false;
             }
+
+            // New way
+            if (p.lMovementTypes != null)
+            {
+                if (p.lMovementTypes.HasMoveType(pMoveType) == false)
+                {
+                    return false;
+                }
+            }
             
+            // Old way
+            string sInType = pMoveType.ToLower();
+            string sPathwayMoveTypes;
+
             sPathwayMoveTypes = p.sMovementTypes.ToLower();
 
             if (sPathwayMoveTypes.IndexOf(sInType) == -1)
@@ -2095,6 +2130,7 @@ namespace Engine
         // At the moment is just a string
         // maybe a list of strings would work better?
         public string sMovementTypes { get; set; }
+        public MoveTypesList lMovementTypes { get; set; }
 
         // The direction the pathway goes in
         public Direction dir { get; set; }
@@ -2105,6 +2141,7 @@ namespace Engine
         public Pathway()
         {
             sMovementTypes = "";
+            lMovementTypes = new MoveTypesList("");
             dir = null;
             TargetLocation = null;
         }
@@ -2113,5 +2150,98 @@ namespace Engine
 
     }
     
+    public class MoveTypesList : IEnumerable<string>
+    // This is a class that has a list of movement types.
+    // The data is just a List<string> but the methods used to access and manipulate the contents
+    // of the list need to be customised.  Anything added needs to be in lowercase, and only added
+    // if it's not already in the list.  Methods will make sure to do lowercase conversions.
+    {
+        // The internal list
+        // Not sure about just having "get;" and "set;" but I'm not sure what a List should have.
+        public List<string> MovementTypesList { get; set; }
+
+        public MoveTypesList(string inString)
+        // Assuming that "s" is a comma-separated list of movement types.
+        // Movement types will be converted to lowercase first.
+        {
+            MovementTypesList = new List<string>();
+            SetList(inString);
+        }
+
+        // Methods for IEnumerable
+        public IEnumerator<string> GetEnumerator()
+        {
+            return MovementTypesList.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public void SetList(string inString)
+        // Assuming that "s" is a comma-separated list of movement types.
+        // Movement types will be converted to lowercase first.
+        // This will overwrite the existing MovementTypesList
+        {
+            string[] splitString;
+            string s1;
+
+            MovementTypesList.Clear();
+
+            if (inString == "")
+            {
+                return;
+            }
+
+            splitString = inString.Split(',');
+
+            foreach (string s in splitString)
+            {
+                s1 = s.ToLower();
+                MovementTypesList.Add(s1);
+            }
+
+        }
+
+        public string OutputList()
+        // Returns a string of the movement types in the list.  For debug purposes only.
+        {
+            string sReturnValue = "";
+
+            foreach (string s in MovementTypesList)
+            {
+                sReturnValue += s + ",";
+            }
+
+            return sReturnValue;
+        }
+
+
+        public virtual void AddMoveType(string addType)
+        {
+            string sInType = addType.ToLower();
+
+            if (MovementTypesList.Contains(sInType) == false)
+            {
+                MovementTypesList.Add(sInType);
+            }
+        }
+
+        public virtual void RemoveMoveType(string removeType)
+        {
+            string sInType = removeType.ToLower();
+            MovementTypesList.Remove(sInType);
+
+        }
+
+        public Boolean HasMoveType(string pMoveType)
+        {
+            string sInType = pMoveType.ToLower();
+            return MovementTypesList.Contains(sInType);
+
+        }
+
+    }
 
 }

@@ -7,6 +7,10 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.Reflection;
 
+// 28/6/2017 - Enhancement 9 - MoveTo() changes.  Changing from a comma-separated list of movement types
+//             to a List<string>.  Has resulted in new class MoveTypesList, used in the Pathway and
+//             Player classes.
+//
 // 18/6/2017 - Enhancement 8 - Added HasMoveType() method
 //
 // 7/6/2017 - Bug 6 - Renaming the Object class to Item.
@@ -20,6 +24,8 @@ namespace Engine
     [DataContractAttribute(IsReference=true)]    
     public class Player : HasInventory
     {
+        // Engine-specific attributes
+
         [DataMember()] public Location CurrentLocation { get; set; }
         [DataMember()] public Conversation CurrentConversation { get; set; }
         // If CurrentConversation is set then the UI will switch to conversation mode.
@@ -56,6 +62,8 @@ namespace Engine
         [DataMember()]
         public string sMoveTypes { get; set; }
 
+        public MoveTypesList lMoveTypes { get; set; }
+
         [DataMember()] public bool bCanTake { get; set; }
         [DataMember()] public string sCantTakeMsg { get; set; }
 
@@ -81,7 +89,7 @@ namespace Engine
         [DataMember()] public string sCantUseMsg { get; set; }
 
 
-        // Other attributes
+        // Adventure-specific attributes
         [DataMember()] public bool bTiedUp { get; set; }
         [DataMember()] public bool bTiedUpTraining { get; set; }        // Idea that was never used
         [DataMember()] public bool bReceivedSagesClue { get; set; }
@@ -96,6 +104,11 @@ namespace Engine
         [DataMember()] public bool bHasLobsterClue { get; set; }
         [DataMember()] public bool bLiftedCurse { get; set; }
 
+
+        public Player()
+        {
+            lMoveTypes = new MoveTypesList("");
+        }
 
         public void DetermineActions(ref List<Engine.Action> ActionList)
         {
@@ -294,6 +307,13 @@ namespace Engine
         //
         // Add a movement type to a location's pathway in a specified direction.
         {
+            // New way
+            if (lMoveTypes != null)
+            {
+                lMoveTypes.AddMoveType(addType);
+            }
+
+            // Old way
             string s = sMoveTypes.ToLower();
             addType = addType.ToLower();
 
@@ -304,6 +324,7 @@ namespace Engine
                 s = s.Replace(",,", ",");
                 sMoveTypes = s;
             }
+
         }
 
         public virtual void RemoveMoveType(string removeType)
@@ -311,6 +332,13 @@ namespace Engine
         //
         // Remove a movement type from a location's pathway in a specified direction.
         {
+            // New way
+            if (lMoveTypes != null)
+            {
+                lMoveTypes.RemoveMoveType(removeType);
+            }
+
+            // Old way
             string s = sMoveTypes.ToLower();
             removeType = removeType.ToLower();
 
@@ -321,11 +349,19 @@ namespace Engine
                 s = s.Replace(",,", ",");
                 sMoveTypes = s;
             }
+
         }
 
         public Boolean HasMoveType(string pMoveType)
         // See if the player has a movement type
         {
+            // New way
+            if (lMoveTypes != null)
+            {
+                return lMoveTypes.HasMoveType(pMoveType);
+            }
+
+            // Old way
             string sInType = pMoveType.ToLower();
             string sPlayerMoveTypes = sMoveTypes.ToLower();
 
@@ -392,6 +428,7 @@ namespace Engine
 
             iCarrySize = 0;
             sMoveTypes += ",climb";
+            lMoveTypes.AddMoveType("climb");
 
         }
 

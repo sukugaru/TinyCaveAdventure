@@ -7,6 +7,9 @@ using CustomExtensions;
 using System.Runtime.Serialization;
 using System.IO;
 
+// 28/6/2017 - Enhancement 9 - MoveTo() changes.  Changing from a comma-separated list of movement types
+//             to a List<string>.
+//
 // 18/6/2017 - Enhancement 8 - MoveTo() changes, to use new player.HasMoveType method
 //
 // 7/6/2017 - Bug 6 - Renaming the Object class to Item.
@@ -195,6 +198,10 @@ namespace Engine
         public static TribeVistSequence _tribeFirstVisitSequence;
         public static EndingSequence _endSequence;
 
+        // Last updated date
+
+        public static string _lastUpdateDate;
+
         static World()
         {
             populateActions();
@@ -212,6 +219,7 @@ namespace Engine
 
             //  _BeginningText = "This is the beginning of a grand, well, tiny, cave adventure!\n";
             _player.CurrentTextSequence = _startTextSequence;
+            _lastUpdateDate = "28th June 2017";
         }
 
         public static void populateActions()
@@ -1059,7 +1067,11 @@ namespace Engine
             _player.bCanTalk = true;
             _player.bCanUse = true;
 
-            _player.sMoveTypes = "standard";
+            //_player.sMoveTypes = "standard";
+            _player.sMoveTypes = "";
+            _player.lMoveTypes.SetList("");
+            //_player.lMoveTypes.AddMoveType("");
+
             //_player.sMoveTypes = "";
             //_player.sCantMoveMsg = "Sorry, you're not being allowed to move right now.";
 
@@ -1117,8 +1129,8 @@ namespace Engine
             // World._centralCavern.AddMoveType(World._west, "locked");
             // World._centralCavern.AddMoveType(World._north, "blocked");
 
-            _player.CurrentLocation = _centralCavern;
-            _player.Add(World._parkourManual);
+            //_player.CurrentLocation = _centralCavern;
+            //_player.Add(World._parkourManual);
             //_player.sMoveTypes += ",parkour, climb";
 
             //_player.CurrentLocation = _abandonedShrineSite;
@@ -1225,6 +1237,9 @@ namespace Engine
             */
         }
 
+        // 28/6/2017 - Enhancement 9 - Changing from a comma-separated list of movement types
+        //             to a List<string>.  Can get rid of a lot of old clunky stuff.
+        //
         // 18/6/2017 - Enhancement 8 - Making sure to use Player.HasMoveType()
         //                           - Commenting out check for player.sMoveTypes == "" or "none"
         //
@@ -1238,12 +1253,8 @@ namespace Engine
         // bSuccess = was the move successful or not?
         {
             Pathway pathToMove;
-            string s;
-            string[] FullNeededTypes; // includes locked and blocked
 
             bool bProceed = true;
-            // string sNope;
-
             string sNope2;
             int lastCommaIndex;
             int commaCount;
@@ -1259,14 +1270,11 @@ namespace Engine
                 return;
             }
             
-            //if ( (World._player.sMoveTypes == "") ||
-            //     (World._player.sMoveTypes == "none")
-            //    )
-            //{
-            //    OutMessage += World._player.sCantMoveMsg + "\n";
-            //    return;
-            //}
-
+            // 28/6/2017 - Enhancement 9 - Changing from a comma-separated list of movement types
+            //             to a List<string>.  Makes things simpler and more readable (I hope).
+            //             Have also removed "standard" move type.  Assumption is that the player
+            //             can always walk.
+            //
             // 22/5/2017 - Bug 3 - Changes to MoveTo() to improve the messaging to the player if the
             // player does not have the required movement types.
             //
@@ -1280,29 +1288,16 @@ namespace Engine
 
                 if (pathToMove != null)
                 {
-                    // Determine the Movement types you need for the movement
-                    // Because I'll probably forget and create lists of movement types both with spaces
-                    // after commas, and without spaces after commas, I strip spaces from s and hasTypes.
-                    s = pathToMove.sMovementTypes.ToLower();
-                    if (s == "")
-                    {
-                        s = "standard";
-                    }
-                    s = s.Replace(" ", "");
-                    FullNeededTypes = s.Split(',');
-
                     // For each required movement type, see if the player has that movement type.
                     // If not, then disallow the movement.
                     // At the same time, sNope2 is being built up as a list of movement types that
                     // the player needs, that will be displayed to the player later. 
 
-                    // sNope = "";
                     bProceed = true;
                     sNope2 = "";
 
-                    foreach (string RequiredType in FullNeededTypes)
+                    foreach (string RequiredType in pathToMove.lMovementTypes)
                     {
-//                        if (HasTypes.IndexOf(RequiredType) == -1)
                         if (_player.HasMoveType(RequiredType) == false)
                         {
                             bProceed = false;
@@ -1343,14 +1338,16 @@ namespace Engine
                     // If the movement isn't allowed, put the standard message into OutMessage.
                     if (bProceed == false)
                     {
-                        if ((s.IndexOf("blocked") != -1) || 
-                            (FullNeededTypes.Contains("blocked"))
+                        if (//(s.IndexOf("blocked") != -1) || 
+                            // (FullNeededTypes.Contains("blocked"))
+                            (pathToMove.lMovementTypes.HasMoveType("blocked"))
                             )
                         {
                             OutMessage += "The way is blocked.\n";
                         }
-                        else if ( (s.IndexOf("locked") != -1) ||
-                                  (FullNeededTypes.Contains("locked"))
+                        else if ( //(s.IndexOf("locked") != -1) ||
+                                  // (FullNeededTypes.Contains("locked"))
+                                  (pathToMove.lMovementTypes.HasMoveType("locked"))
                                 )
                         {
                             OutMessage += "The way is locked.\n";
@@ -1509,6 +1506,132 @@ namespace Engine
                 World._slopingPassage.WestLoc = World._blocked;
             }
 
+           
+
+            // Check on status of main cake quest
+            if (World._player.HasItem(World._recipe))
+            {
+                World._questGiver.bCompletedCakeQuest = true;
+            }
+            else
+            {
+                World._questGiver.bCompletedCakeQuest = false;
+            }
+
+            // Adding and removing climb status
+            if ((World._player.carrying() == 0) && (World._player.bTiedUp == false))
+            {
+                // add climb to player movements
+                if (World._player.sMoveTypes.Contains("climb") == false)
+                {
+                    // World._player.sMoveTypes += ",climb";
+                    World._player.AddMoveType("climb");
+                }
+                // OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
+            }
+            else
+            {
+                // remove climb from player movements
+                if (World._player.sMoveTypes.Contains("climb"))
+                {
+                    // World._player.sMoveTypes = World._player.sMoveTypes.Replace(",climb", "");
+                    World._player.RemoveMoveType("climb");
+                }
+                // OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
+            }
+
+
+            // Do any location specific post-actions.
+            _player.CurrentLocation.PostAction(ref OutMessage);
+
+            // Test
+
+            /*Location loc = World._centralCavern;
+            loc.AddMoveType(World._northeast, "locked");
+            loc.AddMoveType(World._east, "blocked");
+            */
+
+            /*
+            Location loc = World._centralCavern;
+            Pathway p = loc.Pathways.Find(x => x.dir == World._south);
+            MoveTypesList mtl = p.lMovementTypes;
+
+            OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+
+            loc.AddMoveType(World._south, "fly");
+            OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+
+            loc.AddMoveType(World._south, "FLY");
+            OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+
+            loc.RemoveMoveType(World._south, "PARKOUR");
+            OutMessage += "South pathway: " + mtl.OutputList() + "\n";
+            OutMessage += "South pathway has fly: " + mtl.HasMoveType("fly") + "\n";
+            OutMessage += "South pathway has parkour: " + mtl.HasMoveType("parkour") + "\n";
+            OutMessage += "South pathway has blarglewarble: " + mtl.HasMoveType("blarglewarble") + "\n";
+            */
+
+
+            /*
+            OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList() + "\n";
+
+            _player.lMoveTypes.SetList("climb,fly,blah,foo");
+            OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList() + "\n";
+
+            _player.lMoveTypes.AddMoveType("parkour");
+            _player.lMoveTypes.AddMoveType("Parkour");
+            _player.lMoveTypes.AddMoveType("PeterParker");
+            OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList() + "\n";
+
+            _player.lMoveTypes.RemoveMoveType("climb");
+            _player.lMoveTypes.RemoveMoveType("blargle");
+            OutMessage += "Player's lMoveTypes: " + _player.lMoveTypes.OutputList() + "\n";
+            OutMessage += "Player's lMoveTypes has climb: " + _player.lMoveTypes.HasMoveType("climb") + "\n";
+            OutMessage += "Player's lMoveTypes has parkour: " + _player.lMoveTypes.HasMoveType("parkour") + "\n";
+            */
+
+
+
+            /*
+            MoveTypesList mtl = new MoveTypesList("Blah,foo,fooWarBAH");
+            MoveTypesList mtl2 = new MoveTypesList("");
+            MoveTypesList mtl3 = new MoveTypesList("oofrooarghlewarble");
+
+            OutMessage += "mtl: " + mtl.OutputList() + "\n";
+            OutMessage += "mtl2: " + mtl2.OutputList() + "\n";
+            OutMessage += "mtl3: " + mtl3.OutputList() + "\n";
+
+            mtl.SetList("Parkour,climB,teleport,FLY");
+
+            OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+            OutMessage += "mtl has blah: " + mtl.HasMoveType("blah") + "\n";
+            OutMessage += "mtl has parkour: " + mtl.HasMoveType("parkour") + "\n";
+
+            mtl.AddMoveType("Jump");
+            OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+            mtl.AddMoveType("jump");
+            OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+            mtl.RemoveMoveType("ner!");
+            OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+            mtl.RemoveMoveType("parkouR");
+            OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+            mtl.SetList("");
+            mtl3.RemoveMoveType("ooFrooArghlewarBLE");
+            OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+            OutMessage += "mtl3 is now: " + mtl3.OutputList() + "\n";
+            mtl.AddMoveType("climb");
+            OutMessage += "mtl is now: " + mtl.OutputList() + "\n";
+            OutMessage += "mtl has climb: " + mtl.HasMoveType("CLIMB") + "\n";
+            OutMessage += "mtl has parkour: " + mtl.HasMoveType("parkoUR") + "\n";
+            OutMessage += "mtl has teleport: " + mtl.HasMoveType("Teleport") + "\n";
+            */
+
+
+
+
+
+
+
             /*
             OutMessage += "Test:" +
                 "blahfoobar".IndexOf("blah") + " " +
@@ -1517,7 +1640,7 @@ namespace Engine
                 "blahfoobar".IndexOf("bar") + " " +
                 "blahfoobar".IndexOf("why of course") + " " +
                 "\n";
-             */ 
+             */
 
             // Example of using restriction system
             // Based on a particular state you can set if the player can perform various actions
@@ -1574,43 +1697,7 @@ namespace Engine
             }
             */
 
-            // Check on status of main cake quest
-            if (World._player.HasItem(World._recipe))
-            {
-                World._questGiver.bCompletedCakeQuest = true;
-            }
-            else
-            {
-                World._questGiver.bCompletedCakeQuest = false;
-            }
 
-            // Adding and removing climb status
-            if ((World._player.carrying() == 0) && (World._player.bTiedUp == false))
-            {
-                // add climb to player movements
-                if (World._player.sMoveTypes.Contains("climb") == false)
-                {
-                    // World._player.sMoveTypes += ",climb";
-                    World._player.AddMoveType("climb");
-                }
-                // OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
-            }
-            else
-            {
-                // remove climb from player movements
-                if (World._player.sMoveTypes.Contains("climb"))
-                {
-                    // World._player.sMoveTypes = World._player.sMoveTypes.Replace(",climb", "");
-                    World._player.RemoveMoveType("climb");
-                }
-                // OutMessage += "Player's move types are now " + World._player.sMoveTypes + "\n";
-            }
-
-
-            // Do any location specific post-actions.
-            _player.CurrentLocation.PostAction(ref OutMessage);
-
-            // Test
             //foreach (Direction d in AllDirections)
             //{
             //    OutMessage += d.sName + " ";
