@@ -9,7 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Engine;
 
-
+// 28/6/2017 - General fixing - Development on this may not continue anymore, as all the engine
+// specific stuff is now done.  I've updated "About" to have a last updated date, and "How does
+// this work" to show that save and load may not be coming after all.
+// (Done while working on Enhancement 9.)
+//
+// 7/6/2017 - Bug 6 - Renaming the Object class to Item.
+// 
 // 20/5/2017 - SS - Bug 4 - In button1_click, during the conversation handling code.  After
 // HandleResponse(), make sure to clear OutMessage before calling GetDialogue, to avoid the
 // result of HandleResponse being output twice.
@@ -26,15 +32,15 @@ namespace WindowsFormsApplication2
         private Engine.Action _Report_hiOwner;
 
         // UI objects
-        public Engine.Object i;         // Object to act on 
-        public Engine.Object i2;        // Second object to act on, if required by selected action
+        public Item i;         // Object to act on 
+        public Item i2;        // Second object to act on, if required by selected action
         private string ProtoCmdLine;    // Used in calculating final command line
         private int NumOfObjs;          // Number of objects required by selected action
         List<Engine.Action> ActionList = new List<Engine.Action>();     // These are the lists 
         List<Direction> DirectionList = new List<Direction>();          // used in all the 
         List<string> ResponseList = new List<string>();                 // various listbox
-        List<Engine.Object> FinalPlayerInv = new List<Engine.Object>(); // controls.
-        List<Engine.Object> FinalLocInv = new List<Engine.Object>();    
+        List<Item> FinalPlayerInv = new List<Item>(); // controls.
+        List<Item> FinalLocInv = new List<Item>();    
 
 
         public UI()
@@ -578,7 +584,7 @@ namespace WindowsFormsApplication2
 
             if ((NumOfObjs == 1) || (lbAction.SelectedItem == null))
             {
-                i = (Engine.Object)lbInventory.SelectedItem;
+                i = (Item)lbInventory.SelectedItem;
                 // FromLoc = false;
             }
 
@@ -586,25 +592,25 @@ namespace WindowsFormsApplication2
             {
                 if ((i == null) && (i2 == null))
                 {
-                    i = (Engine.Object)lbInventory.SelectedItem;
+                    i = (Item)lbInventory.SelectedItem;
                     // FromLoc = false;
                 } else
 
                 if ((i == null) && (i2 != null))
                 {
-                    i = (Engine.Object)lbInventory.SelectedItem;
+                    i = (Item)lbInventory.SelectedItem;
                     i2 = null;
                     // FromLoc = false;
                 } else
 
                 if ((i != null) && (i2 == null))
                 {
-                    i2 = (Engine.Object)lbInventory.SelectedItem;
+                    i2 = (Item)lbInventory.SelectedItem;
                 } else
 
                 if ((i != null) && (i2 != null))
                 {
-                    i = (Engine.Object)lbInventory.SelectedItem;
+                    i = (Item)lbInventory.SelectedItem;
                     i2 = null;
                     // FromLoc = false;
 
@@ -661,7 +667,7 @@ namespace WindowsFormsApplication2
 
             if ((NumOfObjs == 1) || (lbAction.SelectedItem == null))
             {
-                i = (Engine.Object)lbLocInv.SelectedItem;
+                i = (Item)lbLocInv.SelectedItem;
                 // FromLoc = true;
             }
 
@@ -669,19 +675,19 @@ namespace WindowsFormsApplication2
             {
                 if ((i == null) && (i2 == null))
                 {
-                    i = (Engine.Object)lbLocInv.SelectedItem;
+                    i = (Item)lbLocInv.SelectedItem;
                     // FromLoc = true;
                 } else                 if ((i == null) && (i2 != null))
                 {
-                    i = (Engine.Object)lbLocInv.SelectedItem;
+                    i = (Item)lbLocInv.SelectedItem;
                     i2 = null;
                     // FromLoc = true;
                 } else                 if ((i != null) && (i2 == null))
                 {
-                    i2 = (Engine.Object)lbLocInv.SelectedItem;
+                    i2 = (Item)lbLocInv.SelectedItem;
                 } else                 if ((i != null) && (i2 != null))
                 {
-                    i = (Engine.Object)lbLocInv.SelectedItem;
+                    i = (Item)lbLocInv.SelectedItem;
                     i2 = null;
                     // FromLoc = true;
 
@@ -785,13 +791,14 @@ namespace WindowsFormsApplication2
         { }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        // 28/6/2017 - General fixing - Getting the last update date from World.
         {
             MessageBox.Show("Tiny Cave Adventure v0.9.Something\n" +
                 "Scougall Basic Adventure Engine Thingy version 0.9S.omething\n\n" +
                 "This was created basically as a way to teach myself C#.  Given that " +
                 "my graphical and sounds skills are mediocre and long out of practice, I " +
                 "figured an adventure game would be the best way to do it!\n\n" +
-                "Most recently updated: 2nd October 2016"
+                "Most recently updated: " + World._lastUpdateDate
                 ,"About"
                 );
                 // Note to self
@@ -809,6 +816,8 @@ namespace WindowsFormsApplication2
         }
 
         private void howDoesThisWorkToolStripMenuItem_Click(object sender, EventArgs e)
+        // 28/6/2017 - general fixing - Updated to indicate save and load may not
+        // be implemented for this game.
         {
             MessageBox.Show("When you very first start, you're in a text version of a cutscene," +
                 "and most of the options are grayed out.  Click on the \"Next\" button to " +
@@ -819,8 +828,9 @@ namespace WindowsFormsApplication2
                 "Select an action and the item(s) to do it on, or a direction to go, and you'll " +
                 "see the command build up.  When the command is what you want to do, click on " +
                 "\"Do Action\" and see what happens!\n\n" +
-                "At the moment you cannot save or load the game.  This will be coming later, " +
-                "once I figure out how to make it work.\n\n" +
+                "At the moment you cannot save or load the game.  This may not be coming in this " +
+                "adventure, as development has concentrated on other aspects of the game " +
+                "engine.\n\n" +
                 "And if something really bizarre happens or things break, you have a new quest " +
                 " - you must inform the programmer, at once!"
 
